@@ -22,6 +22,8 @@
         <javafx.version>17.0.1</javafx.version>
         <windows.upgrade.uuid>c93a8c6c-ae11-4e84-8d90-992ebf9072cb</windows.upgrade.uuid>
         <windows.vendor>Janus LandLord App</windows.vendor>
+        <lib.cssfx.version>11.5.1</lib.cssfx.version>
+        <lib.ikonli.version>12.2.0</lib.ikonli.version>
         <macos.sign></macos.sign>
         <macos.sign.identity></macos.sign.identity>
 
@@ -53,11 +55,58 @@
             <artifactId>javafx-media</artifactId>
             <version>${javafx.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.typhon0</groupId>
+            <artifactId>AnimateFX</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx</artifactId>
+            <version>8.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jfoenix</groupId>
+            <artifactId>jfoenix</artifactId>
+            <version>9.0.10</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.hansolo</groupId>
+            <artifactId>tilesfx</artifactId>
+            <version>17.1.15</version>
+        </dependency>
 
         <dependency>
             <groupId>io.github.mkpaz</groupId>
             <artifactId>atlantafx-base</artifactId>
             <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-feather-pack</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-material2-pack</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.brouillard.oss</groupId>
+            <artifactId>cssfx</artifactId>
+            <version>${lib.cssfx.version}</version>
         </dependency>
 
     </dependencies>

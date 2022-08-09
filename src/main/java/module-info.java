@@ -6,5 +6,5 @@ module africa.jopen {
 
     requires javafx.media;
 
-    opens africa.jopen to javafx.fxml;
+    opens africa.jopen to javafx.fxml,javafx.graphics;
 }
