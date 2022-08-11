@@ -1,99 +1,129 @@
-/** SPDX-License-Identifier: MIT */
+* {
+    -fx-my-menu-color:  #4849a1;                  /* Change according to your needs */
+    -fx-my-menu-color-highlighted: #5b4564;      /* Change according to your needs */
+    -fx-my-menu-font-color: #FFFFFF;             /* Change according to your needs */
+    -fx-my-menu-font-color-highlighted: #FFFFFF; /* Change according to your needs */
+    -mfx-blue: #2196f3;
+    -mfx-charcoal: #445055;
+    -mfx-green: #4caf50;
+    -mfx-onyx: #353935;
+    -mfx-orange: #ff9800;
+    -mfx-purple: #7a0ed9;
+    -mfx-red: #EF6E6B;
+    -mfx-yellow: #FFEA00;
 
-.root {
-    -fx-font-family: "Inter";
-}
-.root:showcase-mode #sidebar,
-.root:showcase-mode .page > .header {
-    -fx-min-width: 0;
-    -fx-pref-width: 0;
-    -fx-max-width: 0;
-    -fx-min-height: 0;
-    -fx-pref-height: 0;
-    -fx-max-height: 0;
-    visibility: false;
-}
-.root:showcase-mode .page > .stack > .scroll-pane > .viewport > * > .wrapper > .user-content {
-    -fx-max-width: 4096px;
-    -fx-padding: 0;
-    -fx-spacing: 0;
-}
 
-#sidebar {
-    -fx-padding: 0 0 12px 0;
-    -fx-background-color: -color-bg-inset;
-    -fx-border-color: -color-border-default;
-    -fx-border-width: 0 1px 0 0;
+    -mfx-text-he: rgba(0, 0, 0, 0.87); /* High Emphasis */
+    -mfx-text-me: rgba(0, 0, 0, 0.60); /* Medium Emphasis*/
+    -mfx-text-disabled: rgba(0, 0, 0, 0.38); /* Disabled */
+
+    -common-gradient: linear-gradient(to right bottom, #c4008b, #d00085, #dc007f, #e60b79, #ef1872, #f5276b, #fa3564, #fe415e, #ff5158, #ff5f52, #ff6c4e, #ff794b);
+    -secondary-gradient: linear-gradient(to right bottom, #1ec400, #00bd3a, #00b654, #00ae67, #00a574, #00a280, #009e8a, #009a91, #009b9d, #009ba8, #009bb2, #009abb);
 }
-#sidebar #search-form {
-    -fx-padding: 12px;
-    -fx-border-color: -color-border-muted;
-    -fx-border-width: 0 0 1px 0;
-}
-#sidebar .nav-menu {
-    -fx-padding: 0 6px 0 6px;
-}
-#sidebar .nav-menu > .caption {
-    -fx-padding: 10px 0 10px 6px;
-    -fx-font-weight: bold;
-    -fx-text-fill: -color-fg-muted;
-}
-#sidebar .nav-menu > .nav-link {
-   -fx-padding: 6px 12px 6px 12px;
-}
-#sidebar .nav-menu > .nav-link:hover {
-   -fx-background-color: -color-accent-muted;
-   -fx-background-radius: 6px;
-}
-#sidebar .nav-menu > .nav-link:selected {
-   -fx-text-fill: -color-accent-fg;
-   -fx-font-weight: bold;
-}
-#sidebar .nav-menu > .nav-link > .tag {
-   -fx-background-color: -color-accent-emphasis;
-   -fx-text-fill: -color-fg-emphasis;
-   -fx-padding: 2px;
-   -fx-background-radius: 4px;
+/**************************************************
+ * Window Header
+**************************************************/
+.rootPane .close-icon {
+    -mfx-color: -mfx-red;
+    -fx-opacity: 0.5;
 }
 
-.page > .header {
-    -fx-padding: 10px 20px 14px 20px;
-    -fx-spacing: 10px;
+.rootPane .close-icon:hover {
+    -fx-opacity: 1.0;
 }
-.page > .stack > .scroll-pane {
-    -fx-background-color: -color-bg-default;
+
+.rootPane .minimize-icon {
+    -mfx-color: #ffbf37;
+    -fx-opacity: 0.5;
 }
-/* wrapper is used to center the content and also guarantees some minimum paddings via min-width */
-.page > .stack > .scroll-pane > .viewport > * > .wrapper {
-    -fx-min-width: 880px;
-    -fx-alignment: TOP_CENTER;
+
+.rootPane .maximize-icon {
+    -mfx-color: #5CCBA3;
+    -fx-opacity: 0.5;
 }
-.page > .stack > .scroll-pane > .viewport > * > .wrapper > .user-content {
-    -fx-padding: 40px 0 40px 0;
-    -fx-spacing: 40px;
-    -fx-max-width: 800px;
+
+.rootPane .minimize-icon:hover {
+    -fx-opacity: 1.0;
 }
-.page > .stack > .wrapper {
-    -fx-background-color: -color-bg-default;
-    -fx-alignment: TOP_CENTER;
+
+.rootPane .always-on-top-icon {
+    -mfx-color: -mfx-purple;
+    -fx-opacity: 0.5;
 }
-.page > .stack > .wrapper > .code-viewer {
+
+.rootPane .always-on-top-icon:hover {
+    -fx-opacity: 1.0;
+}
+
+.rootPane .always-on-top-icon:always-on-top {
+    -fx-opacity: 1.0;
+}
+
+
+/**************************************************
+ * Sidebar
+**************************************************/
+.rootPane .sidebar {
+    -fx-background-color: -mfx-purple;
+    -fx-background-insets: -1 -5 -1 -1;
+    -fx-background-radius: 0 20 20 0;
+}
+
+.rootPane .sidebar .header {
+    -fx-font-family: 'Visby Round CF Heavy';
+    -fx-font-size: 24;
+    -fx-text-fill: black;
+}
+
+.rootPane .sidebar .header .mfx-font-icon {
+    -mfx-color: white;
+}
+
+.rootPane .sidebar .mfx-scroll-pane {
     -fx-background-color: transparent;
-    -fx-padding: 0px 0px 20px 20px;
-    -fx-max-width: 1000px;
+
+    -track-color: rgba(255, 255, 255, 0.3);
+    -thumb-color: white;
+    -thumb-hover-color: white;
 }
-.page > .stack > .wrapper > .code-viewer > .web-view {
+
+.rootPane .sidebar .menu-label {
+    -fx-font-family: 'Visby Round CF Bold';
+    -fx-font-size: 14;
+    -fx-text-fill: black;
+}
+
+.rootPane .sidebar .navbar .mfx-rectangle-toggle-node {
     -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent;
+    -fx-border-radius: 0;
+    -fx-pref-height: 40;
+
+    -fx-font-family: 'Visby Round CF Demi Bold';
+    -fx-font-size: 13;
+    -fx-text-fill: black;
 }
 
-.sample-block {
-    -fx-spacing: 1em;
-}
-.sample-block>.title {
-    -fx-font-weight: bold;
+.rootPane .sidebar .navbar .mfx-rectangle-toggle-node .mfx-ripple-generator {
+    -mfx-paused: true;
 }
 
-.bordered {
-    -fx-border-width: 1px;
-    -fx-border-color: -color-border-muted;
+.rootPane .sidebar .navbar .mfx-rectangle-toggle-node .mfx-icon-wrapper .mfx-font-icon {
+    -mfx-color: white;
+}
+
+.rootPane .sidebar .navbar .mfx-rectangle-toggle-node:selected {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-text-fill: #601cbe;
+}
+
+.rootPane .sidebar .navbar .mfx-rectangle-toggle-node:selected .selection-rectangle {
+    -fx-stroke: transparent;
+    -fx-fill: #601cbe;
+}
+
+.rootPane .sidebar .navbar .mfx-rectangle-toggle-node:selected .mfx-icon-wrapper .mfx-font-icon {
+    -mfx-color: #601cbe;
 }

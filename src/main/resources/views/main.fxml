@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXBadge?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="rootPane" prefHeight="653.0" prefWidth="1106.0" stylesheets="@../styles/index.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="africa.jopen.controllers.MainController">
+    <children>
+        <HBox fx:id="main" prefHeight="100.0" prefWidth="200.0">
+            <children>
+                <VBox fx:id="drawer" alignment="TOP_CENTER" prefHeight="653.0" prefWidth="145.0" style="-fx-background-color: #19A9CB; -fx-background-radius: 0 20 20 0;" stylesheets="@../styles/drawer.css">
+                    <ScrollPane fx:id="scroll" fitToWidth="true" styleClass="scroll" stylesheets="@../styles/custom-scroll.css">
+                        <content>
+                            <VBox fx:id="mainNav" spacing="14.0" styleClass="drawer-content">
+                                <children>
+                           <JFXButton text="DashBoard" textFill="WHITE">
+                              <graphic>
+                                 <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/dashboard.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                           <JFXButton layoutX="10.0" layoutY="10.0" text="Server Info" textFill="WHITE">
+                              <graphic>
+                                 <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/cloud.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                           <JFXButton layoutX="10.0" layoutY="10.0" text="Settings" textFill="WHITE">
+                              <graphic>
+                                 <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/cloud-settings.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                           <JFXButton layoutX="10.0" layoutY="10.0" text="Plugins" textFill="WHITE">
+                              <graphic>
+                                 <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/plug-in.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                           <JFXButton layoutX="10.0" layoutY="10.0" text="Transports" textFill="WHITE">
+                              <graphic>
+                                 <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/cloud-transport.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                           <JFXButton layoutX="10.0" layoutY="10.0" text="Sessions" textFill="WHITE">
+                              <graphic>
+                                 <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/sessions.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                                </children>
+                            </VBox>
+                        </content>
+                        <VBox.margin>
+                            <Insets top="10.0" />
+                        </VBox.margin>
+                    </ScrollPane>
+                    <padding>
+                        <Insets top="10.0" />
+                    </padding>
+                    <styleClass>
+                        <String fx:value="border" />
+                        <String fx:value="border-r-1" />
+                        <String fx:value="drawer" />
+                    </styleClass>
+                </VBox>
+                <VBox fx:id="content" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" styleClass="drawer" HBox.hgrow="ALWAYS">
+                    <children>
+                        <VBox>
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="40.0" prefWidth="904.0" style="-fx-border-width: 0 0 1 0;" styleClass="border">
+                                    <children>
+                                        <Label fx:id="title" styleClass="h4" text="Dashboard" textFill="#0000008c">
+                                            <font>
+                                                <Font size="17.0" />
+                                            </font>
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                        </Label>
+                                        <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <JFXBadge fx:id="bg_info" layoutX="732.0" layoutY="12.0" position="TOP_RIGHT" prefHeight="44.0" prefWidth="35.0" text="32" visible="false">
+                                                    <styleClass>
+                                                        <String fx:value="icon" />
+                                                        <String fx:value="icon-danger" />
+                                                    </styleClass>
+                                                    <control>
+                                                        <StackPane prefHeight="32.0" prefWidth="43.0" style="-fx-padding: 10;" styleClass="icon-notification">
+                                                            <children>
+                                                                <FontAwesomeIconView glyphName="FLAG" size="20" styleClass="icon" StackPane.alignment="CENTER" />
+                                                            </children>
+                                                        </StackPane>
+                                                    </control>
+                                                </JFXBadge>
+                                                <JFXBadge fx:id="notifications" position="TOP_RIGHT" prefHeight="44.0" prefWidth="35.0" text="41">
+                                                    <styleClass>
+                                                        <String fx:value="icon" />
+                                                        <String fx:value="icon-warning" />
+                                                    </styleClass>
+                                                    <control>
+                                                        <StackPane prefHeight="32.0" prefWidth="43.0" style="-fx-padding: 10;">
+                                                            <children>
+                                                                <FontAwesomeIconView glyphName="BELL" size="20" styleClass="icon" StackPane.alignment="CENTER" />
+                                                            </children>
+                                                        </StackPane>
+                                                    </control>
+                                                </JFXBadge>
+                                                <JFXBadge fx:id="messages" layoutX="759.0" layoutY="12.0" position="TOP_RIGHT" prefHeight="44.0" prefWidth="35.0" styleClass="icon" text="12">
+                                                    <control>
+                                                        <StackPane prefHeight="32.0" prefWidth="43.0" style="-fx-padding: 10;">
+                                                            <children>
+                                                                <FontAwesomeIconView glyphName="ENVELOPE" size="20" styleClass="icon" />
+                                                            </children>
+                                                        </StackPane>
+                                                    </control>
+                                                </JFXBadge>
+                                                <JFXButton fx:id="config" contentDisplay="GRAPHIC_ONLY" prefHeight="83.0" prefWidth="40.0" ripplerFill="BLACK">
+
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
+                                                    <styleClass>
+                                                        <String fx:value="btn-transparent" />
+                                                        <String fx:value="round" />
+                                                    </styleClass>
+                                                    <contextMenu>
+                                                        <ContextMenu>
+                                                            <items>
+                                                                <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                                                            </items>
+                                                        </ContextMenu>
+                                                    </contextMenu>
+                                                </JFXButton>
+                                            </children>
+                                            <HBox.margin>
+                                                <Insets top="2.0" />
+                                            </HBox.margin>
+                                        </HBox>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                         <ImageView fx:id="avatar" fitHeight="32.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                 <Image url="@../images/user.png" />
+                                             </image>
+                                             <effect>
+                                                 <DropShadow color="#00000026" />
+                                             </effect>
+                                         </ImageView>
+                                           <Label alignment="CENTER" prefHeight="32.0" prefWidth="87.0" style="-fx-text-fill: -text-color;" text="Jane Doe" textAlignment="CENTER">
+                                               <font>
+                                                   <Font name="Roboto" size="12.0" />
+                                               </font>
+                                           </Label>
+                                 </children>
+                              </HBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <StackPane prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <ScrollPane fx:id="body" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" StackPane.alignment="TOP_LEFT">
+
+                                </ScrollPane>
+                            </children>
+                        </StackPane>
+                    </children>
+                </VBox>
+            </children>
+
+        </HBox>
+    </children>
+</StackPane>

@@ -24,7 +24,7 @@ on:
 
 env:
   DEV_IDENTITY: PUT_HERE # It's from your dev identity, something like BXPZTQZ35S
-  PRIMARY_BUNDLE_ID: africa.jopen.BaseApplication # Unique to your app, often the launcher class
+  PRIMARY_BUNDLE_ID: africa.jopen.application.BaseApplication # Unique to your app, often the launcher class
 
 jobs:
   build:
