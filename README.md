@@ -5,8 +5,8 @@
 
 </figure>
 
-This is a client application to [Janus WebRTC Server](https://github.com/meetecho/janus-gateway). 
-This client app is also a client to  [Janus-gateway-landlord-Web-app](https://github.com/kinsleykajiva/Janus-gateway-landlord-Web-app). 
+This is a client Admin Portal application to [Janus WebRTC Server](https://github.com/meetecho/janus-gateway). 
+This client app is also a Admin Portal client to  [Janus-gateway-landlord-Web-app](https://github.com/kinsleykajiva/Janus-gateway-landlord-Web-app). 
 
 
 ## Features include
