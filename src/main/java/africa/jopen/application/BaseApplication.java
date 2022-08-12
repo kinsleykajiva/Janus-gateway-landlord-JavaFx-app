@@ -4,6 +4,7 @@ package africa.jopen.application;
 
 
 import africa.jopen.events.MessageEvent;
+import africa.jopen.janus.handles.HandleReq;
 import africa.jopen.pojos.User;
 import africa.jopen.utils.ViewManager;
 import africa.jopen.utils.XUtils;
@@ -44,6 +45,7 @@ import java.util.Objects;
 import java.util.Properties;
 
 
+import static africa.jopen.janus.handles.HandleReq.LAST_HANDLESINFO_MAP;
 import static africa.jopen.janus.settings.SettingsReq.adminReq;
 import static africa.jopen.utils.XUtils.*;
 
@@ -108,11 +110,30 @@ public class BaseApplication extends Application {
             //  isMediaReady();
         });
         saveLocalCache("default","janus_url","http://localhost:7088");
+
         saveLocalCache("default","admin_secret","janusoverlord");
 
         logger.info(" ,,," + adminReq());
 
      //   confirmationDialogButton(scene,stage);
+        /*HandleReq.getSessionsL().thenAccept(()->{
+
+        });*/
+       /* HandleReq.getSessionsL().thenAccept((handlesInfoMap)->{
+            *//*if (handlesInfoMap.size() == 0) {
+
+            }*//*
+            handlesInfoMap.forEach((key, value) -> {
+
+                if (value != null) {
+                    logger.info("====" + key + " ===value===" + LAST_HANDLESINFO_MAP.get(key).getPlugin_specific().getUsername() );
+                }
+
+                });
+        }).exceptionally(ex->{
+            logger.severe("Exception "+ ex.getMessage());
+            return null;
+        });*/
     }
 
     private final BooleanProperty showHeaderProperty = new SimpleBooleanProperty(true);

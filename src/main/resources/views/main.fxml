@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootPane" prefHeight="653.0" prefWidth="1106.0" stylesheets="@../styles/index.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="africa.jopen.controllers.MainController">
+<StackPane fx:id="rootPane" prefHeight="653.0" prefWidth="1106.0" stylesheets="@../styles/primer-light.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="africa.jopen.controllers.MainController">
     <children>
         <HBox fx:id="main" prefHeight="100.0" prefWidth="200.0">
             <children>
@@ -27,7 +27,7 @@
                         <content>
                             <VBox fx:id="mainNav" spacing="14.0" styleClass="drawer-content">
                                 <children>
-                           <JFXButton text="DashBoard" textFill="WHITE">
+                           <JFXButton fx:id="btnHome" prefHeight="32.0" prefWidth="145.0" text="DashBoard" textFill="WHITE">
                               <graphic>
                                  <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -36,16 +36,16 @@
                                  </ImageView>
                               </graphic>
                            </JFXButton>
-                           <JFXButton layoutX="10.0" layoutY="10.0" text="Server Info" textFill="WHITE">
+                           <JFXButton fx:id="btnSessions" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="144.0" text="Sessions" textFill="WHITE">
                               <graphic>
                                  <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                       <Image url="@../images/cloud.png" />
+                                       <Image url="@../images/sessions.png" />
                                     </image>
                                  </ImageView>
                               </graphic>
                            </JFXButton>
-                           <JFXButton layoutX="10.0" layoutY="10.0" text="Settings" textFill="WHITE">
+                           <JFXButton fx:id="btnSettings" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="142.0" text="Settings" textFill="WHITE">
                               <graphic>
                                  <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -54,7 +54,16 @@
                                  </ImageView>
                               </graphic>
                            </JFXButton>
-                           <JFXButton layoutX="10.0" layoutY="10.0" text="Plugins" textFill="WHITE">
+                           <JFXButton layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="145.0" text="Server Info" textFill="WHITE" visible="false">
+                              <graphic>
+                                 <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/cloud.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                           <JFXButton fx:id="btnPlugins" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="144.0" text="Plugins" textFill="WHITE" visible="false">
                               <graphic>
                                  <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -63,20 +72,11 @@
                                  </ImageView>
                               </graphic>
                            </JFXButton>
-                           <JFXButton layoutX="10.0" layoutY="10.0" text="Transports" textFill="WHITE">
+                           <JFXButton fx:id="btnTransport" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="142.0" text="Transports" textFill="WHITE" visible="false">
                               <graphic>
                                  <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                        <Image url="@../images/cloud-transport.png" />
-                                    </image>
-                                 </ImageView>
-                              </graphic>
-                           </JFXButton>
-                           <JFXButton layoutX="10.0" layoutY="10.0" text="Sessions" textFill="WHITE">
-                              <graphic>
-                                 <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                       <Image url="@../images/sessions.png" />
                                     </image>
                                  </ImageView>
                               </graphic>
@@ -111,7 +111,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                                         </Label>
-                                        <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                        <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS">
                                             <children>
                                                 <JFXBadge fx:id="bg_info" layoutX="732.0" layoutY="12.0" position="TOP_RIGHT" prefHeight="44.0" prefWidth="35.0" text="32" visible="false">
                                                     <styleClass>
@@ -134,7 +134,7 @@
                                                     <control>
                                                         <StackPane prefHeight="32.0" prefWidth="43.0" style="-fx-padding: 10;">
                                                             <children>
-                                                                <FontAwesomeIconView glyphName="BELL" size="20" styleClass="icon" StackPane.alignment="CENTER" />
+                                                                <FontAwesomeIconView glyphName="BELL" size="20" styleClass="icon" visible="false" StackPane.alignment="CENTER" />
                                                             </children>
                                                         </StackPane>
                                                     </control>

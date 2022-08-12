@@ -1,7 +1,9 @@
 package africa.jopen.controllers;
 import africa.jopen.controllers.home.HomeController;
+import africa.jopen.controllers.janus.SessionsController;
 import africa.jopen.events.MessageEvent;
 import africa.jopen.utils.XUtils;
+import com.jfoenix.controls.JFXButton;
 import io.github.palexdev.materialfx.font.MFXFontIcon;
 import io.github.palexdev.materialfx.utils.others.loader.MFXLoader;
 import io.github.palexdev.materialfx.utils.others.loader.MFXLoaderBean;
@@ -49,20 +51,50 @@ public class MainController  implements Initializable{
     public MainController() {
         EventBus.getDefault().register(this);
     }
-
+    public @FXML JFXButton btnSessions ,btnHome;
+    public @FXML VBox mainNav ;
+    public @FXML ScrollPane body;
+    public @FXML Label title;
+    List<JFXButton> vBoxes ;
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent event) {
 
     }
+    void setSelcted (JFXButton tagrget){
 
+
+
+        vBoxes.forEach(vBox -> {
+            if (vBox.equals(tagrget)){
+                vBox.setStyle("-fx-background-color:   #4c9cb7");
+            }else {
+                vBox.setStyle("-fx-background-color: transparent");
+            }
+        });
+        //tagrget.setStyle("-fx-border-color: red");
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         MFXLoader loader = new MFXLoader();
         loader.addView(MFXLoaderBean.of("Home", XUtils.loadURL(XUtils.NAVIGATION.get("Home"))).setControllerFactory(c -> new HomeController()).setDefaultRoot(false).get());
-        loader.addView(MFXLoaderBean.of("CALENDER_CONTROLLER", XUtils.loadURL(XUtils.NAVIGATION.get("Home"))).setControllerFactory(c -> new HomeController()).setDefaultRoot(false).get());
-
+        loader.addView(MFXLoaderBean.of("Sessions", XUtils.loadURL(XUtils.NAVIGATION.get("Sessions"))).setControllerFactory(c -> new SessionsController()).setDefaultRoot(true).get());
+        vBoxes = List.of( btnSessions,btnHome );
         loader.setOnLoadedAction(beans -> beans.forEach(bean -> {
+            switch (bean.getViewName()) {
+                case "Sessions" -> btnSessions.setOnMouseClicked(event -> {
+                    body.setContent(bean.getRoot());
+                    setSelcted(btnSessions);
+                    title.setText("Sessions");
+                });
 
+                 case "Home" -> btnHome.setOnMouseClicked(event -> {
+                    body.setContent(bean.getRoot());
+                    setSelcted(btnHome);
+                     title.setText("Home");
+                });
+
+
+            }
         }));
 
         loader.start();

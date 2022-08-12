@@ -157,7 +157,7 @@ To do everything up until the actual installer generation (including generating 
 5. Windows: install [Wix 3 binaries](https://github.com/wixtoolset/wix3/releases/).
 	- Installing Wix via the installer should be sufficient for jpackage to find it.
 3. Clone/download this project.
-6. Final step: run `mvn clean install` from the root of the project to generate the `target\TestApp.dmg`
+6. Final step: run `mvn clean install` from the handleInfoRoot of the project to generate the `target\TestApp.dmg`
    or `target\TestApp.msi` (installer).
 	- Note that the actual generated installer will include a version number in the file name
 	- For reference, here is a complete run log for [a successful run](docs/sample-run.md).

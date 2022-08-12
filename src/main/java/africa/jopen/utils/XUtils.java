@@ -29,7 +29,7 @@ public class XUtils {
     public static final Map<String, String> NAVIGATION = Map.of(
             "Home", "/views/home/home.fxml",
             "Main", "/views/main.fxml",
-            "Settings", "views/home/home.fxml11"
+            "Sessions", "/views/janus/sessions.fxml"
     );
 
     public static String getLocalCache(String module, String key) {
@@ -65,7 +65,7 @@ public class XUtils {
             }
             Properties props = new EncryptableProperties(encryptor);
             props.load(Files.newInputStream(Path.of(path)));
-            props.putIfAbsent(key, value);
+            props.put(key, value);
 
             try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
                 props.store(fileOutputStream, module + " properties");

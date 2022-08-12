@@ -18,12 +18,18 @@ module africa.jopen {
     requires java.net.http;
     requires org.jetbrains.annotations;
     requires java.logging;
+	requires com.fasterxml.jackson.databind;
+    requires atlantafx.base;
+//    requires json.io;
 
 
-    opens africa.jopen.application to javafx.fxml,javafx.graphics;
+
+	opens africa.jopen.application to javafx.fxml,javafx.graphics;
     opens africa.jopen.controllers to javafx.fxml, javafx.graphics;
     opens africa.jopen.utils to javafx.fxml, javafx.graphics;
     opens africa.jopen.libs.decorator to javafx.fxml, javafx.graphics;
     exports africa.jopen.controllers.home to javafx.fxml;
+     exports africa.jopen.models.admin.handles to  com.fasterxml.jackson.databind;
+     exports africa.jopen.controllers.janus to   javafx.fxml;
 
 }

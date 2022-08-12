@@ -239,15 +239,13 @@
             <version>3.32.0</version>
         </dependency>
 
-       <!-- <dependency>
-            <groupId>org.jdbi</groupId>
-            <artifactId>jdbi3-sqlite</artifactId>
-        </dependency>-->
+        <dependency>
+            <groupId>com.google.googlejavaformat</groupId>
+            <artifactId>google-java-format</artifactId>
+            <version>1.15.0</version>
+        </dependency>
 
-        <!--<dependency>
-            <groupId>org.jdbi</groupId>
-            <artifactId>jdbi3-stringtemplate4</artifactId>
-        </dependency>-->
+
 
     </dependencies>
     <repositories>
