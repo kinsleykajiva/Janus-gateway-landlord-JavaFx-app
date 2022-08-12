@@ -210,8 +210,8 @@ public class BaseApplication extends Application {
 
         // extracted(stage);
 
-// saveLocalCache("default","janus_url","http://localhost:7088");
-        saveLocalCache("default","janus_url","http://3.70.21.65:7088");
+ saveLocalCache("default","janus_url","http://localhost:7088");
+
         saveLocalCache("default","admin_secret","janusoverlord");
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(XUtils.NAVIGATION.get("Main"))));
@@ -231,8 +231,6 @@ public class BaseApplication extends Application {
                     setPrefHeight(100);
                 }
             });
-            // initWebRTC();
-            //  isMediaReady();
         });
 
 
