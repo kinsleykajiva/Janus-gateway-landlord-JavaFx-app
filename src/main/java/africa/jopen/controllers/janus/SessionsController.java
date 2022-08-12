@@ -80,7 +80,7 @@ public class SessionsController implements Initializable {
 						existingSessionsSetNew.add(LAST_HANDLESINFO_MAP.get(key).getSession_id());
 						if (!existingSessionsSet.contains(LAST_HANDLESINFO_MAP.get(key).getSession_id())) {
 							String     jsonStr             = Obj.writeValueAsString(LAST_HANDLESINFO_MAP.get(key));
-							TitledPane scrollableTextBlock = getTitledPane("Session - " + key + " - display_name" /*+ LAST_HANDLESINFO_MAP.get(key).getPlugin_specific().getUsername()*/, jsonStr, LAST_HANDLESINFO_MAP.get(key).getSession_id());
+							TitledPane scrollableTextBlock = getTitledPane("Session - " + key + " -" + LAST_HANDLESINFO_MAP.get(key).getPlugin_specific().getUsername(), jsonStr, LAST_HANDLESINFO_MAP.get(key).getSession_id());
 							scrollableTextBlock.setId(String.valueOf(LAST_HANDLESINFO_MAP.get(key).getSession_id()));
 							existingSessionsSet.add(LAST_HANDLESINFO_MAP.get(key).getSession_id());
 							accordionSessions.getPanes().add(scrollableTextBlock);
