@@ -2,7 +2,7 @@
 
 <figure>
 <img src="wall.png" alt="App Icon."/>
-<figure-caption>App Icon.</figure-caption>
+
 </figure>
 
 This is a client application to [Janus WebRTC Server](https://github.com/meetecho/janus-gateway). 
