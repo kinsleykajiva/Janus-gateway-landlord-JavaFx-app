@@ -14,6 +14,8 @@ This client app is also a client to  [Janus-gateway-landlord-Web-app](https://gi
 - [LandLord-Web-App](https://github.com/kinsleykajiva/Janus-gateway-landlord-Web-app ) can access APIs [pending] 
 - Access Config to Sever Dynamically [pending] 
 
+### Please note that this application is still in development mode,hence the code is still abit messy .
+
 ## Build
 Environment: JDK  17+ , yes you  can try to use JDK 10 or higher and openFX SDK.
 
