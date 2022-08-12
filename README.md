@@ -56,7 +56,8 @@ for more please review Gluonhq GraalVM version ,sources:
 
 ### Contributions are welcome , feel free to make a pull request.
 <hr>
-### Credit to <br>
+
+## Credit to 
 
  [Will Iverson](https://github.com/wiverson)  for creating a good project framework for javaFX projects.  Open source - https://github.com/wiverson/maven-jpackage-template  . Please 
 review this documentation to also build  this project and resolve some issues if your facing any .
