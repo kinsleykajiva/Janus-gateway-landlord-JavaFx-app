@@ -20,6 +20,9 @@ module africa.jopen {
     requires java.logging;
 	requires com.fasterxml.jackson.databind;
     requires atlantafx.base;
+
+    requires com.google.gson;
+	requires org.controlsfx.controls;
 //    requires json.io;
 
 

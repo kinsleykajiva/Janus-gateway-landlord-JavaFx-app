@@ -38,8 +38,6 @@ public class XUtils {
         StandardPBEStringEncryptor encryptor = getStandardPBEStringEncryptor(module);
         Properties props = new EncryptableProperties(encryptor);
         try {
-
-
             props.load( new FileInputStream(path) );
             return props.getProperty(key);
         } catch (IOException e) {

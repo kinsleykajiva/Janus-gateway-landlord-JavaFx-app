@@ -9,6 +9,7 @@ import africa.jopen.pojos.User;
 import africa.jopen.utils.ViewManager;
 import africa.jopen.utils.XUtils;
 import com.dustinredmond.fxtrayicon.FXTrayIcon;
+import com.google.gson.*;
 import io.github.palexdev.materialfx.controls.MFXNotificationCenter;
 import io.github.palexdev.materialfx.controls.cell.MFXNotificationCell;
 import io.github.palexdev.materialfx.notifications.MFXNotificationCenterSystem;
@@ -20,13 +21,13 @@ import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
@@ -82,15 +83,139 @@ public class BaseApplication extends Application {
         System.out.println("Received event: " + event.getEventType());
         // textField.setText(event.message);
     }
+
+    private static final String INPUT = "{\n" +
+                                        "   \"janus\": \"success\",\n" +
+                                        "   \"session_id\": 682486577610727,\n" +
+                                        "   \"transaction\": \"UWkKkaOp8l1G\",\n" +
+                                        "   \"handle_id\": 7656445411101973,\n" +
+                                        "   \"info\": {\n" +
+                                        "      \"session_id\": 682486577610727,\n" +
+                                        "      \"session_last_activity\": 1188362769042,\n" +
+                                        "      \"session_timeout\": 60,\n" +
+                                        "      \"session_transport\": \"janus.transport.http\",\n" +
+                                        "      \"handle_id\": 7656445411101973,\n" +
+                                        "      \"opaque_id\": \"siptest-dM4dPqQSOXkh\",\n" +
+                                        "      \"loop-running\": true,\n" +
+                                        "      \"created\": 1180857458035,\n" +
+                                        "      \"current_time\": 1188378551803,\n" +
+                                        "      \"plugin\": \"janus.plugin.sip\",\n" +
+                                        "      \"plugin_specific\": {\n" +
+                                        "         \"username\": \"tafadzwa-sango2\",\n" +
+                                        "         \"authuser\": \"tafadzwa-sango2\",\n" +
+                                        "         \"secret\": \"(hidden)\",\n" +
+                                        "         \"display_name\": \"\",\n" +
+                                        "         \"identity\": \"sip:tafadzwa-sango2@prod-eu-voip.yootok.com\",\n" +
+                                        "         \"registration_status\": \"registered\",\n" +
+                                        "         \"call_status\": \"idle\",\n" +
+                                        "         \"establishing\": 0,\n" +
+                                        "         \"established\": 0,\n" +
+                                        "         \"hangingup\": 0,\n" +
+                                        "         \"destroyed\": 0\n" +
+                                        "      },\n" +
+                                        "      \"flags\": {\n" +
+                                        "         \"got-offer\": false,\n" +
+                                        "         \"got-answer\": false,\n" +
+                                        "         \"negotiated\": false,\n" +
+                                        "         \"processing-offer\": false,\n" +
+                                        "         \"starting\": true,\n" +
+                                        "         \"ice-restart\": false,\n" +
+                                        "         \"ready\": false,\n" +
+                                        "         \"stopped\": false,\n" +
+                                        "         \"alert\": true,\n" +
+                                        "         \"trickle\": true,\n" +
+                                        "         \"all-trickles\": true,\n" +
+                                        "         \"resend-trickles\": false,\n" +
+                                        "         \"trickle-synced\": false,\n" +
+                                        "         \"data-channels\": false,\n" +
+                                        "         \"has-audio\": false,\n" +
+                                        "         \"has-video\": false,\n" +
+                                        "         \"new-datachan-sdp\": false,\n" +
+                                        "         \"rfc4588-rtx\": false,\n" +
+                                        "         \"cleaning\": false,\n" +
+                                        "         \"e2ee\": false\n" +
+                                        "      },\n" +
+                                        "      \"sdps\": {},\n" +
+                                        "      \"queued-packets\": 0,\n" +
+                                        "      \"streams\": []\n" +
+                                        "   }\n" +
+                                        "}";
+
+    private static final Image JSON_IMAGE = new Image("https://i.stack.imgur.com/1slrh.png");
+
+    private static void prependString(TreeItem<Value> item, String string) {
+        String val = item.getValue().text;
+        item.getValue().text = (val == null ? string  : string + " : " + val);
+    }
+
+    private enum Type {
+        OBJECT(new Rectangle2D(45, 52, 16, 18)),
+        ARRAY(new Rectangle2D(61, 88, 16, 18)),
+        PROPERTY(new Rectangle2D(31, 13, 16, 18));
+
+        private final Rectangle2D viewport;
+
+        private Type(Rectangle2D viewport) {
+            this.viewport = viewport;
+        }
+
+    }
+
+    private static final class Value {
+
+        private String text;
+        private final Type type;
+
+        public Value(Type type) {
+            this.type = type;
+        }
+
+        public Value(String text, Type type) {
+            this.text = text;
+            this.type = type;
+        }
+
+    }
+
+    private static TreeItem<Value> createTree(JsonElement element) {
+        if (element.isJsonNull()) {
+            return new TreeItem<>(new Value("null", Type.PROPERTY));
+        } else if (element.isJsonPrimitive()) {
+            JsonPrimitive primitive = element.getAsJsonPrimitive();
+            return new TreeItem<>(new Value(primitive.isString() ? '"' + primitive.getAsString() + '"' : primitive.getAsString(), Type.PROPERTY));
+        } else if (element.isJsonArray()) {
+            JsonArray       array = element.getAsJsonArray();
+            TreeItem<Value> item  = new TreeItem<>(new Value(Type.ARRAY));
+            for (int i = 0, max = array.size(); i < max; i++) {
+                TreeItem<Value> child = createTree(array.get(i));
+                prependString(child, Integer.toString(i));
+                item.getChildren().add(child);
+            }
+            return item;
+        } else {
+            JsonObject      object = element.getAsJsonObject();
+            TreeItem<Value> item   = new TreeItem<>(new Value(Type.OBJECT));
+            for (Map.Entry<String, JsonElement> property : object.entrySet()) {
+                TreeItem<Value> child = createTree(property.getValue());
+                prependString(child, property.getKey());
+                item.getChildren().add(child);
+            }
+            return item;
+        }
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
-        /*configServices();
-        initialScene();*/
+
+
+        // extracted(stage);
+
+// saveLocalCache("default","janus_url","http://localhost:7088");
+        saveLocalCache("default","janus_url","http://3.70.21.65:7088");
+        saveLocalCache("default","admin_secret","janusoverlord");
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(XUtils.NAVIGATION.get("Main"))));
         Scene scene = new Scene(root);
-        //stage.initStyle(StageStyle.TRANSPARENT);
-      //  scene.setFill(Color.TRANSPARENT);
         stage.setTitle(SYSTEM_APP_TITLE);
         stage.setScene(scene);
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-192x192.png"))));
@@ -109,31 +234,51 @@ public class BaseApplication extends Application {
             // initWebRTC();
             //  isMediaReady();
         });
-        saveLocalCache("default","janus_url","http://localhost:7088");
 
-        saveLocalCache("default","admin_secret","janusoverlord");
 
         logger.info(" ,,," + adminReq());
 
      //   confirmationDialogButton(scene,stage);
-        /*HandleReq.getSessionsL().thenAccept(()->{
 
-        });*/
-       /* HandleReq.getSessionsL().thenAccept((handlesInfoMap)->{
-            *//*if (handlesInfoMap.size() == 0) {
+    }
 
-            }*//*
-            handlesInfoMap.forEach((key, value) -> {
+    private static void extracted (Stage stage) {
+        JsonElement root1   = JsonParser.parseString(INPUT);
 
-                if (value != null) {
-                    logger.info("====" + key + " ===value===" + LAST_HANDLESINFO_MAP.get(key).getPlugin_specific().getUsername() );
+        TreeItem<Value> treeRoot = createTree(root1);
+        TreeView<Value> treeView = new TreeView<>(treeRoot);
+        treeView.setCellFactory(tv -> new TreeCell<Value>() {
+            private final ImageView imageView;
+
+            {
+                imageView = new ImageView(JSON_IMAGE);
+                imageView.setFitHeight(18);
+                imageView.setFitWidth(16);
+                imageView.setPreserveRatio(true);
+                setGraphic(imageView);
+            }
+
+            @Override
+            protected void updateItem(Value item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText("");
+                    imageView.setVisible(false);
+                } else {
+                    setText(item.text);
+                    imageView.setVisible(true);
+                    imageView.setViewport(item.type.viewport);
                 }
+            }
 
-                });
-        }).exceptionally(ex->{
-            logger.severe("Exception "+ ex.getMessage());
-            return null;
-        });*/
+
+        });
+
+        final Scene scene1 = new Scene(treeView);
+
+        stage.setScene(scene1);
+        stage.show();
     }
 
     private final BooleanProperty showHeaderProperty = new SimpleBooleanProperty(true);

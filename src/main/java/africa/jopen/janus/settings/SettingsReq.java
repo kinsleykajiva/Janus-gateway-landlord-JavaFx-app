@@ -57,7 +57,7 @@ public class SettingsReq {
         return null;
     }
     public static String postJanusRequest (String janusValue, String params) {
-        logger.info("postJanusRequest" + getLocalCache("default" ,"janus_url") + "/admin"+params);
+       // logger.info("postJanusRequest" + getLocalCache("default" ,"janus_url") + "/admin"+params);
 
         HttpRequest request = HttpRequest.newBuilder(URI.create(getLocalCache("default" ,"janus_url") + "/admin"+params))
                 .header("Content-Type", "application/json")
