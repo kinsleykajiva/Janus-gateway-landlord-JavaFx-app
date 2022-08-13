@@ -1,4 +1,5 @@
 package africa.jopen.controllers;
+import africa.jopen.controllers.apis.JanusAPIControllers;
 import africa.jopen.controllers.home.HomeController;
 import africa.jopen.controllers.janus.SessionsController;
 import africa.jopen.events.MessageEvent;
@@ -51,7 +52,7 @@ public class MainController  implements Initializable{
     public MainController() {
         EventBus.getDefault().register(this);
     }
-    public @FXML JFXButton btnSessions ,btnHome;
+    public @FXML JFXButton btnSessions,btnJanusConf ,btnHome;
     public @FXML VBox mainNav ;
     public @FXML ScrollPane body;
     public @FXML Label title;
@@ -78,7 +79,8 @@ public class MainController  implements Initializable{
         MFXLoader loader = new MFXLoader();
         loader.addView(MFXLoaderBean.of("Home", XUtils.loadURL(XUtils.NAVIGATION.get("Home"))).setControllerFactory(c -> new HomeController()).setDefaultRoot(false).get());
         loader.addView(MFXLoaderBean.of("Sessions", XUtils.loadURL(XUtils.NAVIGATION.get("Sessions"))).setControllerFactory(c -> new SessionsController()).setDefaultRoot(true).get());
-        vBoxes = List.of( btnSessions,btnHome );
+        loader.addView(MFXLoaderBean.of("JanusConfig", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers()).setDefaultRoot(true).get());
+        vBoxes = List.of( btnSessions,btnHome,btnJanusConf );
         loader.setOnLoadedAction(beans -> beans.forEach(bean -> {
             switch (bean.getViewName()) {
                 case "Sessions" -> btnSessions.setOnMouseClicked(event -> {
@@ -91,6 +93,11 @@ public class MainController  implements Initializable{
                     body.setContent(bean.getRoot());
                     setSelcted(btnHome);
                      title.setText("Home");
+                });
+                 case "JanusConfig" -> btnJanusConf.setOnMouseClicked(event -> {
+                    body.setContent(bean.getRoot());
+                    setSelcted(btnJanusConf);
+                     title.setText("JanusConfig for janus.jcfg");
                 });
 
 

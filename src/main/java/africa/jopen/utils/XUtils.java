@@ -3,6 +3,7 @@ package africa.jopen.utils;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,8 @@ public class XUtils {
     public static final Map<String, String> NAVIGATION = Map.of(
             "Home", "/views/home/home.fxml",
             "Main", "/views/main.fxml",
-            "Sessions", "/views/janus/sessions.fxml"
+            "Sessions", "/views/janus/sessions.fxml",
+            "JanusConfig", "/views/api/janus-api.fxml"
     );
 
     public static String getLocalCache(String module, String key) {
@@ -45,7 +47,41 @@ public class XUtils {
         }
         return null;
     }
+    public static boolean isNumeric(final String input) {
+        //Check for null or blank string
+        if (input == null || input.isBlank()) return false;
 
+        //Retrieve the minus sign and decimal separator characters from the current Locale
+        final var localeMinusSign = DecimalFormatSymbols.getInstance().getMinusSign();
+        final var localeDecimalSeparator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
+
+        //Check if first character is a minus sign
+        final var isNegative = input.charAt(0) == localeMinusSign;
+        //Check if string is not just a minus sign
+        if (isNegative && input.length() == 1) return false;
+
+        var isDecimalSeparatorFound = false;
+
+        //If the string has a minus sign ignore the first character
+        final var startCharIndex = isNegative ? 1 : 0;
+
+        //Check if each character is a number or a decimal separator
+        //and make sure string only has a maximum of one decimal separator
+        for (var i = startCharIndex; i < input.length(); i++) {
+            if (!Character.isDigit(input.charAt(i))) {
+                if (input.charAt(i) == localeDecimalSeparator && !isDecimalSeparatorFound) {
+                    isDecimalSeparatorFound = true;
+                } else return false;
+            }
+        }
+        return true;
+    }
+
+    public static String testIfToQoute(String value) {
+        return value.equals("true") || value.equals("false") || XUtils.isNumeric(value) ?
+                (value) :
+                "".concat("\"").concat(value).concat("\"");
+    }
     public static void saveLocalCache(String module, String key, String value) {
         if (!isFilesHomeKeepingGood()) {
             logError("Failed to set cache");

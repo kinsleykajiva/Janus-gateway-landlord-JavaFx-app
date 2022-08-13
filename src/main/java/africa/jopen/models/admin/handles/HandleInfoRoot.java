@@ -4,6 +4,7 @@ package africa.jopen.models.admin.handles;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class HandleInfoRoot {
@@ -32,11 +33,11 @@ public class HandleInfoRoot {
 		this.session_transport = session_transport; }
 	String session_transport;
 	@JsonProperty("handle_id")
-	public long getHandle_id() {
+	public BigInteger getHandle_id() {
 		return this.handle_id; }
-	public void setHandle_id(long handle_id) {
+	public void setHandle_id(BigInteger handle_id) {
 		this.handle_id = handle_id; }
-	long handle_id;
+	BigInteger handle_id;
 	@JsonProperty("loop-running")
 	public boolean getLoopRunning() {
 		return this.loopRunning; }

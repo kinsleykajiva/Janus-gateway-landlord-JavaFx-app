@@ -54,6 +54,15 @@
                                  </ImageView>
                               </graphic>
                            </JFXButton>
+                           <JFXButton fx:id="btnJanusConf" layoutX="10.0" layoutY="118.0" prefHeight="32.0" prefWidth="142.0" text="Janus Conf" textFill="WHITE">
+                              <graphic>
+                                 <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/cloud-settings.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
                            <JFXButton layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="145.0" text="Server Info" textFill="WHITE" visible="false">
                               <graphic>
                                  <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">

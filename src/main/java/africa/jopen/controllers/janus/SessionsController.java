@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -73,7 +74,7 @@ public class SessionsController implements Initializable {
 		ObjectMapper Obj             = new ObjectMapper();
 		HandleReq.getSessionsL().thenAccept((handlesInfoMap) -> Platform.runLater(() -> {
 
-			Set<Long>    existingHandles = new HashSet<>();
+			Set<BigInteger> existingHandles = new HashSet<>();
 			handlesInfoMap.forEach((key, value) -> {
 				if (value != null) {
 					try {
