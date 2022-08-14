@@ -2,4 +2,4 @@
 
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="root_pane" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="africa.jopen.controllers.apis.JanusAPIControllers" />
+<BorderPane fx:id="root_pane" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="africa.jopen.controllers.apis.JanusAPIControllers" />

@@ -42,6 +42,16 @@ for more please review Gluonhq GraalVM version ,sources:
 ## Screenshots
 
 <figure>
+<img src="screenshots/janusConfig-screen1.png" alt="Janus Config Forms" />
+<figure-caption>Janus Config Forms</figure-caption>
+</figure>
+
+<figure>
+<img src="screenshots/janusConfig-screen2.png" alt="Janus Config Forms" />
+<figure-caption>Janus Config Forms Expanded</figure-caption>
+</figure>
+
+<figure>
 <img src="screenshots/sessions-screen.png" alt="Expanded Session Screen" />
 <figure-caption>Expanded Session Screen</figure-caption>
 </figure>
@@ -61,6 +71,8 @@ for more please review Gluonhq GraalVM version ,sources:
 
  [Will Iverson](https://github.com/wiverson)  for creating a good project framework for javaFX projects.  Open source - https://github.com/wiverson/maven-jpackage-template  . Please 
 review this documentation to also build  this project and resolve some issues if your facing any .
+
+[mkpaz](https://github.com/mkpaz)   for the UI widgets and themes that was made from https://github.com/mkpaz/atlantafx .Please check it out .
 
 <hr>
 

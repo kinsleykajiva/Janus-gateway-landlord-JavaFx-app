@@ -1,64 +1,67 @@
 package africa.jopen.controllers.apis;
 
+import africa.jopen.application.BaseApplication;
 import africa.jopen.models.forms.janusconfig.JanusModel;
 import com.dlsc.formsfx.view.renderer.FormRenderer;
+import javafx.beans.InvalidationListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 public class JanusAPIControllers implements Initializable {
-	private GridPane     controls;
-	private HBox         languageButtons;
-	private VBox         statusContent;
-	private Button       save;
-	private Button       reset;
-	private HBox         formButtons;
-	private ScrollPane   scrollContent;
-	//private Button editableToggle;
-//	private Button sectionToggle;
-	private FormRenderer displayForm;
+
+	Logger logger = Logger.getLogger(JanusAPIControllers.class.getName());
 
 	@FXML
-	public BorderPane root_pane;
+	public  BorderPane root_pane;
+	private JanusModel model;
 
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
-		JanusModel model = new JanusModel();
-		displayForm = new FormRenderer(model.getFormInstance());
-		languageButtons = new HBox();
-		statusContent = new VBox();
-		formButtons = new HBox();
-		root_pane.getStylesheets().add(getClass().getResource("/styles/style.css").toExternalForm());
+		model = new JanusModel();
+
+		VBox statusContent = new VBox();
+		HBox formButtons   = new HBox();
 		root_pane.getStyleClass().add("root-pane");
-		controls = new GridPane();
-		scrollContent = new ScrollPane();
-		scrollContent.setContent(displayForm);
+		GridPane   controls      = new GridPane();
+		ScrollPane scrollContent = new ScrollPane();
+		scrollContent.setContent(model.getFormInstance());
 		scrollContent.setFitToWidth(true);
-		save = new Button("Save");
-		reset = new Button("Reset");
-		//save.getStyleClass().add("save-button");
+		Button save  = new Button("Save");
+		Button reset = new Button("Reset");
+
 		reset.getStyleClass().add("reset-button");
 		scrollContent.getStyleClass().add("scroll-pane");
 
-		save.setStyle(" -fx-font-size: 14px;\n" +
-		              "    -fx-font-weight: normal;\n" +
-		              "    -fx-text-alignment: center;\n" +
-		              "    -fx-cursor: hand;\n" +
-		              "    -fx-background-radius: 4px;\n" +
-		              "    -fx-background-insets: 0 0 0 0, 0, 1, 2;\n" +
-		              "    -fx-border-width: 1px;\n" +
-		              "    -fx-border-radius: 4px;");
-		reset.setOnAction(event -> model.getFormInstance().reset());
-		save.setOnAction(event -> model.getFormInstance().persist());
+		save.setStyle("""
+				-fx-font-size: 14px;
+				-fx-font-weight: normal;
+				-fx-text-alignment: center;
+				-fx-cursor: hand;
+				-fx-background-radius: 4px;
+				-fx-background-insets: 0 0 0 0, 0, 1, 2;
+				-fx-border-width: 1px;
+				-fx-border-radius: 4px;
+				""");
+
+		save.setOnAction(event -> {
+			logger.info("Saving model");
+
+		});
 
 		statusContent.setPadding(new Insets(10));
-		//statusContent.getChildren().addAll(validLabel, changedLabel, persistableLabel);
 		statusContent.setSpacing(10);
 		statusContent.setPrefWidth(200);
 		statusContent.getStyleClass().add("bordered");
@@ -78,16 +81,12 @@ public class JanusAPIControllers implements Initializable {
 
 
 		controls.setPrefWidth(200);
-		//controls.getStyleClass().add("controls");
 
 		root_pane.setCenter(scrollContent);
 		root_pane.setRight(controls);
-		model.sectionsList.forEach(e->{
-			e.collapse(true);
-		});
 
-//		setCenter(scrollContent);
-//		setRight(controls);
 
 	}
+
+
 }

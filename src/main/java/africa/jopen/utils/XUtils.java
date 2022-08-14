@@ -6,10 +6,13 @@ import java.nio.file.Path;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.net.URL;
 import java.util.Properties;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 import africa.jopen.application.BaseApplication;
@@ -111,7 +114,11 @@ public class XUtils {
         }
 
     }
-
+    public static <T> List<List<T>> getBatches (List<T> collection, int batchSize) {
+        return IntStream.iterate(0, i -> i < collection.size(), i -> i + batchSize)
+                .mapToObj(i -> collection.subList(i, Math.min(i + batchSize, collection.size())))
+                .collect(Collectors.toList());
+    }
     @NotNull
     private static StandardPBEStringEncryptor getStandardPBEStringEncryptor(String module) {
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();

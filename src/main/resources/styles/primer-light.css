@@ -184,7 +184,12 @@ Text {
   -fx-background-insets: 0, 0 1px 1px 1px;
   -fx-background-radius: 0;
 }
-
+.sample-block {
+  -fx-spacing: 1em;
+}
+.sample-block>.title {
+  -fx-font-weight: bold;
+}
 .button {
   -color-button-bg: -color-bg-inset;
   -color-button-fg: -color-fg-default;

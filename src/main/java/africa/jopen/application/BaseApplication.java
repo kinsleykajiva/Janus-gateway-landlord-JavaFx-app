@@ -210,7 +210,7 @@ public class BaseApplication extends Application {
 
         // extracted(stage);
 
- saveLocalCache("default","janus_url","http://localhost:7088");
+// saveLocalCache("default","janus_url","http://localhost:7088");
 
         saveLocalCache("default","admin_secret","janusoverlord");
 
