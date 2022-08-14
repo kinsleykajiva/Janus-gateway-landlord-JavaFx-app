@@ -36,9 +36,11 @@ public class JanusModel {
 	private static final int    H_GAP           = 20;
 
 	private final BooleanProperty animatedProperty = new SimpleBooleanProperty(true);
-	public static        String jsonJanus       = """
-		
-			""";
+	private         String jsonJanus       = "";
+
+	public JanusModel (String json) {
+		jsonJanus = json;
+	}
 
 	public Accordion getFormInstance () {
 		return createForm();

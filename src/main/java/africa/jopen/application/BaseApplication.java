@@ -47,7 +47,9 @@ import java.util.Properties;
 
 
 import static africa.jopen.janus.handles.HandleReq.LAST_HANDLESINFO_MAP;
+import static africa.jopen.janus.plugins.LandLordWebAppReq.getRequest;
 import static africa.jopen.janus.settings.SettingsReq.adminReq;
+import static africa.jopen.utils.ConstantReference.JANUS_SERVER_URL;
 import static africa.jopen.utils.XUtils.*;
 
 
@@ -211,7 +213,7 @@ public class BaseApplication extends Application {
         // extracted(stage);
 
 // saveLocalCache("default","janus_url","http://localhost:7088");
-
+        saveLocalCache("default","janus_url",JANUS_SERVER_URL);
         saveLocalCache("default","admin_secret","janusoverlord");
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(XUtils.NAVIGATION.get("Main"))));
@@ -237,6 +239,9 @@ public class BaseApplication extends Application {
         logger.info(" ,,," + adminReq());
 
      //   confirmationDialogButton(scene,stage);
+
+//     logger.info(" 111" +  getRequest("/api/access/janus/check-if-janus-installed2"));
+//     logger.info(" 22" +  getRequest("/api/access/janus/check-if-janus-installed"));
 
     }
 
@@ -312,49 +317,7 @@ public class BaseApplication extends Application {
         alert.showAndWait();
     }
 
-    private void initialScene() {
 
-
-
-        String log = logged();
-        assert log != null;
-
-        if (log.equals("account") || log.equals("login")) {
-           // decorator.setContent(ViewManager.getInstance().get(log).getParent());
-        } else {
-            //  BaseApplication.decorator.addCustom(userDetail);
-            /*userDetail.setProfileAction(event -> {
-                Main.ctrl.title.setText("Profile");
-                Main.ctrl.body.setContent(ViewManager.getInstance().get("profile"));
-                userDetail.getPopOver().hide();
-            });*/
-
-           /* userDetail.setSignAction(event -> {
-                App.decorator.setContent(ViewManager.getInstance().get("login"));
-                section.setLogged(false);
-                SectionManager.save(section);
-                userDetail.getPopOver().hide();
-                if(Main.popConfig.isShowing()) Main.popConfig.hide();
-                if(Main.popup.isShowing()) Main.popup.hide();
-                App.decorator.removeCustom(userDetail);
-            });
-            decorator.setContent(ViewManager.getInstance().get("main"));*/
-        }
-
-        //decorator.stage.getScene().getsetStage().setOnCloseRequest(event -> {
-        //// BaseApplication.getUserDetail().getPopOver().hide();
-        //if(Main.popConfig.isShowing()) Main.popConfig.hide();
-        //  if(Main.popup.isShowing()) Main.popup.hide();
-        //  Platform.exit();
-        //  });
-        /*try {
-            wait(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-
-       // ViewManager.getInstance().get("main");
-    }
     @Override
     public void stop() throws Exception {
         super.stop();
@@ -388,15 +351,18 @@ public class BaseApplication extends Application {
                 file.createNewFile();
                 return "account";
             } else {
-                FileInputStream fileInputStream = new FileInputStream(file);
-                properties.load(fileInputStream);
-                properties.putIfAbsent("logged", "false");
-                FileOutputStream fileOutputStream = new FileOutputStream(file);
-                properties.store(fileOutputStream, "Dashboard properties");
+                File directory;
+                try (FileInputStream fileInputStream = new FileInputStream(file)) {
+                    properties.load(fileInputStream);
+                    properties.putIfAbsent("logged", "false");
+                    try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+                        properties.store(fileOutputStream, "Dashboard properties");
+                    }
 
 
-                File directory = new File("user/");
-                properties.load(fileInputStream);
+                    directory = new File("user/");
+                    properties.load(fileInputStream);
+                }
                 if (directory.exists()) {
                     if (properties.getProperty("logged").equals("false"))
                         return "login";

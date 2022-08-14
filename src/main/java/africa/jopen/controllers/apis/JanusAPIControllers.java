@@ -20,6 +20,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
+import static africa.jopen.janus.plugins.LandLordWebAppReq.getRequest;
+
 public class JanusAPIControllers implements Initializable {
 
 	Logger logger = Logger.getLogger(JanusAPIControllers.class.getName());
@@ -27,11 +29,28 @@ public class JanusAPIControllers implements Initializable {
 	@FXML
 	public  BorderPane root_pane;
 	private JanusModel model;
+	String result = "";
+	public JanusAPIControllers (String type) {
+
+		if("janus".equals(type)) {
+			result = getRequest("/api/access/janus/current-ssettings");
+		}
+		if("sip".equals(type)) {
+			result = getRequest("/api/access/sip/current-ssettings");
+		}
+		if("http".equals(type)) {
+			result = getRequest("/api/access/http/current-ssettings");
+		}
+		if("websocket".equals(type)) {
+			result = getRequest("/api/access/websockets/current-ssettings");
+		}
+
+
+	}
 
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
-		model = new JanusModel();
-
+		model = new JanusModel(result);
 		VBox statusContent = new VBox();
 		HBox formButtons   = new HBox();
 		root_pane.getStyleClass().add("root-pane");
