@@ -1,5 +1,11 @@
 # Janus-Gateway Landlord JavaFX Client Application.
 
+
+[![Latest release](https://img.shields.io/badge/version-0.5-blue)](https://img.shields.io/badge/v0.1-tag-green)
+
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)     
+
+
 <figure>
 <img src="wall.png" alt="App Icon."/>
 
@@ -8,6 +14,8 @@
 This is a client Admin Portal application to [Janus WebRTC Server](https://github.com/meetecho/janus-gateway). 
 This client app is also a Admin Portal client to  [Janus-gateway-landlord-Web-app](https://github.com/kinsleykajiva/Janus-gateway-landlord-Web-app). 
 
+This application can run on all Desktop platforms including Windows, Linux,Mac .
+
 
 ## Features include
 - [Admin Monitor API requests](https://janus.conf.meetecho.com/docs/admin.html) can get Sessions.
@@ -15,6 +23,9 @@ This client app is also a Admin Portal client to  [Janus-gateway-landlord-Web-ap
 - Access Config to Sever Dynamically [pending] 
 
 ### Please note that this application is still in development mode,hence the code is still abit messy .
+
+# Configs:
+- Set Janus Server Address on JANUS_SERVER_BASE_URL.java ,obviously thats where the  [Janus-gateway-landlord-Web-app](https://github.com/kinsleykajiva/Janus-gateway-landlord-Web-app) is also hosted .
 
 ## Build
 Environment: JDK  17+ , yes you  can try to use JDK 10 or higher and openFX SDK.
