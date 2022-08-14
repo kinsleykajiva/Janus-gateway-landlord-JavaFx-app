@@ -28,23 +28,31 @@ import org.apache.commons.lang3.StringUtils;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Logger;
 
 public class JanusModel {
+	private final ExecutorService executor;
 	Logger logger = Logger.getLogger(JanusModel.class.getName());
-	private static final int    COMBO_BOX_WIDTH = 150;
-	private static final int    H_GAP           = 20;
+	private static final int COMBO_BOX_WIDTH = 150;
+	private static final int H_GAP           = 20;
 
 	private final BooleanProperty animatedProperty = new SimpleBooleanProperty(true);
-	private         String jsonJanus       = "";
+	private       String          jsonJanus        = "";
 
-	public JanusModel (String json) {
+	public JanusModel (String json,ExecutorService executor) {
 		jsonJanus = json;
+		this.executor = executor;
 	}
 
 	public Accordion getFormInstance () {
 		return createForm();
 	}
+
+	private JSONObject obj;
 
 	/**
 	 * Creates a new form instance with the required information.
@@ -52,7 +60,7 @@ public class JanusModel {
 	private Accordion createForm () {
 		final List<TitledPane> sectionsList = new ArrayList<>();
 		JSONObject             data         = new JSONObject(jsonJanus);
-		JSONObject             obj          = data.getJSONObject("data");
+		obj = data.getJSONObject("data");
 
 		for (String sectionName : obj.keySet()) {
 			sectionsList.add(builderFormSection(obj.getJSONObject(sectionName), sectionName));
@@ -62,6 +70,9 @@ public class JanusModel {
 		return new Accordion(
 				sectionsList.toArray(myArray)
 		);
+	}
+	public  JSONObject getCurrentObject(){
+		return obj;
 	}
 
 
@@ -75,31 +86,48 @@ public class JanusModel {
 			var required  = objStage.getBoolean("required");
 
 			var h = new HBox(H_GAP);
-			if (objStage.get(ConstantReference.JSON_LINE_VALUE ) instanceof String) {
+			if (objStage.get(ConstantReference.JSON_LINE_VALUE) instanceof String) {
 				var lineValue = objStage.getString(ConstantReference.JSON_LINE_VALUE);
 				if (lineValue.equals("true") || lineValue.equals("false")) {
+					var id = sectionName + "@" + target;
 					var comboBoxChangeListener = new ChangeListener() {
 						@Override
 						public void changed (ObservableValue options, Object oldValue, Object newValue) {
-
-							logger.fine(MessageFormat.format("{0} selected", newValue));
+							execute(() -> {
+								logger.info(MessageFormat.format("{0} selected", newValue));
+								var sectionObject = obj.getJSONObject(sectionName);
+								sectionObject.getJSONObject(target).put(ConstantReference.JSON_LINE_VALUE, newValue + "");
+							});
 						}
 					};
+
 					var comboBox = new ComboBox<String>();
 					comboBox.getSelectionModel().selectedItemProperty().addListener(comboBoxChangeListener);
 					comboBox.getItems().setAll("true", "false");
-					comboBox.getSelectionModel().selectFirst();
-					comboBox.setId(sectionName + "@" + target);
+					if (lineValue.equals("true")) {
+						comboBox.getSelectionModel().select(0);
+					} else {
+						comboBox.getSelectionModel().select(1);
+					}
+					comboBox.setId(id);
 					comboBox.setPrefWidth(COMBO_BOX_WIDTH);
 					var basicBlock = new UtilSampleBlock(target, comboBox);
 					basicBlock.getRoot().setId(sectionName + "$" + target);
 					h.getChildren().add(basicBlock.getRoot());
 
 				} else {
-					ChangeListener<String> inputTextChangeListener = (observable, oldValue, newValue) -> logger.info("textfield changed from " + oldValue + " to " + newValue);
-					var                    basicField              = new TextField(lineValue);
+					var id = sectionName + "@" + target;
+					ChangeListener<String> inputTextChangeListener = (observable, oldValue, newValue) -> {
+						execute(() -> {
+							logger.info("textfield changed from " + oldValue + " to " + newValue);
+							var sectionObject = obj.getJSONObject(sectionName);
+							sectionObject.getJSONObject(target).put(ConstantReference.JSON_LINE_VALUE, newValue + "");
+						});
+					};
+					var basicField = new TextField(lineValue);
 					basicField.textProperty().addListener(inputTextChangeListener);
-					basicField.setId(sectionName + "@" + target);
+
+					basicField.setId(id);
 					var basicBlock = new UtilSampleBlock(target, basicField);
 					basicBlock.getRoot().setId(sectionName + "$" + target);
 					h.getChildren().add(basicBlock.getRoot());
@@ -107,16 +135,24 @@ public class JanusModel {
 
 			} else if (objStage.get(ConstantReference.JSON_LINE_VALUE) instanceof JSONArray) {
 				var           lineValue = objStage.getJSONArray(ConstantReference.JSON_LINE_VALUE);
+				var           id        = sectionName + "@" + target;
 				StringBuilder builder   = new StringBuilder();
 				for (int i = 0; i < lineValue.length(); i++) {
 					String line = lineValue.getString(i);
 					builder.append(line).append(",");
 				}
-				ChangeListener<String> inputTextChangeListener = (observable, oldValue, newValue) -> logger.info("textfield changed from " + oldValue + " to " + newValue);
+				ChangeListener<String> inputTextChangeListener = (observable, oldValue, newValue) -> {
+					logger.info("textfield changed from " + oldValue + " to " + newValue);
+					execute(() -> {
+						var sectionObject = obj.getJSONObject(sectionName);
+						sectionObject.getJSONObject(target).put(ConstantReference.JSON_LINE_VALUE,newValue.split(","));
+					});
+
+				};
 				builder.deleteCharAt(builder.length() - 1);// remove the last comma
 				var leftText = new TextField(builder.toString());
 				leftText.textProperty().addListener(inputTextChangeListener);
-				leftText.setId(sectionName + "@" + target);
+				leftText.setId(id);
 				leftText.getStyleClass().add(Styles.LEFT_PILL);
 				var box = new HBox(leftText);
 				box.setAlignment(Pos.CENTER_LEFT);
@@ -124,14 +160,21 @@ public class JanusModel {
 				basicBlock.getRoot().setId(sectionName + "$" + target);
 				h.getChildren().add(basicBlock.getRoot());
 			}
-			ChangeListener<Boolean> checkBoxListener = (ov, oldVal, newVal) -> logger.info("changed: " + newVal + " from value" + oldVal);
-			CheckBox                basicCheck;
-			basicCheck = new CheckBox("Comment/Disable");
+			var id = sectionName + "#" + target;
+			ChangeListener<Boolean> checkBoxListener = (ov, oldVal, newVal) -> {
+				execute(() -> {
+					logger.info("changed: " + newVal + " from value" + oldVal);
+					var sectionObject = obj.getJSONObject(sectionName);
+					sectionObject.getJSONObject(target).put("commented", newVal );
+				});
+			};
+			CheckBox basicCheck;
+			basicCheck = new CheckBox("Disable");
 			basicCheck.setMnemonicParsing(true);
 			basicCheck.setSelected(commented);
 			basicCheck.selectedProperty().addListener(checkBoxListener);
 			basicCheck.setDisable(required);
-			basicCheck.setId(sectionName + "#" + target);
+			basicCheck.setId(id);
 			var basicBlock = new UtilSampleBlock("", basicCheck);
 			basicBlock.getRoot().setId(sectionName + "$" + target);
 			h.getChildren().add(basicBlock.getRoot());
@@ -160,7 +203,31 @@ public class JanusModel {
 		return scrollableTextBlock;
 	}
 
+	private void executeAndWait (Runnable runnable) {
+		try {
+			executor.submit(runnable).get();
+		} catch (Exception e) {
+			logger.severe("Execute task failed " + e);
+		}
+	}
 
+	private void execute (Runnable runnable) {
+		try {
+			executor.submit(runnable);
+		} catch (Exception e) {
+			logger.severe("Execute task failed " + e);
+		}
+	}
+
+	private <T> T executeAndGet (Callable<T> callable) {
+		try {
+			return executor.submit(callable).get();
+		} catch (Exception e) {
+			logger.severe("Execute task failed " + e);
+		}
+
+		return null;
+	}
 
 
 }

@@ -26,12 +26,9 @@ public class LandLordWebAppReq {
 				.build();
 		try {
 			HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
-			/*logger.info("Response:" + response);
-			logger.info(String.valueOf(response.statusCode()));*/
 			if(response.statusCode() != 200) {
 				return null;
 			}
-			logger.info(response.body());
 			return response.body();
 
 		} catch (IOException | InterruptedException e) {
@@ -41,15 +38,19 @@ public class LandLordWebAppReq {
 
 	}
 
-	public static String postRequest (String janusValue, String params,JSONObject data) {
-
+	public static String postRequest (String params,JSONObject data) {
+		logger.info("Post request: " + params);
 		HttpRequest request = HttpRequest.newBuilder(URI.create(LANDLORDWEBAPP_SERVER_URL + params))
 				.header("Content-Type", "application/json")
 				.POST(HttpRequest.BodyPublishers.ofString( data.toString()))
 				.build();
-
 		try {
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			logger.info("Sent response: " + response);
+
+			if(response.statusCode() != 200) {
+				return null;
+			}
 			return response.body();
 		} catch (IOException e) {
 			logger.severe(e.getMessage());

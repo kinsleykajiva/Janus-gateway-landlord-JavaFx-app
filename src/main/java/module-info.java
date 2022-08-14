@@ -26,6 +26,8 @@ module africa.jopen {
 	requires org.controlsfx.controls;
 	requires com.dlsc.formsfx;
 	requires org.apache.commons.lang3;
+	requires animated;
+	requires AnimateFX;
 //    requires json.io;
 
 

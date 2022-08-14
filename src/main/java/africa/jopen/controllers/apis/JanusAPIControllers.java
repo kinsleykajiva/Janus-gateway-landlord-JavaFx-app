@@ -1,56 +1,112 @@
 package africa.jopen.controllers.apis;
 
 import africa.jopen.application.BaseApplication;
+import africa.jopen.janus.plugins.LandLordWebAppReq;
 import africa.jopen.models.forms.janusconfig.JanusModel;
+import africa.jopen.utils.ExampleNotification;
+import africa.jopen.utils.UtilSampleBlock;
 import com.dlsc.formsfx.view.renderer.FormRenderer;
+import eu.iamgio.animated.property.PropertyWrapper;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXIconWrapper;
+import io.github.palexdev.materialfx.controls.MFXSimpleNotification;
+import io.github.palexdev.materialfx.enums.NotificationPos;
+import io.github.palexdev.materialfx.enums.NotificationState;
+import io.github.palexdev.materialfx.factories.InsetsFactory;
+import io.github.palexdev.materialfx.font.FontResources;
+import io.github.palexdev.materialfx.font.MFXFontIcon;
+import io.github.palexdev.materialfx.notifications.MFXNotificationSystem;
+import io.github.palexdev.materialfx.notifications.base.INotification;
+import io.github.palexdev.materialfx.utils.RandomUtils;
+
 import javafx.beans.InvalidationListener;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 
+import eu.iamgio.animated.AnimatedMulti;
+import org.apache.commons.lang3.StringUtils;
+import org.controlsfx.control.Notifications;
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 import static africa.jopen.janus.plugins.LandLordWebAppReq.getRequest;
 
 public class JanusAPIControllers implements Initializable {
-
+	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 	Logger logger = Logger.getLogger(JanusAPIControllers.class.getName());
 
 	@FXML
 	public  BorderPane root_pane;
 	private JanusModel model;
 	String result = "";
-	public JanusAPIControllers (String type) {
+	String type = "";
+	private String urlDestinations = "";
 
-		if("janus".equals(type)) {
+	public JanusAPIControllers (String type) {
+		this.type = type;
+		if ("janus".equals(type)) {
 			result = getRequest("/api/access/janus/current-ssettings");
+			urlDestinations = "/api/access/janus/update";
 		}
-		if("sip".equals(type)) {
+		if ("sip".equals(type)) {
 			result = getRequest("/api/access/sip/current-ssettings");
+			urlDestinations = "/api/access/sip/update";
 		}
-		if("http".equals(type)) {
+		if ("http".equals(type)) {
 			result = getRequest("/api/access/http/current-ssettings");
+			urlDestinations = "/api/access/http/update";
 		}
-		if("websocket".equals(type)) {
+		if ("websocket".equals(type)) {
 			result = getRequest("/api/access/websockets/current-ssettings");
+			urlDestinations = "/api/access/websockets/update";
 		}
 
 
 	}
 
+	private ProgressIndicator progressIndicator (double progress, boolean disabled) {
+		var indicator = new ProgressIndicator(progress);
+		indicator.setMinSize(50, 50);
+		indicator.setMaxSize(50, 50);
+		indicator.setDisable(disabled);
+		indicator.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+		return indicator;
+	}
+
+	private UtilSampleBlock basicIndicatorSamples () {
+		var flowPane = new FlowPane(20, 20);
+		flowPane.getChildren().addAll(
+				progressIndicator(0.5, false)
+		);
+		flowPane.setAlignment(Pos.CENTER);
+
+		return new UtilSampleBlock("Updating Janus Server", flowPane);
+	}
+
+	private Node progressBar;
+
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
-		model = new JanusModel(result);
+		model = new JanusModel(result, executor);
 		VBox statusContent = new VBox();
 		HBox formButtons   = new HBox();
 		root_pane.getStyleClass().add("root-pane");
@@ -74,17 +130,71 @@ public class JanusAPIControllers implements Initializable {
 				-fx-border-width: 1px;
 				-fx-border-radius: 4px;
 				""");
+		progressBar = basicIndicatorSamples().getRoot();
+		progressBar.setVisible(true);
 
 		save.setOnAction(event -> {
 			logger.info("Saving model");
+			logger.info("Saving model" + model.getCurrentObject());
+
+			new animatefx.animation.BounceIn(progressBar).play();
+			Task<String> communicateWithServerTask = new Task<>() {
+
+				@Override
+				protected String call () {
+
+					var result = LandLordWebAppReq.postRequest(urlDestinations, model.getCurrentObject());
+					logger.info("Post request: " + result);
+					return result;
+				}
+
+			};
+
+			communicateWithServerTask.setOnFailed(eventw -> {
+				new animatefx.animation.BounceOut(progressBar).play();
+				Notifications.create()
+						.title(StringUtils.capitalize(this.type) + " Process Result")
+						.text("Failed to update,Please try again or check for server response")
+						.showError();
+
+			});
+			communicateWithServerTask.setOnSucceeded(eventw -> {
+
+				new animatefx.animation.BounceOut(progressBar).play();
+				var result = communicateWithServerTask.getValue();
+				if (result == null) {
+					Notifications.create()
+							.title(StringUtils.capitalize(this.type) + " Process Result")
+							.text("Failed to update,Please try again or check for server response")
+							.showError();
+				} else {
+					JSONObject resultObj = new JSONObject(result);
+					if (resultObj.getBoolean("success")) {
+						Notifications.create()
+								.title(StringUtils.capitalize(this.type) + " Process Result")
+								.text("Update Successfully")
+								.show();
+					}else{
+						Notifications.create()
+								.title(StringUtils.capitalize(this.type) + " Process Result")
+								.text("Failed to update ")
+								.showError();
+					}
+
+				}
+			});
+
+			execute2(communicateWithServerTask);
 
 		});
+
 
 		statusContent.setPadding(new Insets(10));
 		statusContent.setSpacing(10);
 		statusContent.setPrefWidth(200);
 		statusContent.getStyleClass().add("bordered");
-		controls.add(statusContent, 0, 1);
+		controls.add(statusContent, 0, 2);
+		statusContent.getChildren().addAll(progressBar);
 
 		save.setMaxWidth(Double.MAX_VALUE);
 		reset.setMaxWidth(Double.MAX_VALUE);
@@ -95,16 +205,58 @@ public class JanusAPIControllers implements Initializable {
 		formButtons.setSpacing(10);
 		formButtons.setPrefWidth(200);
 		formButtons.getStyleClass().add("bordered");
-		controls.add(formButtons, 0, 2);
+		controls.add(formButtons, 0, 1);
 		save.setStyle("-fx-background-color: #19a9cb");
-
 
 		controls.setPrefWidth(200);
 
 		root_pane.setCenter(scrollContent);
 		root_pane.setRight(controls);
 
+		new animatefx.animation.BounceOut(progressBar).play();// hide it first
 
+	}
+
+	private INotification createNotification () {
+		ExampleNotification notification = new ExampleNotification();
+		notification.setContentText("RandomUtils.randFromArray(Model.randomText)");
+		return notification;
+	}
+
+
+
+	private void executeAndWait (Runnable runnable) {
+		try {
+			executor.submit(runnable).get();
+		} catch (Exception e) {
+			logger.severe("Execute task failed " + e);
+		}
+	}
+
+	private void execute (Runnable runnable) {
+		try {
+			executor.submit(runnable);
+		} catch (Exception e) {
+			logger.severe("Execute task failed " + e);
+		}
+	}
+
+	private void execute2 (Runnable runnable) {
+		try {
+			executor.execute(runnable);
+		} catch (Exception e) {
+			logger.severe("Execute task failed " + e);
+		}
+	}
+
+	private <T> T executeAndGet (Callable<T> callable) {
+		try {
+			return executor.submit(callable).get();
+		} catch (Exception e) {
+			logger.severe("Execute task failed " + e);
+		}
+
+		return null;
 	}
 
 

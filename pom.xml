@@ -256,6 +256,13 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version>
         </dependency>
+        <dependency>
+            <groupId>eu.iamgio</groupId>
+            <artifactId>animated</artifactId>
+            <version>0.6.0</version>
+        </dependency>
+
+
 
 
     </dependencies>
@@ -270,6 +277,12 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
+        </repository>
+
+        <repository>
+            <id>snapshots</id>
+            <name>libs-snapshot</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 

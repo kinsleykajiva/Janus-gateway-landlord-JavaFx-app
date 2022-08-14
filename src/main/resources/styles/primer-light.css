@@ -190,6 +190,36 @@ Text {
 .sample-block>.title {
   -fx-font-weight: bold;
 }
+
+.notification {
+  -fx-background-color: white;
+  -fx-background-radius: 5;
+  -fx-border-color: #ebebeb;
+  -fx-border-radius: 5;
+}
+
+.notification .label {
+
+  -fx-text-fill: #ECE1E1DD;
+}
+
+.notification .content {
+  -fx-padding: 10;
+
+}
+
+.notification .mfx-button {
+  -fx-min-height: 27;
+  -fx-border-color: #30AD22DD;
+  -fx-border-radius: 3;
+  -fx-text-fill: #30AD22DD;
+}
+
+.notification .mfx-button .mfx-ripple-generator {
+  -mfx-auto-clip: true;
+  -mfx-ripple-color: derive(#7a0ed9, 125%);
+}
+
 .button {
   -color-button-bg: -color-bg-inset;
   -color-button-fg: -color-fg-default;
