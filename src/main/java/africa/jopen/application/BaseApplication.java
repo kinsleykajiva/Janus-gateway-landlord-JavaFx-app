@@ -94,62 +94,7 @@ public class BaseApplication extends Application {
         // textField.setText(event.message);
     }
 
-    private static final String INPUT = "{\n" +
-                                        "   \"janus\": \"success\",\n" +
-                                        "   \"session_id\": 682486577610727,\n" +
-                                        "   \"transaction\": \"UWkKkaOp8l1G\",\n" +
-                                        "   \"handle_id\": 7656445411101973,\n" +
-                                        "   \"info\": {\n" +
-                                        "      \"session_id\": 682486577610727,\n" +
-                                        "      \"session_last_activity\": 1188362769042,\n" +
-                                        "      \"session_timeout\": 60,\n" +
-                                        "      \"session_transport\": \"janus.transport.http\",\n" +
-                                        "      \"handle_id\": 7656445411101973,\n" +
-                                        "      \"opaque_id\": \"siptest-dM4dPqQSOXkh\",\n" +
-                                        "      \"loop-running\": true,\n" +
-                                        "      \"created\": 1180857458035,\n" +
-                                        "      \"current_time\": 1188378551803,\n" +
-                                        "      \"plugin\": \"janus.plugin.sip\",\n" +
-                                        "      \"plugin_specific\": {\n" +
-                                        "         \"username\": \"tafadzwa-sango2\",\n" +
-                                        "         \"authuser\": \"tafadzwa-sango2\",\n" +
-                                        "         \"secret\": \"(hidden)\",\n" +
-                                        "         \"display_name\": \"\",\n" +
-                                        "         \"identity\": \"sip:tafadzwa-sango2@prod-eu-voip.yootok.com\",\n" +
-                                        "         \"registration_status\": \"registered\",\n" +
-                                        "         \"call_status\": \"idle\",\n" +
-                                        "         \"establishing\": 0,\n" +
-                                        "         \"established\": 0,\n" +
-                                        "         \"hangingup\": 0,\n" +
-                                        "         \"destroyed\": 0\n" +
-                                        "      },\n" +
-                                        "      \"flags\": {\n" +
-                                        "         \"got-offer\": false,\n" +
-                                        "         \"got-answer\": false,\n" +
-                                        "         \"negotiated\": false,\n" +
-                                        "         \"processing-offer\": false,\n" +
-                                        "         \"starting\": true,\n" +
-                                        "         \"ice-restart\": false,\n" +
-                                        "         \"ready\": false,\n" +
-                                        "         \"stopped\": false,\n" +
-                                        "         \"alert\": true,\n" +
-                                        "         \"trickle\": true,\n" +
-                                        "         \"all-trickles\": true,\n" +
-                                        "         \"resend-trickles\": false,\n" +
-                                        "         \"trickle-synced\": false,\n" +
-                                        "         \"data-channels\": false,\n" +
-                                        "         \"has-audio\": false,\n" +
-                                        "         \"has-video\": false,\n" +
-                                        "         \"new-datachan-sdp\": false,\n" +
-                                        "         \"rfc4588-rtx\": false,\n" +
-                                        "         \"cleaning\": false,\n" +
-                                        "         \"e2ee\": false\n" +
-                                        "      },\n" +
-                                        "      \"sdps\": {},\n" +
-                                        "      \"queued-packets\": 0,\n" +
-                                        "      \"streams\": []\n" +
-                                        "   }\n" +
-                                        "}";
+    private static final String INPUT = "";
 
     private static final Image JSON_IMAGE = new Image("https://i.stack.imgur.com/1slrh.png");
 
@@ -217,15 +162,9 @@ public class BaseApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-
-        // extracted(stage);
-
-// saveLocalCache("default","janus_url","http://localhost:7088");
-        // saveLocalCache("default","janus_url",JANUS_SERVER_URL);
-        // saveLocalCache("default","admin_secret","janusoverlord");
-        if(getLocalCache(CONFIG_KEY_DEFAULT ,"admin_base_path") == null || getLocalCache(CONFIG_KEY_DEFAULT,"admin_base_path") .isEmpty()) {
+        var admin_base_path = getLocalCache(CONFIG_KEY_DEFAULT ,"admin_base_path");
+        if(admin_base_path == null || admin_base_path .isEmpty()) {
             saveLocalCache(CONFIG_KEY_DEFAULT,"admin_base_path","/admin");
-
         }
 
 
@@ -248,16 +187,6 @@ public class BaseApplication extends Application {
                 }
             });
         });
-
-        logger.info("1Notification " + XUtils.isURL("http://3.70.21.65:7088"));
-        logger.info("2Notification " + XUtils.isURL("http://3.70.21.65"));
-        logger.info("3Notification " + XUtils.isURL("http:/3.70.21.65"));
-        logger.info("32Notification " + XUtils.isURL("www.ser.com"));
-        logger.info("3333Notification " + XUtils.isURL("www.ser.com"));
-        logger.info("4Notification " + XUtils.isURL("3.70.21.65"));
-        logger.info("5Notification " + XUtils.isURL("https://www.apps.disneyplus.com/"));
-        logger.info("6Notification " + XUtils.isURL("http://www.apps.disneyplus.com/"));
-        logger.info("7Notification " + XUtils.isURL("htts://www.apps.disneyplus.com/"));
 
     }
 
