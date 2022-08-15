@@ -33,6 +33,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.ExecuteWatchdog;
+import org.apache.commons.exec.PumpStreamHandler;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -46,9 +50,12 @@ import java.util.Objects;
 import java.util.Properties;
 
 
+
+
 import static africa.jopen.janus.handles.HandleReq.LAST_HANDLESINFO_MAP;
 import static africa.jopen.janus.plugins.LandLordWebAppReq.getRequest;
 import static africa.jopen.janus.settings.SettingsReq.adminReq;
+import static africa.jopen.utils.ConstantReference.CONFIG_KEY_DEFAULT;
 import static africa.jopen.utils.ConstantReference.JANUS_SERVER_URL;
 import static africa.jopen.utils.XUtils.*;
 
@@ -78,6 +85,7 @@ public class BaseApplication extends Application {
 
 
     }
+
     // UI updates must run on MainThread
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent event) {
@@ -213,8 +221,14 @@ public class BaseApplication extends Application {
         // extracted(stage);
 
 // saveLocalCache("default","janus_url","http://localhost:7088");
-        saveLocalCache("default","janus_url",JANUS_SERVER_URL);
-        saveLocalCache("default","admin_secret","janusoverlord");
+        // saveLocalCache("default","janus_url",JANUS_SERVER_URL);
+        // saveLocalCache("default","admin_secret","janusoverlord");
+        if(getLocalCache(CONFIG_KEY_DEFAULT ,"admin_base_path") == null || getLocalCache(CONFIG_KEY_DEFAULT,"admin_base_path") .isEmpty()) {
+            saveLocalCache(CONFIG_KEY_DEFAULT,"admin_base_path","/admin");
+
+        }
+
+
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(XUtils.NAVIGATION.get("Main"))));
         Scene scene = new Scene(root);
@@ -235,13 +249,15 @@ public class BaseApplication extends Application {
             });
         });
 
-
-        logger.info(" ,,," + adminReq());
-
-     //   confirmationDialogButton(scene,stage);
-
-//     logger.info(" 111" +  getRequest("/api/access/janus/check-if-janus-installed2"));
-//     logger.info(" 22" +  getRequest("/api/access/janus/check-if-janus-installed"));
+        logger.info("1Notification " + XUtils.isURL("http://3.70.21.65:7088"));
+        logger.info("2Notification " + XUtils.isURL("http://3.70.21.65"));
+        logger.info("3Notification " + XUtils.isURL("http:/3.70.21.65"));
+        logger.info("32Notification " + XUtils.isURL("www.ser.com"));
+        logger.info("3333Notification " + XUtils.isURL("www.ser.com"));
+        logger.info("4Notification " + XUtils.isURL("3.70.21.65"));
+        logger.info("5Notification " + XUtils.isURL("https://www.apps.disneyplus.com/"));
+        logger.info("6Notification " + XUtils.isURL("http://www.apps.disneyplus.com/"));
+        logger.info("7Notification " + XUtils.isURL("htts://www.apps.disneyplus.com/"));
 
     }
 
@@ -275,7 +291,6 @@ public class BaseApplication extends Application {
                 }
             }
 
-
         });
 
         final Scene scene1 = new Scene(treeView);
@@ -284,7 +299,6 @@ public class BaseApplication extends Application {
         stage.show();
     }
 
-    private final BooleanProperty showHeaderProperty = new SimpleBooleanProperty(true);
     private final BooleanProperty minDecorationsProperty = new SimpleBooleanProperty(true);
     private StageStyle getModality() {
         return minDecorationsProperty.get() ? StageStyle.UTILITY : StageStyle.DECORATED;
@@ -358,8 +372,6 @@ public class BaseApplication extends Application {
                     try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
                         properties.store(fileOutputStream, "Dashboard properties");
                     }
-
-
                     directory = new File("user/");
                     properties.load(fileInputStream);
                 }

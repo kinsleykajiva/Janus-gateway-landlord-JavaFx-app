@@ -28,6 +28,8 @@ module africa.jopen {
 	requires org.apache.commons.lang3;
 	requires animated;
 	requires AnimateFX;
+	requires commons.exec;
+
 //    requires json.io;
 
 
@@ -40,5 +42,6 @@ module africa.jopen {
 	exports  africa.jopen.models.forms.janusconfig.janus to com.fasterxml.jackson.databind;
 	exports africa.jopen.controllers.janus to javafx.fxml;
 	exports africa.jopen.controllers.apis to javafx.fxml;
+	exports africa.jopen.controllers.settings to  javafx.fxml;
 
 }

@@ -145,7 +145,8 @@ public class JanusModel {
 					logger.info("textfield changed from " + oldValue + " to " + newValue);
 					execute(() -> {
 						var sectionObject = obj.getJSONObject(sectionName);
-						sectionObject.getJSONObject(target).put(ConstantReference.JSON_LINE_VALUE,newValue.split(","));
+						//:ToDo may need more validation if the split s valid as much
+						sectionObject.getJSONObject(target).put(ConstantReference.JSON_LINE_VALUE,new JSONArray(newValue.split(",")));
 					});
 
 				};

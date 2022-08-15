@@ -3,6 +3,7 @@ package africa.jopen.controllers;
 import africa.jopen.controllers.apis.JanusAPIControllers;
 import africa.jopen.controllers.home.HomeController;
 import africa.jopen.controllers.janus.SessionsController;
+import africa.jopen.controllers.settings.SettingsController;
 import africa.jopen.events.MessageEvent;
 import africa.jopen.utils.XUtils;
 import com.jfoenix.controls.JFXButton;
@@ -49,6 +50,7 @@ import org.kordamp.ikonli.feather.Feather;
 
 import java.util.concurrent.ScheduledExecutorService;
 
+import static africa.jopen.utils.ConstantReference.CONFIG_KEY_DEFAULT;
 import static africa.jopen.utils.XUtils.*;
 
 public class MainController implements Initializable {
@@ -59,7 +61,7 @@ public class MainController implements Initializable {
 		EventBus.getDefault().register(this);
 	}
 
-	public @FXML JFXButton btnSessions, btnJanusConf, btnJanusSip, btnHome , btnJanusHttp ,btnJanusWebsockets  ;
+	public @FXML JFXButton btnSessions, btnJanusConf, btnJanusSip,btnSettings, btnHome , btnJanusHttp ,btnJanusWebsockets  ;
 	public @FXML VBox       mainNav;
 	public @FXML ScrollPane body;
 	public @FXML Label      title;
@@ -88,11 +90,12 @@ public class MainController implements Initializable {
 		MFXLoader loader = new MFXLoader();
 		loader.addView(MFXLoaderBean.of("Home", XUtils.loadURL(XUtils.NAVIGATION.get("Home"))).setControllerFactory(c -> new HomeController()).setDefaultRoot(false).get());
 		loader.addView(MFXLoaderBean.of("Sessions", XUtils.loadURL(XUtils.NAVIGATION.get("Sessions"))).setControllerFactory(c -> new SessionsController()).setDefaultRoot(true).get());
-		loader.addView(MFXLoaderBean.of("JanusConfig", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers("janus")).setDefaultRoot(true).get());
-		loader.addView(MFXLoaderBean.of("btnJanusSip", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers("sip")).setDefaultRoot(true).get());
-		loader.addView(MFXLoaderBean.of("btnJanusHttp", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers("http")).setDefaultRoot(true).get());
-		loader.addView(MFXLoaderBean.of("btnJanusWebsockets", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers("websocket")).setDefaultRoot(true).get());
-		vBoxes = List.of(btnSessions, btnHome, btnJanusConf, btnJanusSip ,btnJanusHttp ,btnJanusWebsockets );
+		loader.addView(MFXLoaderBean.of("Settings", XUtils.loadURL(XUtils.NAVIGATION.get("Settings"))).setControllerFactory(c -> new SettingsController()).setDefaultRoot(false).get());
+		loader.addView(MFXLoaderBean.of("JanusConfig", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers("janus")).setDefaultRoot(false).get());
+		loader.addView(MFXLoaderBean.of("btnJanusSip", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers("sip")).setDefaultRoot(false).get());
+		loader.addView(MFXLoaderBean.of("btnJanusHttp", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers("http")).setDefaultRoot(false).get());
+		loader.addView(MFXLoaderBean.of("btnJanusWebsockets", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers("websocket")).setDefaultRoot(false).get());
+		vBoxes = List.of(btnSessions, btnHome, btnJanusConf, btnJanusSip ,btnJanusHttp ,btnJanusWebsockets ,btnSettings );
 		loader.setOnLoadedAction(beans -> beans.forEach(bean -> {
 			switch (bean.getViewName()) {
 				case "Sessions" -> btnSessions.setOnMouseClicked(event -> {
@@ -105,6 +108,11 @@ public class MainController implements Initializable {
 					body.setContent(bean.getRoot());
 					setSelcted(btnHome);
 					title.setText("Home");
+				});
+				case "Settings" -> btnSettings.setOnMouseClicked(event -> {
+					body.setContent(bean.getRoot());
+					setSelcted(btnSettings);
+					title.setText("App Settings");
 				});
 				case "JanusConfig" -> btnJanusConf.setOnMouseClicked(event -> {
 					body.setContent(bean.getRoot());
@@ -135,7 +143,7 @@ public class MainController implements Initializable {
 
 		saveLocalCache("Main", "house1", "locations2");
 
-		logInfo(getLocalCache("default", "admin_secret"));
+		logInfo(getLocalCache(CONFIG_KEY_DEFAULT, "admin_secret"));
 
 	}
 }

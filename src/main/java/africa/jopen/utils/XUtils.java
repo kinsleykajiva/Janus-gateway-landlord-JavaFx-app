@@ -34,12 +34,17 @@ public class XUtils {
             "Home", "/views/home/home.fxml",
             "Main", "/views/main.fxml",
             "Sessions", "/views/janus/sessions.fxml",
-            "JanusConfig", "/views/api/janus-api.fxml"
+            "JanusConfig", "/views/api/janus-api.fxml",
+            "Settings", "/views/settings/settings.fxml"
     );
 
     public static String getLocalCache(String module, String key) {
-        var path = ROOT_FOLDER + "/" + module + "-configuration.properties";
 
+        if (!isFilesHomeKeepingGood()) {
+            logError("Failed to set cache");
+
+        }
+        var path = ROOT_FOLDER + "/" + module + "-configuration.properties";
         StandardPBEStringEncryptor encryptor = getStandardPBEStringEncryptor(module);
         Properties props = new EncryptableProperties(encryptor);
         try {
@@ -78,6 +83,15 @@ public class XUtils {
             }
         }
         return true;
+    }
+
+    public static boolean isURL(String url) {
+        try {
+            new URL(url);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public static String testIfToQoute(String value) {

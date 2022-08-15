@@ -12,6 +12,7 @@ import java.net.http.HttpResponse;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import static africa.jopen.utils.ConstantReference.CONFIG_KEY_DEFAULT;
 import static africa.jopen.utils.XUtils.getLocalCache;
 
 public class SettingsReq {
@@ -37,10 +38,10 @@ public class SettingsReq {
 
     public static String adminReq(){
 
-        HttpRequest request = HttpRequest.newBuilder(URI.create(getLocalCache("default" ,"janus_url") + "/admin"))
+        HttpRequest request = HttpRequest.newBuilder(URI.create(getLocalCache(CONFIG_KEY_DEFAULT ,"janus_url") + "/admin"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(new JSONObject()
-                                .put("admin_secret",getLocalCache("default" ,"admin_secret"))
+                                .put("admin_secret",getLocalCache(CONFIG_KEY_DEFAULT ,"admin_secret"))
                                 .put("transaction" , getRandomString())
                                 .put("janus" , "get_status")
                         .toString()))
@@ -59,10 +60,10 @@ public class SettingsReq {
     public static String postJanusRequest (String janusValue, String params) {
        // logger.info("postJanusRequest" + getLocalCache("default" ,"janus_url") + "/admin"+params);
 
-        HttpRequest request = HttpRequest.newBuilder(URI.create(getLocalCache("default" ,"janus_url") + "/admin"+params))
+        HttpRequest request = HttpRequest.newBuilder(URI.create(getLocalCache(CONFIG_KEY_DEFAULT ,"janus_url") + "/admin"+params))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(new JSONObject()
-                                .put("admin_secret",getLocalCache("default" ,"admin_secret"))
+                                .put("admin_secret",getLocalCache(CONFIG_KEY_DEFAULT ,"admin_secret"))
                                 .put("transaction" , getRandomString())
                                 .put("janus" , janusValue)
                         .toString()))
