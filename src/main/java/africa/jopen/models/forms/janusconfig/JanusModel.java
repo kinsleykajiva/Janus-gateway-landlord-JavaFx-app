@@ -94,7 +94,7 @@ public class JanusModel {
 						@Override
 						public void changed (ObservableValue options, Object oldValue, Object newValue) {
 							execute(() -> {
-								logger.info(MessageFormat.format("{0} selected", newValue));
+								//logger.info(MessageFormat.format("{0} selected", newValue));
 								var sectionObject = obj.getJSONObject(sectionName);
 								sectionObject.getJSONObject(target).put(ConstantReference.JSON_LINE_VALUE, newValue + "");
 							});
@@ -119,7 +119,7 @@ public class JanusModel {
 					var id = sectionName + "@" + target;
 					ChangeListener<String> inputTextChangeListener = (observable, oldValue, newValue) -> {
 						execute(() -> {
-							logger.info("textfield changed from " + oldValue + " to " + newValue);
+							//logger.info("textfield changed from " + oldValue + " to " + newValue);
 							var sectionObject = obj.getJSONObject(sectionName);
 							sectionObject.getJSONObject(target).put(ConstantReference.JSON_LINE_VALUE, newValue + "");
 						});
@@ -142,7 +142,7 @@ public class JanusModel {
 					builder.append(line).append(",");
 				}
 				ChangeListener<String> inputTextChangeListener = (observable, oldValue, newValue) -> {
-					logger.info("textfield changed from " + oldValue + " to " + newValue);
+					//logger.info("textfield changed from " + oldValue + " to " + newValue);
 					execute(() -> {
 						var sectionObject = obj.getJSONObject(sectionName);
 						//:ToDo may need more validation if the split s valid as much
@@ -164,7 +164,7 @@ public class JanusModel {
 			var id = sectionName + "#" + target;
 			ChangeListener<Boolean> checkBoxListener = (ov, oldVal, newVal) -> {
 				execute(() -> {
-					logger.info("changed: " + newVal + " from value" + oldVal);
+					//logger.info("changed: " + newVal + " from value" + oldVal);
 					var sectionObject = obj.getJSONObject(sectionName);
 					sectionObject.getJSONObject(target).put("commented", newVal );
 				});

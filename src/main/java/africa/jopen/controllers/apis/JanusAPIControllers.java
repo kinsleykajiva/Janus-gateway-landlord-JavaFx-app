@@ -34,12 +34,17 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 import eu.iamgio.animated.AnimatedMulti;
+import javafx.util.Duration;
 import org.apache.commons.lang3.StringUtils;
 import org.controlsfx.control.Notifications;
 import org.json.JSONObject;
+import org.kordamp.ikonli.feather.Feather;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -58,7 +63,7 @@ public class JanusAPIControllers implements Initializable {
 	public  BorderPane root_pane;
 	private JanusModel model;
 	String result = "";
-	String type = "";
+	String type   = "";
 	private String urlDestinations = "";
 
 	public JanusAPIControllers (String type) {
@@ -110,12 +115,18 @@ public class JanusAPIControllers implements Initializable {
 		VBox statusContent = new VBox();
 		HBox formButtons   = new HBox();
 		root_pane.getStyleClass().add("root-pane");
-		GridPane   controls      = new GridPane();
-		ScrollPane scrollContent = new ScrollPane();
-		scrollContent.setContent(model.getFormInstance());
+		GridPane        controls      = new GridPane();
+		ScrollPane      scrollContent = new ScrollPane();
+		var             form          = model.getFormInstance();
+		final boolean[] isShowingForm = {true};
+		var             codeExpress   = (new Label("--"));
+		codeExpress.wrapTextProperty().set(true);// making it selectable by default
+
+		scrollContent.setContent(form);
 		scrollContent.setFitToWidth(true);
 		Button save  = new Button("Save");
-		Button reset = new Button("Reset");
+		Button reset = new Button("JCFG", new FontIcon(Feather.CODE));
+
 
 		reset.getStyleClass().add("reset-button");
 		scrollContent.getStyleClass().add("scroll-pane");
@@ -132,10 +143,24 @@ public class JanusAPIControllers implements Initializable {
 				""");
 		progressBar = basicIndicatorSamples().getRoot();
 		progressBar.setVisible(true);
+		reset.setOnAction(ev -> {
+			new animatefx.animation.FadeOut(scrollContent).play(); //hide
+			new animatefx.animation.FadeIn(scrollContent).play();// show
+			if (isShowingForm[0]) {
+				scrollContent.setContent(codeExpress);
+				reset.setGraphic(new FontIcon(Feather.COLUMNS));
+				reset.setText("Form");
+				save.setDisable(true);
+			} else {
+				scrollContent.setContent(form);
+				reset.setGraphic(new FontIcon(Feather.CODE));
+				reset.setText("JCFG");
+				save.setDisable(false);
+			}
 
+			isShowingForm[0] = !isShowingForm[0];
+		});
 		save.setOnAction(event -> {
-			logger.info("Saving model");
-			logger.info("Saving model" + model.getCurrentObject());
 
 			new animatefx.animation.BounceIn(progressBar).play();
 			Task<String> communicateWithServerTask = new Task<>() {
@@ -174,7 +199,7 @@ public class JanusAPIControllers implements Initializable {
 								.title(StringUtils.capitalize(this.type) + " Process Result")
 								.text("Update Successfully")
 								.show();
-					}else{
+					} else {
 						Notifications.create()
 								.title(StringUtils.capitalize(this.type) + " Process Result")
 								.text("Failed to update ")
@@ -212,7 +237,7 @@ public class JanusAPIControllers implements Initializable {
 
 		root_pane.setCenter(scrollContent);
 		root_pane.setRight(controls);
-
+		root_pane.setPadding(new Insets(20, 0, 0, 20));
 		new animatefx.animation.BounceOut(progressBar).play();// hide it first
 
 	}
@@ -222,7 +247,6 @@ public class JanusAPIControllers implements Initializable {
 		notification.setContentText("RandomUtils.randFromArray(Model.randomText)");
 		return notification;
 	}
-
 
 
 	private void executeAndWait (Runnable runnable) {
