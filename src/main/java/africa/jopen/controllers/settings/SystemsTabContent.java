@@ -144,18 +144,18 @@ public class SystemsTabContent {
 
 	private FlowPane rowSessionIntervalRow () {
 		var session_intervals = (getLocalCache(CONFIG_KEY_DEFAULT, "session_intervals"));
-		var editableSpin      = new Spinner(10, 100, session_intervals == null ? 20 : Integer.parseInt(session_intervals));
-		IntegerStringConverter.createFor(editableSpin);
-		editableSpin.setId("session_intervals");
-		editableSpin.setPrefWidth(120);
-		editableSpin.setEditable(true);
-		var editableBlock = new UtilSampleBlock("Sessions Interval Seconds", editableSpin);
-		nodesMap.put("session_intervals", editableSpin);
+		var spinnerSessionsIntaval      = new Spinner(10, 100, session_intervals == null ? 20 : Integer.parseInt(session_intervals));
+		IntegerStringConverter.createFor(spinnerSessionsIntaval);
+		spinnerSessionsIntaval.setId("session_intervals");
+		spinnerSessionsIntaval.setPrefWidth(120);
+		spinnerSessionsIntaval.setEditable(true);
+		var editableBlock = new UtilSampleBlock("Sessions Interval Seconds", spinnerSessionsIntaval);
+		nodesMap.put("session_intervals", spinnerSessionsIntaval);
 
-		var readonlyField = new Label("App Folder: " + XUtils.ROOT_FOLDER + "/" + XUtils.APP_FOLDER);
-		readonlyField.setId("folder");
-		var readonlyBlock = new UtilSampleBlock("", readonlyField);
-		nodesMap.put("folder", readonlyField);
+		var labelAppfolder = new Label("App Folder: " + XUtils.ROOT_FOLDER );
+		labelAppfolder.setId("folder");
+		var readonlyBlock = new UtilSampleBlock("", labelAppfolder);
+		nodesMap.put("folder", labelAppfolder);
 		var root = new FlowPane(20, 20);
 		root.getChildren().addAll(editableBlock.getRoot(), readonlyBlock.getRoot());
 
@@ -165,32 +165,32 @@ public class SystemsTabContent {
 	private FlowPane rowJanusSettings () {
 
 
-		var basicField = new TextField(getLocalCache(CONFIG_KEY_DEFAULT, "janus_url"));
-		basicField.setPrefWidth(200 * 2);
-		basicField.setId("janus_url");
-		basicField.setPromptText("http://localhost or http://0.0.0.0");
-		var basicBlock = new UtilSampleBlock("Janus Server Address", basicField);
-		nodesMap.put("janus_url", basicField);
+		var txtFieldJanusUrl = new TextField(getLocalCache(CONFIG_KEY_DEFAULT, "janus_url"));
+		txtFieldJanusUrl.setPrefWidth(200 * 2);
+		txtFieldJanusUrl.setId("janus_url");
+		txtFieldJanusUrl.setPromptText("http://localhost or http://0.0.0.0");
+		var basicBlock = new UtilSampleBlock("Janus Server Address", txtFieldJanusUrl);
+		nodesMap.put("janus_url", txtFieldJanusUrl);
 
-		var promptField = new TextField(getLocalCache(CONFIG_KEY_DEFAULT, "admin_base_path"));
-		promptField.setId("admin_base_path");
-		promptField.setPromptText("/admin");
-		var promptBlock = new UtilSampleBlock("Admin Rest API Base path (Remember this is the same as whats found under the  http transport config)", promptField);
-		nodesMap.put("admin_base_path", basicField);
+		var txtfieldAdminBasePath = new TextField(getLocalCache(CONFIG_KEY_DEFAULT, "admin_base_path"));
+		txtfieldAdminBasePath.setId("admin_base_path");
+		txtfieldAdminBasePath.setPromptText("/admin");
+		var promptBlock = new UtilSampleBlock("Admin Rest API Base path (Remember this is the same as whats found under the  http transport config)", txtfieldAdminBasePath);
+		nodesMap.put("admin_base_path", txtfieldAdminBasePath);
 
-		var readonlyField = new TextField(getLocalCache(CONFIG_KEY_DEFAULT, "admin_secret"));
-		readonlyField.setId("admin_secret");
-		var readonlyBlock = new UtilSampleBlock("Admin Rest API admin_secret  (Remember this is the same as whats found under the   janus config)", readonlyField);
-		nodesMap.put("admin_secret", readonlyField);
+		var txtFieldAdminSecrete = new TextField(getLocalCache(CONFIG_KEY_DEFAULT, "admin_secret"));
+		txtFieldAdminSecrete.setId("admin_secret");
+		var readonlyBlock = new UtilSampleBlock("Admin Rest API admin_secret  (Remember this is the same as whats found under the   janus config)", txtFieldAdminSecrete);
+		nodesMap.put("admin_secret", txtFieldAdminSecrete);
 
 		var http_admin_port = (getLocalCache(CONFIG_KEY_DEFAULT, "http_admin_port"));
-		var editableSpin    = new Spinner(1000, 9090, http_admin_port == null ? 7088 : Integer.parseInt(http_admin_port));
-		IntegerStringConverter.createFor(editableSpin);
-		editableSpin.setId("http_admin_port");
-		editableSpin.setPrefWidth(120);
-		editableSpin.setEditable(true);
-		var editableBlock = new UtilSampleBlock("HTTP Admin PORT", editableSpin);
-		nodesMap.put("http_admin_port", editableSpin);
+		var spinnerAdminPort    = new Spinner(1000, 9090, http_admin_port == null ? 7088 : Integer.parseInt(http_admin_port));
+		IntegerStringConverter.createFor(spinnerAdminPort);
+		spinnerAdminPort.setId("http_admin_port");
+		spinnerAdminPort.setPrefWidth(120);
+		spinnerAdminPort.setEditable(true);
+		var editableBlock = new UtilSampleBlock("HTTP Admin PORT", spinnerAdminPort);
+		nodesMap.put("http_admin_port", spinnerAdminPort);
 
 		var flowPane = new FlowPane(20, 20);
 		flowPane.getChildren().setAll(
