@@ -209,6 +209,7 @@ public class JanusAPIControllers implements Initializable {
 								.title(StringUtils.capitalize(this.type) + " Process Result")
 								.text("Update Successfully")
 								.show();
+						fetchRemoteData();
 					} else {
 						Notifications.create()
 								.title(StringUtils.capitalize(this.type) + " Process Result")
