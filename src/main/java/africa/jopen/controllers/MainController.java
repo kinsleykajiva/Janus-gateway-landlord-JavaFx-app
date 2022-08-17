@@ -87,6 +87,14 @@ public class MainController implements Initializable {
 
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
+		vBoxes = List.of(btnSessions, btnHome, btnJanusConf, btnJanusSip ,btnJanusHttp ,btnJanusWebsockets ,btnSettings );
+		var username = getLocalCache(CONFIG_KEY_DEFAULT, "username") ;
+		if( username.isEmpty() ){
+			btnJanusConf.setDisable(true);
+			btnJanusSip.setDisable(true);
+			btnJanusHttp.setDisable(true);
+			btnJanusWebsockets.setDisable(true);
+		}
 		MFXLoader loader = new MFXLoader();
 		loader.addView(MFXLoaderBean.of("Home", XUtils.loadURL(XUtils.NAVIGATION.get("Home"))).setControllerFactory(c -> new HomeController()).setDefaultRoot(false).get());
 		loader.addView(MFXLoaderBean.of("Sessions", XUtils.loadURL(XUtils.NAVIGATION.get("Sessions"))).setControllerFactory(c -> new SessionsController()).setDefaultRoot(true).get());
@@ -95,7 +103,7 @@ public class MainController implements Initializable {
 		loader.addView(MFXLoaderBean.of("btnJanusSip", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers("sip")).setDefaultRoot(false).get());
 		loader.addView(MFXLoaderBean.of("btnJanusHttp", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers("http")).setDefaultRoot(false).get());
 		loader.addView(MFXLoaderBean.of("btnJanusWebsockets", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers("websocket")).setDefaultRoot(false).get());
-		vBoxes = List.of(btnSessions, btnHome, btnJanusConf, btnJanusSip ,btnJanusHttp ,btnJanusWebsockets ,btnSettings );
+
 		loader.setOnLoadedAction(beans -> beans.forEach(bean -> {
 			switch (bean.getViewName()) {
 				case "Sessions" -> btnSessions.setOnMouseClicked(event -> {

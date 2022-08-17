@@ -43,5 +43,6 @@ module africa.jopen {
 	exports africa.jopen.controllers.janus to javafx.fxml;
 	exports africa.jopen.controllers.apis to javafx.fxml;
 	exports africa.jopen.controllers.settings to  javafx.fxml;
+	exports africa.jopen.controllers.auth to  javafx.fxml;
 
 }

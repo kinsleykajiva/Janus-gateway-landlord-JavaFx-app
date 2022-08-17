@@ -39,6 +39,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 import eu.iamgio.animated.AnimatedMulti;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import org.apache.commons.lang3.StringUtils;
 import org.controlsfx.control.Notifications;
@@ -54,6 +57,8 @@ import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 import static africa.jopen.janus.plugins.LandLordWebAppReq.getRequest;
+import static africa.jopen.utils.ConstantReference.CONFIG_KEY_DEFAULT;
+import static africa.jopen.utils.XUtils.getLocalCache;
 
 public class JanusAPIControllers implements Initializable {
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -65,26 +70,29 @@ public class JanusAPIControllers implements Initializable {
 	String result = "";
 	String type   = "";
 	private String urlDestinations = "";
+	private String username = "";
 
 	public JanusAPIControllers (String type) {
 		this.type = type;
-		if ("janus".equals(type)) {
-			result = getRequest("/api/access/janus/current-ssettings");
-			urlDestinations = "/api/access/janus/update";
+		  username = getLocalCache(CONFIG_KEY_DEFAULT, "username") ;
+		if(username.isEmpty()) {
+			if ("janus".equals(type)) {
+				result = getRequest("/api/access/janus/current-ssettings");
+				urlDestinations = "/api/access/janus/update";
+			}
+			if ("sip".equals(type)) {
+				result = getRequest("/api/access/sip/current-ssettings");
+				urlDestinations = "/api/access/sip/update";
+			}
+			if ("http".equals(type)) {
+				result = getRequest("/api/access/http/current-ssettings");
+				urlDestinations = "/api/access/http/update";
+			}
+			if ("websocket".equals(type)) {
+				result = getRequest("/api/access/websockets/current-ssettings");
+				urlDestinations = "/api/access/websockets/update";
+			}
 		}
-		if ("sip".equals(type)) {
-			result = getRequest("/api/access/sip/current-ssettings");
-			urlDestinations = "/api/access/sip/update";
-		}
-		if ("http".equals(type)) {
-			result = getRequest("/api/access/http/current-ssettings");
-			urlDestinations = "/api/access/http/update";
-		}
-		if ("websocket".equals(type)) {
-			result = getRequest("/api/access/websockets/current-ssettings");
-			urlDestinations = "/api/access/websockets/update";
-		}
-
 
 	}
 
@@ -111,6 +119,11 @@ public class JanusAPIControllers implements Initializable {
 
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
+		if(username.isEmpty())
+		{
+			return;
+
+		}
 		model = new JanusModel(result, executor);
 		VBox statusContent = new VBox();
 		HBox formButtons   = new HBox();
@@ -119,9 +132,12 @@ public class JanusAPIControllers implements Initializable {
 		ScrollPane      scrollContent = new ScrollPane();
 		var             form          = model.getFormInstance();
 		final boolean[] isShowingForm = {true};
-		var             codeExpress   = (new Label("--"));
+		var codeLabel = new Label(model.jcfg	);
+		codeLabel.setTextAlignment(TextAlignment.LEFT);
+		var             codeExpress   = codeLabel;
 		codeExpress.wrapTextProperty().set(true);// making it selectable by default
-
+		codeExpress.setTextAlignment(TextAlignment.LEFT);
+		codeExpress.setWrapText(true);
 		scrollContent.setContent(form);
 		scrollContent.setFitToWidth(true);
 		Button save  = new Button("Save");

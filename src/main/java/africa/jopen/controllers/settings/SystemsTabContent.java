@@ -81,7 +81,7 @@ public class SystemsTabContent {
 				Alerts.warning("Validation Error", "Please enter a valid url");
 				return;
 			}
-			if (admin_base_path_text.isEmpty() || admin_base_path_text.contains("/")) {
+			if (admin_base_path_text.isEmpty() || !admin_base_path_text.contains("/")) {
 				Alerts.warning("Validation Error", "Please enter a already saved  Base path to bind to in the admin/monitor web server");
 				return;
 			}

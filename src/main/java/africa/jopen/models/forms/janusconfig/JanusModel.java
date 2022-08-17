@@ -53,6 +53,7 @@ public class JanusModel {
 	}
 
 	private JSONObject obj;
+	public String jcfg = "";
 
 	/**
 	 * Creates a new form instance with the required information.
@@ -61,6 +62,9 @@ public class JanusModel {
 		final List<TitledPane> sectionsList = new ArrayList<>();
 		JSONObject             data         = new JSONObject(jsonJanus);
 		obj = data.getJSONObject("data");
+		if(data.has("jcfg")){
+			jcfg = data.getString("jcfg");
+		}
 
 		for (String sectionName : obj.keySet()) {
 			sectionsList.add(builderFormSection(obj.getJSONObject(sectionName), sectionName));

@@ -6,6 +6,9 @@ package africa.jopen.application;
 import africa.jopen.events.MessageEvent;
 import africa.jopen.janus.handles.HandleReq;
 import africa.jopen.pojos.User;
+import africa.jopen.utils.Alerts;
+
+import africa.jopen.utils.ConstantReference;
 import africa.jopen.utils.ViewManager;
 import africa.jopen.utils.XUtils;
 import com.dustinredmond.fxtrayicon.FXTrayIcon;
@@ -166,11 +169,16 @@ public class BaseApplication extends Application {
         if(admin_base_path == null || admin_base_path .isEmpty()) {
             saveLocalCache(CONFIG_KEY_DEFAULT,"admin_base_path","/admin");
         }
+        loadConf();
 
 
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(XUtils.NAVIGATION.get("Main"))));
+        var janus_url  = getLocalCache(CONFIG_KEY_DEFAULT, "janus_url") ;
+        var isLoggedIn = janus_url == null || janus_url .isEmpty();
+
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(XUtils.NAVIGATION.get( isLoggedIn ? "Login" : "Main"))));
         Scene scene = new Scene(root);
+        Alerts.initScene(scene);
         stage.setTitle(SYSTEM_APP_TITLE);
         stage.setScene(scene);
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-192x192.png"))));
@@ -187,6 +195,7 @@ public class BaseApplication extends Application {
                 }
             });
         });
+
 
     }
 

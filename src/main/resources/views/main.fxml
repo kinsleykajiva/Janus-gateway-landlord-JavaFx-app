@@ -45,15 +45,6 @@
                                  </ImageView>
                               </graphic>
                            </JFXButton>
-                           <JFXButton fx:id="btnSettings" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="142.0" text="Settings" textFill="WHITE">
-                              <graphic>
-                                 <ImageView fitHeight="32.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                       <Image url="@../images/cloud-settings.png" />
-                                    </image>
-                                 </ImageView>
-                              </graphic>
-                           </JFXButton>
                            <JFXButton fx:id="btnJanusConf" layoutX="10.0" layoutY="118.0" prefHeight="32.0" prefWidth="142.0" text="Config-janus" textFill="WHITE">
                               <graphic>
                                  <ImageView fitHeight="32.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
@@ -99,6 +90,15 @@
                                  </ImageView>
                               </graphic>
                            </JFXButton>
+                           <JFXButton fx:id="btnSettings" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="142.0" text="Settings" textFill="WHITE">
+                              <graphic>
+                                 <ImageView fitHeight="32.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/cloud-settings.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
                            <JFXButton fx:id="btnPlugins" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="144.0" text="Plugins" textFill="WHITE" visible="false">
                               <graphic>
                                  <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
@@ -133,7 +133,7 @@
                         <String fx:value="drawer" />
                     </styleClass>
                 </VBox>
-                <VBox fx:id="content" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" styleClass="drawer" HBox.hgrow="ALWAYS">
+                <VBox fx:id="content" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                     <children>
                         <VBox>
                             <children>
@@ -216,7 +216,7 @@
                                                  <DropShadow color="#00000026" />
                                              </effect>
                                          </ImageView>
-                                           <Label alignment="CENTER" prefHeight="32.0" prefWidth="87.0" style="-fx-text-fill: -text-color;" text="Jane Doe" textAlignment="CENTER">
+                                           <Label alignment="CENTER" prefHeight="32.0" prefWidth="87.0" style="-fx-text-fill: -text-color;" text="Log-Out" textAlignment="CENTER">
                                                <font>
                                                    <Font name="Roboto" size="12.0" />
                                                </font>

@@ -21,6 +21,8 @@ import org.jasypt.iv.RandomIvGenerator;
 import org.jasypt.properties.EncryptableProperties;
 import org.jetbrains.annotations.NotNull;
 
+import static africa.jopen.utils.ConstantReference.CONFIG_KEY_DEFAULT;
+
 public class XUtils {
    static Logger logger = Logger.getLogger( XUtils.class.getName() );;
     public static String APP_FOLDER = ".janus-landlord-jfx";
@@ -35,6 +37,7 @@ public class XUtils {
             "Main", "/views/main.fxml",
             "Sessions", "/views/janus/sessions.fxml",
             "JanusConfig", "/views/api/janus-api.fxml",
+            "Login", "/views/auth/login.fxml",
             "Settings", "/views/settings/settings.fxml"
     );
 
@@ -93,7 +96,13 @@ public class XUtils {
             return false;
         }
     }
+public static  void loadConf(){
+    ConstantReference.JANUS_SERVER_BASE_URL = getLocalCache(CONFIG_KEY_DEFAULT, "janus_url");
+    ConstantReference.JANUS_SERVER_ADMIN_PORT =  Integer.parseInt(getLocalCache(CONFIG_KEY_DEFAULT, "http_admin_port") == null ? "7088" : getLocalCache(CONFIG_KEY_DEFAULT, "http_admin_port"));
+    ConstantReference.LANDLORDWEBAPP_SERVER_BASIC_AUTH_USERNAME = getLocalCache(CONFIG_KEY_DEFAULT, "username")  == null ||  getLocalCache(CONFIG_KEY_DEFAULT, "username").isEmpty()? "" : getLocalCache(CONFIG_KEY_DEFAULT, "username");
+    ConstantReference.LANDLORDWEBAPP_SERVER_BASIC_AUTH_PASSWORD = getLocalCache(CONFIG_KEY_DEFAULT, "password") == null ||  getLocalCache(CONFIG_KEY_DEFAULT, "password").isEmpty()? "" : getLocalCache(CONFIG_KEY_DEFAULT, "password");
 
+}
     public static String testIfToQoute(String value) {
         return value.equals("true") || value.equals("false") || XUtils.isNumeric(value) ?
                 (value) :
@@ -116,6 +125,7 @@ public class XUtils {
             }
             Properties props = new EncryptableProperties(encryptor);
             props.load(Files.newInputStream(Path.of(path)));
+            value = value == null ? "":value;
             props.put(key, value);
 
             try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
@@ -155,7 +165,13 @@ public class XUtils {
         return true;
     }
 
-
+    public static void openWebpage(String url) {
+        try {
+            new ProcessBuilder("x-www-browser", url).start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public static void logInfo(String msg) {
         logger.info( nowTimestmap()+": " +msg);
     }
