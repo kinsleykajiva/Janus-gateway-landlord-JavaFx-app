@@ -31,17 +31,15 @@ module africa.jopen {
 	requires commons.exec;
 
 
-
-
 	opens africa.jopen.application to javafx.fxml, javafx.graphics;
 	opens africa.jopen.controllers to javafx.fxml, javafx.graphics;
 	opens africa.jopen.utils to javafx.fxml, javafx.graphics;
 	exports africa.jopen.controllers.home to javafx.fxml;
 	exports africa.jopen.models.admin.handles to com.fasterxml.jackson.databind;
-	exports  africa.jopen.models.forms.janusconfig.janus to com.fasterxml.jackson.databind;
+	exports africa.jopen.models.forms.janusconfig.janus to com.fasterxml.jackson.databind;
 	exports africa.jopen.controllers.janus to javafx.fxml;
 	exports africa.jopen.controllers.apis to javafx.fxml;
-	exports africa.jopen.controllers.settings to  javafx.fxml;
-	exports africa.jopen.controllers.auth to  javafx.fxml;
-
+	exports africa.jopen.controllers.settings to javafx.fxml;
+	exports africa.jopen.controllers.auth to javafx.fxml;
+	exports africa.jopen.application to eventbus.java;
 }
