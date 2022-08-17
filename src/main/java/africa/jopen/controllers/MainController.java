@@ -5,12 +5,16 @@ import africa.jopen.controllers.home.HomeController;
 import africa.jopen.controllers.janus.SessionsController;
 import africa.jopen.controllers.settings.SettingsController;
 import africa.jopen.events.MessageEvent;
+import africa.jopen.utils.Alerts;
 import africa.jopen.utils.XUtils;
 import com.jfoenix.controls.JFXButton;
 import io.github.palexdev.materialfx.utils.others.loader.MFXLoader;
 import io.github.palexdev.materialfx.utils.others.loader.MFXLoaderBean;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
@@ -19,19 +23,22 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 import static africa.jopen.utils.ConstantReference.CONFIG_KEY_DEFAULT;
-import static africa.jopen.utils.XUtils.getLocalCache;
-import static africa.jopen.utils.XUtils.loadConf;
+import static africa.jopen.utils.XUtils.*;
 
 public class MainController implements Initializable {
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 	private       Stage           stage;
+	private       Logger          logger   = Logger.getLogger(MainController.class.getName());
 
 	public MainController () {
 		EventBus.getDefault().register(this);
@@ -41,7 +48,31 @@ public class MainController implements Initializable {
 	public @FXML VBox            mainNav;
 	public @FXML ScrollPane      body;
 	public @FXML Label           title;
-	private      List<JFXButton> vBoxes;
+	private       List<JFXButton> vBoxes;
+	private final Runnable existingSessionsSet   = () -> {
+		saveLocalCache(CONFIG_KEY_DEFAULT, "username", null);
+		saveLocalCache(CONFIG_KEY_DEFAULT, "password", null);
+		saveLocalCache(CONFIG_KEY_DEFAULT, "janus_url", null);
+		logger.info("Exiting Sessions .");
+		stage = (Stage) body.getScene().getWindow();
+
+		try {
+			Parent root1 = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(NAVIGATION.get("Login"))));
+			Scene  scene = new Scene(root1);
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException ex) {
+			logger.severe(ex.getMessage());
+			throw new RuntimeException(ex);
+		}
+
+	};
+	private final Runnable CancelSessionsAttempt = () -> {
+		saveLocalCache(CONFIG_KEY_DEFAULT, "username", null);
+		saveLocalCache(CONFIG_KEY_DEFAULT, "password", null);
+		logger.info("Cancelled Log out attempt");
+
+	};
 
 
 	void setSelcted (JFXButton tagrget) {
@@ -72,6 +103,7 @@ public class MainController implements Initializable {
 
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
+
 		loadConf();
 		vBoxes = List.of(btnSessions, btnHome, btnJanusConf, btnJanusSip, btnJanusHttp, btnJanusWebsockets, btnSettings);
 
@@ -85,6 +117,9 @@ public class MainController implements Initializable {
 		loader.addView(MFXLoaderBean.of("btnJanusSip", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers("sip")).setDefaultRoot(false).get());
 		loader.addView(MFXLoaderBean.of("btnJanusHttp", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers("http")).setDefaultRoot(false).get());
 		loader.addView(MFXLoaderBean.of("btnJanusWebsockets", XUtils.loadURL(XUtils.NAVIGATION.get("JanusConfig"))).setControllerFactory(c -> new JanusAPIControllers("websocket")).setDefaultRoot(false).get());
+
+
+		btnLogOut.setOnAction(action -> Alerts.confirmation("Logging out", "Are you sure you want to exit this session ?",existingSessionsSet, CancelSessionsAttempt));
 
 		loader.setOnLoadedAction(beans -> beans.forEach(bean -> {
 			switch (bean.getViewName()) {

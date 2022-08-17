@@ -37,7 +37,7 @@ import static africa.jopen.utils.XUtils.*;
 
 
 public class BaseApplication extends Application {
-	Logger logger = Logger.getLogger(BaseApplication.class.getName());
+	private Logger logger = Logger.getLogger(BaseApplication.class.getName());
 	private float increment = 0;
 	private float progress  = 0;
 

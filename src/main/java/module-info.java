@@ -46,4 +46,5 @@ module africa.jopen {
 	exports africa.jopen.controllers.auth to javafx.fxml;
 	exports africa.jopen.application to eventbus.java;
 	exports africa.jopen.controllers to  eventbus.java;
+	exports africa.jopen.events;
 }

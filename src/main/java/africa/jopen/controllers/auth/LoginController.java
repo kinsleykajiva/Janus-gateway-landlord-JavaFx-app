@@ -70,8 +70,7 @@ public class LoginController implements Initializable {
 
 			ConstantReference.LANDLORDWEBAPP_SERVER_BASIC_AUTH_USERNAME = username_txt;
 			ConstantReference.LANDLORDWEBAPP_SERVER_BASIC_AUTH_PASSWORD = password_txt;
-			logError("tttttt" + ConstantReference.LANDLORDWEBAPP_SERVER_BASIC_AUTH_USERNAME);
-			logError("hhhhhhh" + ConstantReference.LANDLORDWEBAPP_SERVER_BASIC_AUTH_PASSWORD);
+
 
 			if (janus_url.length() == 0) {
 				Alerts.error("Input Error", "Please enter a Where Janus is Hosted");
@@ -106,7 +105,7 @@ public class LoginController implements Initializable {
 				}
 				if (t.getSource().getValue() instanceof HashMap) {
 
-					HashMap<String, Boolean> result = (HashMap<String, Boolean>) t.getSource().getValue();
+					Map<String, Boolean> result = (Map<String, Boolean>) t.getSource().getValue();
 
 
 					if (!result.get("janus_url")) {
@@ -124,9 +123,8 @@ public class LoginController implements Initializable {
 						}
 
 						Stage  stage = (Stage) root.getScene().getWindow();
-						Parent root1 = null;
 						try {
-							root1 = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(NAVIGATION.get("Main"))));
+							Parent	root1 = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(NAVIGATION.get("Main"))));
 							Scene scene = new Scene(root1);
 							stage.setScene(scene);
 							stage.show();
@@ -167,10 +165,9 @@ public class LoginController implements Initializable {
 				@Override
 				protected Map<String, Boolean> call () {
 					var resultestUrl = LandLordWebAppReq.getGenericRequest(getUrl());
-
 					var resultAuth = LandLordWebAppReq.getRequest("/api/home/whats-going-on");
-					logInfo("XXXRequestFocus" + resultAuth);
-					HashMap<String, Boolean> result = new HashMap<>();
+
+					Map<String, Boolean> result = new HashMap<>();
 					result.put("janus_url", resultestUrl == null);
 					result.put("basic_auth", resultAuth == null);
 

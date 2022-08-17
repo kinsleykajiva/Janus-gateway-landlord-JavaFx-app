@@ -6,6 +6,7 @@ import africa.jopen.models.forms.janusconfig.JanusModel;
 import africa.jopen.utils.ExampleNotification;
 import africa.jopen.utils.UtilSampleBlock;
 import io.github.palexdev.materialfx.notifications.base.INotification;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,6 +26,8 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -45,29 +48,34 @@ public class JanusAPIControllers implements Initializable {
 	private JanusModel model;
 	String result = "";
 	String type   = "";
-	private String urlDestinations = "";
-	private String username        = "";
-
+	private String              urlDestinations = "";
+	private String              username        = "";
+	private Node                progressBar;
+	private Map<String, String> navigateUrlMap  = new HashMap<String, String>();
+	private Accordion form;
+	private Label      codeLabel;
+	private ScrollPane scrollContent;
 
 	public JanusAPIControllers (String type) {
 		EventBus.getDefault().register(this);
 		this.type = type;
 		username = getLocalCache(CONFIG_KEY_DEFAULT, "username");
-		if (username.isEmpty()) {
+		if (!username.isEmpty()) {
 			if ("janus".equals(type)) {
-				result = getRequest("/api/access/janus/current-ssettings");
+				navigateUrlMap.put(type, "/api/access/janus/current-ssettings");
 				urlDestinations = "/api/access/janus/update";
+
 			}
 			if ("sip".equals(type)) {
-				result = getRequest("/api/access/sip/current-ssettings");
+				navigateUrlMap.put(type, "/api/access/sip/current-ssettings");
 				urlDestinations = "/api/access/sip/update";
 			}
 			if ("http".equals(type)) {
-				result = getRequest("/api/access/http/current-ssettings");
+				navigateUrlMap.put(type, "/api/access/http/current-ssettings");
 				urlDestinations = "/api/access/http/update";
 			}
 			if ("websocket".equals(type)) {
-				result = getRequest("/api/access/websockets/current-ssettings");
+				navigateUrlMap.put(type, "/api/access/websockets/current-ssettings");
 				urlDestinations = "/api/access/websockets/update";
 			}
 		}
@@ -93,7 +101,6 @@ public class JanusAPIControllers implements Initializable {
 		return new UtilSampleBlock("Updating Janus Server", flowPane);
 	}
 
-	private Node progressBar;
 
 	@Subscribe (sticky = true, threadMode = ThreadMode.MAIN)
 	public void onEvent (MessageEvent event) {
@@ -103,31 +110,33 @@ public class JanusAPIControllers implements Initializable {
 
 	}
 
+
+
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
 		if (username.isEmpty()) {
 			return;
 
 		}
-		model = new JanusModel(result, executor);
+
+
 		VBox statusContent = new VBox();
 		HBox formButtons   = new HBox();
 		root_pane.getStyleClass().add("root-pane");
-		GridPane        controls      = new GridPane();
-		ScrollPane      scrollContent = new ScrollPane();
-		var             form          = model.getFormInstance();
+		GridPane controls = new GridPane();
+		scrollContent = new ScrollPane();
+
 		final boolean[] isShowingForm = {true};
-		var             codeLabel     = new Label(model.jcfg);
+		codeLabel = new Label("--");
 		codeLabel.setTextAlignment(TextAlignment.LEFT);
-		var codeExpress = codeLabel;
-		codeExpress.wrapTextProperty().set(true);// making it selectable by default
-		codeExpress.setTextAlignment(TextAlignment.LEFT);
-		codeExpress.setWrapText(true);
-		scrollContent.setContent(form);
+		codeLabel.wrapTextProperty().set(true);// making it selectable by default
+		codeLabel.setTextAlignment(TextAlignment.LEFT);
+		codeLabel.setWrapText(true);
+
+
 		scrollContent.setFitToWidth(true);
 		Button save  = new Button("Save");
 		Button reset = new Button("JCFG", new FontIcon(Feather.CODE));
-
 
 		reset.getStyleClass().add("reset-button");
 		scrollContent.getStyleClass().add("scroll-pane");
@@ -148,7 +157,7 @@ public class JanusAPIControllers implements Initializable {
 			new animatefx.animation.FadeOut(scrollContent).play(); //hide
 			new animatefx.animation.FadeIn(scrollContent).play();// show
 			if (isShowingForm[0]) {
-				scrollContent.setContent(codeExpress);
+				scrollContent.setContent(codeLabel);
 				reset.setGraphic(new FontIcon(Feather.COLUMNS));
 				reset.setText("Form");
 				save.setDisable(true);
@@ -241,6 +250,20 @@ public class JanusAPIControllers implements Initializable {
 		root_pane.setPadding(new Insets(20, 0, 0, 20));
 		new animatefx.animation.BounceOut(progressBar).play();// hide it first
 
+		fetchRemoteData();
+
+	}
+
+	private void fetchRemoteData () {
+		new Thread(() -> {
+			result = getRequest(navigateUrlMap.get(type));
+			model = new JanusModel(result, executor);
+			form = model.getFormInstance();
+			Platform.runLater(() -> {
+				scrollContent.setContent(form);
+				codeLabel.setText(model.jcfg);
+			});
+		}).start();
 	}
 
 	private INotification createNotification () {

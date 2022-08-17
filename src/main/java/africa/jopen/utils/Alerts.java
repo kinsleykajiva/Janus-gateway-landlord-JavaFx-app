@@ -19,8 +19,13 @@ package africa.jopen.utils;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.StageStyle;
+
+import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 
 /**
  * @author Gleidson Neves da Silveira | gleidisonmt@gmail.com
@@ -38,11 +43,34 @@ public class Alerts {
 
 		var alert = new Alert(Alert.AlertType.WARNING);
 		alert.setTitle(title);
+		alert.setResizable(false);
 		alert.setContentText(content);
 		alert.initOwner(scene.getWindow());
 		alert.initStyle(StageStyle.UNDECORATED);
 		alert.showAndWait();
 	}
+
+	public static void confirmation (String title, String content, Runnable okCallBack, Runnable cancelCallBack) {
+
+
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle(title);
+		alert.setResizable(false);
+		alert.initOwner(scene.getWindow());
+		alert.setContentText(content);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		ButtonType           button = result.orElse(ButtonType.CANCEL);
+		if (button == ButtonType.OK) {
+			okCallBack.run();
+		} else {
+			cancelCallBack.run();
+
+		}
+
+	}
+
+
 
    /* @SafeVarargs
     public static void warning(String title, String content, EventHandler<MouseEvent>... confirm){
@@ -55,6 +83,7 @@ public class Alerts {
 		alert.setTitle(title);
 		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setContentText(content);
+		alert.setResizable(false);
 		alert.initOwner(scene.getWindow());
 		alert.showAndWait();
 	}
@@ -68,6 +97,7 @@ public class Alerts {
 		var alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle(title);
 		alert.setContentText(content);
+		alert.setResizable(false);
 		alert.initOwner(scene.getWindow());
 		alert.initStyle(StageStyle.UNDECORATED);
 		alert.showAndWait();
@@ -81,6 +111,7 @@ public class Alerts {
 	public static void success (String title, String content) {
 		var alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle(title);
+		alert.setResizable(false);
 		alert.setContentText(content);
 		alert.initOwner(scene.getWindow());
 		alert.initStyle(StageStyle.UNDECORATED);

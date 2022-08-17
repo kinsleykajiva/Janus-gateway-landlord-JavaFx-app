@@ -1,7 +1,7 @@
 # Janus-Gateway Landlord JavaFX Client Application.
 
 
-[![Latest release](https://img.shields.io/badge/version-0.7-blue)](https://img.shields.io/badge/v0.1-tag-green)
+[![Latest release](https://img.shields.io/badge/version-0.8-blue)](https://img.shields.io/badge/v0.1-tag-green)
 
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)     
 

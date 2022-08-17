@@ -20,7 +20,7 @@ public class LandLordWebAppReq {
 
 	//      no_money1n          ZiyaKhala@Bome#Mugabe!      http://3.70.21.65
 	public static String getRequest (String param) {
-		//logger.info("___"+LANDLORDWEBAPP_SERVER_URL + param);
+//		logger.info("___"+LANDLORDWEBAPP_SERVER_URL + param);
 		HttpRequest request = HttpRequest.newBuilder()
 				.GET()
 				.timeout(Duration.ofSeconds(30))
@@ -33,16 +33,17 @@ public class LandLordWebAppReq {
 		try {
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 			//	logger.info("xxxSuccessfully sent request --- " + LANDLORDWEBAPP_SERVER_URL + param);
-			//	logger.info("xxxSuccessfully sent request -- " + response.statusCode());
-			//	logger.info("qqqqSuccessfully sent request -- " + response.body());
+//				logger.info("xxxSuccessfully sent request -- " + response.statusCode());
+//				logger.info("qqqqSuccessfully sent request -- " + response.body());
 			if (response.statusCode() != 200) {
 				return null;
 			}
 			return response.body();
 
 		} catch (IOException | InterruptedException e) {
-			logger.severe("Error sending request: " + e.getMessage());
+			logger.severe("yyyy Error sending request: " + e.getMessage());
 		}
+
 		return null;
 
 	}

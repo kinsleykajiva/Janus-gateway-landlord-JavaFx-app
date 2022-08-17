@@ -49,6 +49,10 @@ public class JanusModel {
 	 */
 	private Accordion createForm () {
 		final List<TitledPane> sectionsList = new ArrayList<>();
+		if(jsonJanus.isEmpty()) {
+			return new Accordion();
+
+		}
 		JSONObject             data         = new JSONObject(jsonJanus);
 		obj = data.getJSONObject("data");
 		if (data.has("jcfg")) {
