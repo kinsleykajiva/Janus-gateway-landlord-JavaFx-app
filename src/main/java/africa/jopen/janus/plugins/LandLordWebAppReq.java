@@ -18,37 +18,31 @@ public class LandLordWebAppReq {
 	static               Logger     logger = Logger.getLogger(LandLordWebAppReq.class.getName());
 	private static final HttpClient client = HttpClient.newBuilder().build();
 
-	//      no_money1n          ZiyaKhala@Bome#Mugabe!      http://3.70.21.65
+
 	public static String getRequest (String param) {
-//		logger.info("___"+LANDLORDWEBAPP_SERVER_URL + param);
+
 		HttpRequest request = HttpRequest.newBuilder()
 				.GET()
 				.timeout(Duration.ofSeconds(30))
 				.uri(URI.create(LANDLORDWEBAPP_SERVER_URL + param))
-				.header("Authorization", basicAuth(/*"no_money1"*/
+				.header("Authorization", basicAuth(
 						ConstantReference.LANDLORDWEBAPP_SERVER_BASIC_AUTH_USERNAME,
 						ConstantReference.LANDLORDWEBAPP_SERVER_BASIC_AUTH_PASSWORD
-						/*"SkillS@Home#ArePretty!"*/))
+						))
 				.build();
 		try {
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-			//	logger.info("xxxSuccessfully sent request --- " + LANDLORDWEBAPP_SERVER_URL + param);
-//				logger.info("xxxSuccessfully sent request -- " + response.statusCode());
-//				logger.info("qqqqSuccessfully sent request -- " + response.body());
 			if (response.statusCode() != 200) {
 				return null;
 			}
 			return response.body();
-
 		} catch (IOException | InterruptedException e) {
 			logger.severe("yyyy Error sending request: " + e.getMessage());
 		}
-
 		return null;
-
 	}
 
-	// http://3.70.21.65
+
 	public static String getGenericRequest (final String url) {
 		HttpRequest request = HttpRequest.newBuilder()
 				.GET()
@@ -61,7 +55,6 @@ public class LandLordWebAppReq {
 				return null;
 			}
 			return response.body();
-
 		} catch (IOException | InterruptedException e) {
 			logger.severe("Error sending request: " + e.getMessage());
 		}
@@ -75,7 +68,7 @@ public class LandLordWebAppReq {
 	}
 
 	public static String postRequest (String params, JSONObject data) {
-		//	logger.info("Post request: " + params);
+
 		HttpRequest request = HttpRequest.newBuilder(URI.create(LANDLORDWEBAPP_SERVER_URL + params))
 				.header("Content-Type", "application/json")
 				.header("Authorization", basicAuth(/*"no_money1"*/
@@ -86,7 +79,6 @@ public class LandLordWebAppReq {
 				.build();
 		try {
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-			// logger.info("Sent response: " + response);
 
 			if (response.statusCode() != 200) {
 				return null;

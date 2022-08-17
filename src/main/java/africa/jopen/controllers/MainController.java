@@ -55,7 +55,6 @@ public class MainController implements Initializable {
 		saveLocalCache(CONFIG_KEY_DEFAULT, "janus_url", null);
 		logger.info("Exiting Sessions .");
 		stage = (Stage) body.getScene().getWindow();
-
 		try {
 			Parent root1 = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(NAVIGATION.get("Login"))));
 			Scene  scene = new Scene(root1);
@@ -159,7 +158,6 @@ public class MainController implements Initializable {
 					setSelcted(btnJanusWebsockets);
 					title.setText("JanusConfig for janus.transport.websockets.jcfg");
 				});
-
 
 			}
 		}));
