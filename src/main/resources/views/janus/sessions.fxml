@@ -4,6 +4,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
@@ -46,6 +47,11 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Label>
+                  <ProgressIndicator fx:id="progressIndicator">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </ProgressIndicator>
                </children>
             </HBox>
             <Accordion fx:id="accordionSessions" prefHeight="478.0" prefWidth="630.0">

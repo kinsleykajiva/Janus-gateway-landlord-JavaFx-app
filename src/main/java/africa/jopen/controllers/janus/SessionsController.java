@@ -13,10 +13,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -47,7 +44,8 @@ public class SessionsController implements Initializable {
 	public @FXML  Label                               txtRefresh;
 	public @FXML  HBox                                hBxOptions;
 	public @FXML  org.controlsfx.control.ToggleSwitch autoRefreshSwitch;
-	Timeline cycleChecker;
+	private Timeline cycleChecker;
+	public @FXML ProgressIndicator progressIndicator;
 
 	public SessionsController () {
 		EventBus.getDefault().register(this);
@@ -70,6 +68,7 @@ public class SessionsController implements Initializable {
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
 		txtRefresh.setStyle("-fx-text-fill: #19A9CB");
+		progressIndicator.setVisible(false);
 		loadCycleChecker();
 		txtRefresh.setOnMouseClicked(e -> loadSessions());
 		loadSessions();
@@ -89,7 +88,7 @@ public class SessionsController implements Initializable {
 
 
 	synchronized void loadSessions () {
-
+		progressIndicator.setVisible(true);
 		ObjectMapper Obj = new ObjectMapper();
 		HandleReq.getSessionsL().thenAccept((handlesInfoMap) -> Platform.runLater(() -> {
 
@@ -146,6 +145,7 @@ public class SessionsController implements Initializable {
 						});
 			});
 			existingSessionsSetNew.clear();
+			progressIndicator.setVisible(false);
 
 
 		})).exceptionally(ex -> {
