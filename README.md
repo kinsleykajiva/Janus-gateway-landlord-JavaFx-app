@@ -25,7 +25,7 @@ This application can run on all Desktop platforms including Windows, Linux,Mac .
 ### The Application is now stable and stable enough to be used. I have not made builds available as you will need to make your own build for your OS .
 
 # Configs:
-- Set Janus Server Address on JANUS_SERVER_BASE_URL.java ,obviously thats where the  [Janus-gateway-landlord-Web-app](https://github.com/kinsleykajiva/Janus-gateway-landlord-Web-app) is also hosted .
+- Set Janus Server Address on JANUS_SERVER_BASE_URL.java ,obviously that's where the  [Janus-gateway-landlord-Web-app](https://github.com/kinsleykajiva/Janus-gateway-landlord-Web-app) is also hosted .
 
 ## Build
 Environment: JDK  17+ , yes you  can try to use JDK 10 or higher and openFX SDK.
@@ -42,7 +42,7 @@ How to Build/Run the app :
 To package the application based on your system configuration please review https://github.com/wiverson/maven-jpackage-template#installation
 
 Also do note for my reasons I have always opted to build a GraalVM Native Image build . Native images have their own advantages and limitations , 
-for more please review Gluonhq GraalVM version ,sources: 
+for more please review Gluon GraalVM version ,sources: 
 - https://gluonhq.com/create-native-javafx-applications-using-graalvm-22-builds-from-gluon/  
 - https://github.com/gluonhq/graal
 
