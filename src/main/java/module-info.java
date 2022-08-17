@@ -30,13 +30,12 @@ module africa.jopen {
 	requires AnimateFX;
 	requires commons.exec;
 
-//    requires json.io;
+
 
 
 	opens africa.jopen.application to javafx.fxml, javafx.graphics;
 	opens africa.jopen.controllers to javafx.fxml, javafx.graphics;
 	opens africa.jopen.utils to javafx.fxml, javafx.graphics;
-	opens africa.jopen.libs.decorator to javafx.fxml, javafx.graphics;
 	exports africa.jopen.controllers.home to javafx.fxml;
 	exports africa.jopen.models.admin.handles to com.fasterxml.jackson.databind;
 	exports  africa.jopen.models.forms.janusconfig.janus to com.fasterxml.jackson.databind;

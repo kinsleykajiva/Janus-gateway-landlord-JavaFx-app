@@ -1,15 +1,11 @@
 package africa.jopen.models.forms.janusconfig;
 
-import africa.jopen.models.forms.janusconfig.janus.JanusObject;
 import africa.jopen.utils.ConstantReference;
 import africa.jopen.utils.UtilSampleBlock;
 import africa.jopen.utils.XUtils;
 import atlantafx.base.theme.Styles;
-import com.dlsc.formsfx.model.structure.Form;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
-import javafx.beans.property.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -17,21 +13,14 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
-
-import org.apache.commons.lang3.StringUtils;
-
-
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Logger;
 
 public class JanusModel {
@@ -43,7 +32,7 @@ public class JanusModel {
 	private final BooleanProperty animatedProperty = new SimpleBooleanProperty(true);
 	private       String          jsonJanus        = "";
 
-	public JanusModel (String json,ExecutorService executor) {
+	public JanusModel (String json, ExecutorService executor) {
 		jsonJanus = json;
 		this.executor = executor;
 	}
@@ -53,7 +42,7 @@ public class JanusModel {
 	}
 
 	private JSONObject obj;
-	public String jcfg = "";
+	public  String     jcfg = "";
 
 	/**
 	 * Creates a new form instance with the required information.
@@ -62,7 +51,7 @@ public class JanusModel {
 		final List<TitledPane> sectionsList = new ArrayList<>();
 		JSONObject             data         = new JSONObject(jsonJanus);
 		obj = data.getJSONObject("data");
-		if(data.has("jcfg")){
+		if (data.has("jcfg")) {
 			jcfg = data.getString("jcfg");
 		}
 
@@ -75,7 +64,8 @@ public class JanusModel {
 				sectionsList.toArray(myArray)
 		);
 	}
-	public  JSONObject getCurrentObject(){
+
+	public JSONObject getCurrentObject () {
 		return obj;
 	}
 
@@ -150,7 +140,7 @@ public class JanusModel {
 					execute(() -> {
 						var sectionObject = obj.getJSONObject(sectionName);
 						//:ToDo may need more validation if the split s valid as much
-						sectionObject.getJSONObject(target).put(ConstantReference.JSON_LINE_VALUE,new JSONArray(newValue.split(",")));
+						sectionObject.getJSONObject(target).put(ConstantReference.JSON_LINE_VALUE, new JSONArray(newValue.split(",")));
 					});
 
 				};
@@ -170,7 +160,7 @@ public class JanusModel {
 				execute(() -> {
 					//logger.info("changed: " + newVal + " from value" + oldVal);
 					var sectionObject = obj.getJSONObject(sectionName);
-					sectionObject.getJSONObject(target).put("commented", newVal );
+					sectionObject.getJSONObject(target).put("commented", newVal);
 				});
 			};
 			CheckBox basicCheck;

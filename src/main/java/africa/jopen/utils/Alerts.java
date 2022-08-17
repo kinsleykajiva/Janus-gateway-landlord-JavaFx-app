@@ -27,64 +27,65 @@ import javafx.stage.StageStyle;
  * Create on  30/01/2019
  */
 public class Alerts {
-   private static Scene scene;
-    public static void initScene(Scene scene) {
-        Alerts.scene =scene;
+	private static Scene scene;
 
-    }
+	public static void initScene (Scene scene) {
+		Alerts.scene = scene;
 
-    public static void warning(String title, String content){
+	}
 
-        var alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.initOwner(scene.getWindow());
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.showAndWait();
-    }
+	public static void warning (String title, String content) {
+
+		var alert = new Alert(Alert.AlertType.WARNING);
+		alert.setTitle(title);
+		alert.setContentText(content);
+		alert.initOwner(scene.getWindow());
+		alert.initStyle(StageStyle.UNDECORATED);
+		alert.showAndWait();
+	}
 
    /* @SafeVarargs
     public static void warning(String title, String content, EventHandler<MouseEvent>... confirm){
         Dialog.createAlert(Dialog.Type.WARNING, title, content, confirm);
     }*/
 
-    public static void error(String title, String content){
+	public static void error (String title, String content) {
 
-        var alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.setContentText(content);
-        alert.initOwner(scene.getWindow());
-        alert.showAndWait();
-    }
+		var alert = new Alert(Alert.AlertType.ERROR);
+		alert.setTitle(title);
+		alert.initStyle(StageStyle.UNDECORATED);
+		alert.setContentText(content);
+		alert.initOwner(scene.getWindow());
+		alert.showAndWait();
+	}
 
-    @SafeVarargs
-    public static void error(String title, String content, EventHandler<MouseEvent>... confirm){
-        Dialog.createAlert(Dialog.Type.ERROR, title, content, confirm);
-    }
+	@SafeVarargs
+	public static void error (String title, String content, EventHandler<MouseEvent>... confirm) {
+		Dialog.createAlert(Dialog.Type.ERROR, title, content, confirm);
+	}
 
-    public static void info(String title, String content){
-        var alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.initOwner(scene.getWindow());
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.showAndWait();
-    }
+	public static void info (String title, String content) {
+		var alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setContentText(content);
+		alert.initOwner(scene.getWindow());
+		alert.initStyle(StageStyle.UNDECORATED);
+		alert.showAndWait();
+	}
 
-  //  @SafeVarargs
+	//  @SafeVarargs
     /*public static void info(String title, String content, EventHandler<MouseEvent>... confirm){
         Dialog.createAlert(Dialog.Type.INFO, title, content, confirm);
     }*/
 
-    public static void success(String title, String content){
-        var alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.initOwner(scene.getWindow());
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.showAndWait();
-    }
+	public static void success (String title, String content) {
+		var alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setContentText(content);
+		alert.initOwner(scene.getWindow());
+		alert.initStyle(StageStyle.UNDECORATED);
+		alert.showAndWait();
+	}
 
    /* @SafeVarargs
     public static void success(String title, String content, EventHandler<MouseEvent>... confirm){

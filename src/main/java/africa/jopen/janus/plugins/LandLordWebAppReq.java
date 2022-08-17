@@ -1,6 +1,5 @@
 package africa.jopen.janus.plugins;
 
-import africa.jopen.janus.handles.HandleReq;
 import africa.jopen.utils.ConstantReference;
 import org.json.JSONObject;
 
@@ -14,14 +13,14 @@ import java.util.Base64;
 import java.util.logging.Logger;
 
 import static africa.jopen.utils.ConstantReference.LANDLORDWEBAPP_SERVER_URL;
-import static africa.jopen.utils.XUtils.getLocalCache;
 
 public class LandLordWebAppReq {
-	static     Logger     logger = Logger.getLogger( LandLordWebAppReq.class.getName() );
-	private static HttpClient client = HttpClient.newBuilder().build();
-//      no_money1n          ZiyaKhala@Bome#Mugabe!      http://3.70.21.65
-	public static String getRequest(String param){
-		logger.info("___"+LANDLORDWEBAPP_SERVER_URL + param);
+	static               Logger     logger = Logger.getLogger(LandLordWebAppReq.class.getName());
+	private static final HttpClient client = HttpClient.newBuilder().build();
+
+	//      no_money1n          ZiyaKhala@Bome#Mugabe!      http://3.70.21.65
+	public static String getRequest (String param) {
+		//logger.info("___"+LANDLORDWEBAPP_SERVER_URL + param);
 		HttpRequest request = HttpRequest.newBuilder()
 				.GET()
 				.timeout(Duration.ofSeconds(30))
@@ -32,11 +31,11 @@ public class LandLordWebAppReq {
 						/*"SkillS@Home#ArePretty!"*/))
 				.build();
 		try {
-			HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
-			logger.info("xxxSuccessfully sent request --- " + LANDLORDWEBAPP_SERVER_URL + param);
-			logger.info("xxxSuccessfully sent request -- " + response.statusCode());
-			logger.info("qqqqSuccessfully sent request -- " + response.body());
-			if(response.statusCode() != 200) {
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			//	logger.info("xxxSuccessfully sent request --- " + LANDLORDWEBAPP_SERVER_URL + param);
+			//	logger.info("xxxSuccessfully sent request -- " + response.statusCode());
+			//	logger.info("qqqqSuccessfully sent request -- " + response.body());
+			if (response.statusCode() != 200) {
 				return null;
 			}
 			return response.body();
@@ -47,16 +46,17 @@ public class LandLordWebAppReq {
 		return null;
 
 	}
+
 	// http://3.70.21.65
-	public static String getGenericRequest(final String url){
+	public static String getGenericRequest (final String url) {
 		HttpRequest request = HttpRequest.newBuilder()
 				.GET()
 				.timeout(Duration.ofSeconds(30))
-				.uri(URI.create(url ))
+				.uri(URI.create(url))
 				.build();
 		try {
-			HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
-			if(response.statusCode() != 200) {
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			if (response.statusCode() != 200) {
 				return null;
 			}
 			return response.body();
@@ -69,24 +69,25 @@ public class LandLordWebAppReq {
 	}
 
 
-	private static String basicAuth(String username, String password) {
+	private static String basicAuth (String username, String password) {
 		return "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
 	}
-	public static String postRequest (String params,JSONObject data) {
-		logger.info("Post request: " + params);
+
+	public static String postRequest (String params, JSONObject data) {
+		//	logger.info("Post request: " + params);
 		HttpRequest request = HttpRequest.newBuilder(URI.create(LANDLORDWEBAPP_SERVER_URL + params))
 				.header("Content-Type", "application/json")
 				.header("Authorization", basicAuth(/*"no_money1"*/
 						ConstantReference.LANDLORDWEBAPP_SERVER_BASIC_AUTH_USERNAME,
 						ConstantReference.LANDLORDWEBAPP_SERVER_BASIC_AUTH_PASSWORD
 						/*"SkillS@Home#ArePretty!"*/))
-				.POST(HttpRequest.BodyPublishers.ofString( data.toString()))
+				.POST(HttpRequest.BodyPublishers.ofString(data.toString()))
 				.build();
 		try {
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-			logger.info("Sent response: " + response);
+			// logger.info("Sent response: " + response);
 
-			if(response.statusCode() != 200) {
+			if (response.statusCode() != 200) {
 				return null;
 			}
 			return response.body();
@@ -97,9 +98,6 @@ public class LandLordWebAppReq {
 		}
 		return null;
 	}
-
-
-
 
 
 }

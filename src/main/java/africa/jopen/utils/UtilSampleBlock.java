@@ -23,19 +23,19 @@ public class UtilSampleBlock {
 		this.root.getStyleClass().add("sample-block");
 	}
 
-	public Pane getRoot() {
+	public Pane getRoot () {
 		return root;
 	}
 
-	public String getText() {
+	public String getText () {
 		return titleLabel.getText();
 	}
 
-	public void setText(String text) {
+	public void setText (String text) {
 		titleLabel.setText(text);
 	}
 
-	public Node getContent() {
+	public Node getContent () {
 		return content;
 	}
 }

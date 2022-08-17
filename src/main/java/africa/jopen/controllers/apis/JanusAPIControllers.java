@@ -1,50 +1,25 @@
 package africa.jopen.controllers.apis;
 
-import africa.jopen.application.BaseApplication;
+import africa.jopen.events.MessageEvent;
 import africa.jopen.janus.plugins.LandLordWebAppReq;
 import africa.jopen.models.forms.janusconfig.JanusModel;
 import africa.jopen.utils.ExampleNotification;
 import africa.jopen.utils.UtilSampleBlock;
-import com.dlsc.formsfx.view.renderer.FormRenderer;
-import eu.iamgio.animated.property.PropertyWrapper;
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXIconWrapper;
-import io.github.palexdev.materialfx.controls.MFXSimpleNotification;
-import io.github.palexdev.materialfx.enums.NotificationPos;
-import io.github.palexdev.materialfx.enums.NotificationState;
-import io.github.palexdev.materialfx.factories.InsetsFactory;
-import io.github.palexdev.materialfx.font.FontResources;
-import io.github.palexdev.materialfx.font.MFXFontIcon;
-import io.github.palexdev.materialfx.notifications.MFXNotificationSystem;
 import io.github.palexdev.materialfx.notifications.base.INotification;
-import io.github.palexdev.materialfx.utils.RandomUtils;
-
-import javafx.beans.InvalidationListener;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-
-import eu.iamgio.animated.AnimatedMulti;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
-import javafx.util.Duration;
 import org.apache.commons.lang3.StringUtils;
 import org.controlsfx.control.Notifications;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -59,6 +34,7 @@ import java.util.logging.Logger;
 import static africa.jopen.janus.plugins.LandLordWebAppReq.getRequest;
 import static africa.jopen.utils.ConstantReference.CONFIG_KEY_DEFAULT;
 import static africa.jopen.utils.XUtils.getLocalCache;
+import static africa.jopen.utils.XUtils.loadConf;
 
 public class JanusAPIControllers implements Initializable {
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -70,12 +46,14 @@ public class JanusAPIControllers implements Initializable {
 	String result = "";
 	String type   = "";
 	private String urlDestinations = "";
-	private String username = "";
+	private String username        = "";
+
 
 	public JanusAPIControllers (String type) {
+		EventBus.getDefault().register(this);
 		this.type = type;
-		  username = getLocalCache(CONFIG_KEY_DEFAULT, "username") ;
-		if(username.isEmpty()) {
+		username = getLocalCache(CONFIG_KEY_DEFAULT, "username");
+		if (username.isEmpty()) {
 			if ("janus".equals(type)) {
 				result = getRequest("/api/access/janus/current-ssettings");
 				urlDestinations = "/api/access/janus/update";
@@ -117,10 +95,17 @@ public class JanusAPIControllers implements Initializable {
 
 	private Node progressBar;
 
+	@Subscribe (sticky = true, threadMode = ThreadMode.MAIN)
+	public void onEvent (MessageEvent event) {
+		if (event.getEventType() == MessageEvent.MESSAGE_EVENT_UPDATE_CONFIGS) {
+			loadConf();
+		}
+
+	}
+
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
-		if(username.isEmpty())
-		{
+		if (username.isEmpty()) {
 			return;
 
 		}
@@ -132,9 +117,9 @@ public class JanusAPIControllers implements Initializable {
 		ScrollPane      scrollContent = new ScrollPane();
 		var             form          = model.getFormInstance();
 		final boolean[] isShowingForm = {true};
-		var codeLabel = new Label(model.jcfg	);
+		var             codeLabel     = new Label(model.jcfg);
 		codeLabel.setTextAlignment(TextAlignment.LEFT);
-		var             codeExpress   = codeLabel;
+		var codeExpress = codeLabel;
 		codeExpress.wrapTextProperty().set(true);// making it selectable by default
 		codeExpress.setTextAlignment(TextAlignment.LEFT);
 		codeExpress.setWrapText(true);

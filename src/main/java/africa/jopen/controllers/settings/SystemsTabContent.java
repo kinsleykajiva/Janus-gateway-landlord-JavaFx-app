@@ -1,5 +1,6 @@
 package africa.jopen.controllers.settings;
 
+import africa.jopen.events.MessageEvent;
 import africa.jopen.utils.Alerts;
 import africa.jopen.utils.ConstantReference;
 import africa.jopen.utils.UtilSampleBlock;
@@ -11,9 +12,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import org.apache.commons.lang3.StringUtils;
-import org.controlsfx.control.Notifications;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import org.greenrobot.eventbus.EventBus;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -25,14 +28,13 @@ import static africa.jopen.utils.ConstantReference.CONFIG_KEY_DEFAULT;
 import static africa.jopen.utils.XUtils.getLocalCache;
 import static africa.jopen.utils.XUtils.saveLocalCache;
 import static atlantafx.base.theme.Styles.*;
-import static atlantafx.base.theme.Styles.ELEVATED_2;
 
 public class SystemsTabContent {
 	private static final String ELEVATED_PREFIX = "elevated-";
 	Logger logger       = Logger.getLogger(SystemsTabContent.class.getName());
 	String jsonSettings = "";
-	public  VBox              content  = new VBox(10);
-	private Map<String, Node> nodesMap = new HashMap<String, Node>();
+	public        VBox              content  = new VBox(10);
+	private final Map<String, Node> nodesMap = new HashMap<String, Node>();
 
 	public SystemsTabContent () {
 		content.getChildren().add(rowPlayground());
@@ -61,10 +63,10 @@ public class SystemsTabContent {
 	}
 
 	private UtilSampleBlock outlinedSamples () {
-		var accentBtn = new Button("Save", new FontIcon(Feather.CHECK));
-		accentBtn.getStyleClass().addAll(BUTTON_OUTLINED, ACCENT);
-		accentBtn.setMnemonicParsing(true);
-		accentBtn.setOnAction(ev -> {
+		var saveBtn = new Button("Save", new FontIcon(Feather.CHECK));
+		saveBtn.getStyleClass().addAll(BUTTON_OUTLINED, ACCENT);
+		saveBtn.setMnemonicParsing(true);
+		saveBtn.setOnAction(ev -> {
 			logger.info("accentBtn clicked");
 			var janus_url         = (TextField) nodesMap.get("janus_url");
 			var admin_base_path   = (TextField) nodesMap.get("admin_base_path");
@@ -99,7 +101,8 @@ public class SystemsTabContent {
 			ConstantReference.JANUS_SERVER_BASE_URL = janus_url_text;
 			ConstantReference.JANUS_SERVER_ADMIN_PORT = Integer.parseInt(http_admin_port_text);
 
-			Alerts.success("Default Configs Options","Updated Configs Options");
+			Alerts.success("Default Configs Options", "Updated Configs Options");
+			EventBus.getDefault().post(new MessageEvent(MessageEvent.MESSAGE_EVENT_UPDATE_CONFIGS));
 
 
 		});
@@ -108,7 +111,7 @@ public class SystemsTabContent {
 		var successBtn = new Button("Cancel");
 		successBtn.getStyleClass().addAll(BUTTON_OUTLINED);
 		successBtn.setMnemonicParsing(true);
-		var box = new HBox(20, accentBtn, successBtn);
+		var box = new HBox(20, saveBtn, successBtn);
 
 		return new UtilSampleBlock("", box);
 	}
@@ -149,7 +152,7 @@ public class SystemsTabContent {
 		var editableBlock = new UtilSampleBlock("Sessions Interval Seconds", editableSpin);
 		nodesMap.put("session_intervals", editableSpin);
 
-		var readonlyField = new Label("App Folder: " +XUtils.ROOT_FOLDER+"/"+XUtils.APP_FOLDER);
+		var readonlyField = new Label("App Folder: " + XUtils.ROOT_FOLDER + "/" + XUtils.APP_FOLDER);
 		readonlyField.setId("folder");
 		var readonlyBlock = new UtilSampleBlock("", readonlyField);
 		nodesMap.put("folder", readonlyField);

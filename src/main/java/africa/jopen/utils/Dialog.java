@@ -16,8 +16,6 @@
  */
 package africa.jopen.utils;
 
-import africa.jopen.application.BaseApplication;
-
 import com.jfoenix.controls.JFXDialog;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -40,152 +38,149 @@ import java.util.Arrays;
  * @author Gleidson Neves da Silveira | gleidisonmt@gmail.com
  * Create on  30/01/2019
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings ("unchecked")
 class Dialog {
 
-    private static Color color;
-    private static JFXDialog dialog = new JFXDialog();
+	private static       Color     color;
+	private static final JFXDialog dialog = new JFXDialog();
 
-    private static final EventHandler<MouseEvent> close = event -> dialog.close();
+	private static final EventHandler<MouseEvent> close = event -> dialog.close();
 
-    public enum Type { INFO, WARNING, ERROR, SUCCESS }
-    public enum ButtonType { OK, CANCEL }
+	public enum Type {INFO, WARNING, ERROR, SUCCESS}
 
-    static void createAlert(Type type, String title, String message) {
-        createLayout(createHeader(type), createContent(title, message), createActions(type, new EventHandler[]{
-           close
-        }));
-    }
+	public enum ButtonType {OK, CANCEL}
 
-    static void createAlert(Type type, String title, String message, EventHandler<MouseEvent>... confirm) {
-        createLayout(createHeader(type), createContent(title, message), createActions(type, confirm));
-    }
+	static void createAlert (Type type, String title, String message) {
+		createLayout(createHeader(type), createContent(title, message), createActions(type, new EventHandler[]{
+				close
+		}));
+	}
+
+	static void createAlert (Type type, String title, String message, EventHandler<MouseEvent>... confirm) {
+		createLayout(createHeader(type), createContent(title, message), createActions(type, confirm));
+	}
 
 
-    private static void createLayout(VBox header, VBox content, HBox actions){
-        StackPane root = new StackPane();
-        root.setPadding(new Insets(10));
+	private static void createLayout (VBox header, VBox content, HBox actions) {
+		StackPane root = new StackPane();
+		root.setPadding(new Insets(10));
 
-        VBox box = new VBox();
-        box.setStyle("-fx-background-radius : 10 0 10 0; -fx-background-color : white;");
+		VBox box = new VBox();
+		box.setStyle("-fx-background-radius : 10 0 10 0; -fx-background-color : white;");
 
-        box.getChildren().addAll(header, content, actions);
-        root.getChildren().add(box);
+		box.getChildren().addAll(header, content, actions);
+		root.getChildren().add(box);
 
-        show(root);
-    }
+		show(root);
+	}
 
-    private static VBox createHeader(Type type){
-        VBox header = new VBox();
+	private static VBox createHeader (Type type) {
+		VBox header = new VBox();
 
-        header.setMinHeight(120);
-        header.setAlignment(Pos.CENTER);
+		header.setMinHeight(120);
+		header.setAlignment(Pos.CENTER);
 
-        ImageView icon = null;
-        var res = Dialog.class.getResourceAsStream("/images/warning_48dp.png");
+		ImageView icon = null;
+		var       res  = Dialog.class.getResourceAsStream("/images/warning_48dp.png");
 
-        switch (type){
-            case INFO:
-                color = Color.web("#33B5E5");
-                icon = new ImageView(new Image(Dialog.class.getResourceAsStream("/images/info_48dp.png")));
-                break;
-            case WARNING:
-                color = Color.web("#FC6E51");
-                icon = new ImageView(new Image(res));
-                break;
-            case ERROR:
-                color = Color.web("#ED5565");
-                icon = new ImageView(new Image(Dialog.class.getResourceAsStream("/images/error_48dp.png")));
-                break;
-            case SUCCESS:
-                color = Color.web("#02C852");
-                icon = new ImageView(new Image(Dialog.class.getResourceAsStream("/images/done_48dp.png")));
-                break;
-        }
-        header.setBackground(new Background(new BackgroundFill(color, new CornerRadii(10, 0, 0, 0,false), Insets.EMPTY)));
+		switch (type) {
+			case INFO:
+				color = Color.web("#33B5E5");
+				icon = new ImageView(new Image(Dialog.class.getResourceAsStream("/images/info_48dp.png")));
+				break;
+			case WARNING:
+				color = Color.web("#FC6E51");
+				icon = new ImageView(new Image(res));
+				break;
+			case ERROR:
+				color = Color.web("#ED5565");
+				icon = new ImageView(new Image(Dialog.class.getResourceAsStream("/images/error_48dp.png")));
+				break;
+			case SUCCESS:
+				color = Color.web("#02C852");
+				icon = new ImageView(new Image(Dialog.class.getResourceAsStream("/images/done_48dp.png")));
+				break;
+		}
+		header.setBackground(new Background(new BackgroundFill(color, new CornerRadii(10, 0, 0, 0, false), Insets.EMPTY)));
 
-        icon.setPreserveRatio(true);
-        icon.setSmooth(true);
-        icon.setFitWidth(151);
-        icon.setFitHeight(78);
+		icon.setPreserveRatio(true);
+		icon.setSmooth(true);
+		icon.setFitWidth(151);
+		icon.setFitHeight(78);
 
-        header.getChildren().add(icon);
-        return header;
-    }
+		header.getChildren().add(icon);
+		return header;
+	}
 
-    private static VBox  createContent(String title, String message){
-        VBox container = new VBox();
-        container.setAlignment(Pos.TOP_CENTER);
-        container.setSpacing(20D);
+	private static VBox createContent (String title, String message) {
+		VBox container = new VBox();
+		container.setAlignment(Pos.TOP_CENTER);
+		container.setSpacing(20D);
 
-        VBox.setMargin(container, new Insets(10,0,0,0));
+		VBox.setMargin(container, new Insets(10, 0, 0, 0));
 
-        Label lblTitle = new Label(title);
-        lblTitle.getStyleClass().add("h2");
+		Label lblTitle = new Label(title);
+		lblTitle.getStyleClass().add("h2");
 
-        Label text = new Label();
-        text.setWrapText(true);
-        text.setText(message);
-        text.setMaxWidth(420);
-        text.setAlignment(Pos.CENTER);
-        text.setStyle("-fx-text-fill : -text-color; ");
+		Label text = new Label();
+		text.setWrapText(true);
+		text.setText(message);
+		text.setMaxWidth(420);
+		text.setAlignment(Pos.CENTER);
+		text.setStyle("-fx-text-fill : -text-color; ");
 
-        container.getChildren().addAll(lblTitle, text);
+		container.getChildren().addAll(lblTitle, text);
 
-        return container;
-    }
+		return container;
+	}
 
-    private static HBox createActions(Type type, EventHandler<MouseEvent>[] event){
-        HBox actions = new HBox();
-        actions.setMinSize(480, 73);
-        actions.setAlignment(Pos.CENTER);
-        VBox.setMargin(actions, new Insets(10, 0, 0, 10));
-        actions.setSpacing(5D);
+	private static HBox createActions (Type type, EventHandler<MouseEvent>[] event) {
+		HBox actions = new HBox();
+		actions.setMinSize(480, 73);
+		actions.setAlignment(Pos.CENTER);
+		VBox.setMargin(actions, new Insets(10, 0, 0, 10));
+		actions.setSpacing(5D);
 
-        ArrayList<EventHandler<MouseEvent>> list = new ArrayList<>(Arrays.asList(event));
+		ArrayList<EventHandler<MouseEvent>> list = new ArrayList<>(Arrays.asList(event));
 
-        switch (type) {
-//            case WARNING:
-//                actions.getChildren().add(
-//                            createButton(ButtonType.CANCEL, "Cancel", close));
-//                break;
-            default:
-                actions.getChildren().add(createButton(ButtonType.OK,"OK", list.get(0)));
-                break;
-        }
+        //            case WARNING:
+        //                actions.getChildren().add(
+        //                            createButton(ButtonType.CANCEL, "Cancel", close));
+        //                break;
+        actions.getChildren().add(createButton(ButtonType.OK, "OK", list.get(0)));
         return actions;
-    }
+	}
 
-    private static Button createButton(ButtonType type, String text, EventHandler<MouseEvent> eventEventHandler){
-        Button button = new Button(text);
-        button.setCursor(Cursor.HAND);
-        button.setOnMouseReleased(eventEventHandler);
-        button.setPrefWidth(100);
-        button.addEventHandler(MouseEvent.MOUSE_RELEASED, close);
+	private static Button createButton (ButtonType type, String text, EventHandler<MouseEvent> eventEventHandler) {
+		Button button = new Button(text);
+		button.setCursor(Cursor.HAND);
+		button.setOnMouseReleased(eventEventHandler);
+		button.setPrefWidth(100);
+		button.addEventHandler(MouseEvent.MOUSE_RELEASED, close);
 
-        switch (type){
-            case CANCEL:
-                button.setDefaultButton(true);
-                break;
-            case OK:
-                button.setDefaultButton(true);
-                break;
-        }
-        return button;
-    }
+		switch (type) {
+			case CANCEL:
+				button.setDefaultButton(true);
+				break;
+			case OK:
+				button.setDefaultButton(true);
+				break;
+		}
+		return button;
+	}
 
-    private static void show(Region region){
+	private static void show (Region region) {
 
-        //dialog.setDialogContainer(BaseApplication.getDecorator());
-        dialog.setContent(region);
-        dialog.setTransitionType(JFXDialog.DialogTransition.TOP);
+		//dialog.setDialogContainer(BaseApplication.getDecorator());
+		dialog.setContent(region);
+		dialog.setTransitionType(JFXDialog.DialogTransition.TOP);
 
-        Platform.runLater(() -> new Thread(new Task() {
-            @Override
-            protected Object call() {
-                dialog.show();
-                return null;
-            }
-        }).start());
-    }
+		Platform.runLater(() -> new Thread(new Task() {
+			@Override
+			protected Object call () {
+				dialog.show();
+				return null;
+			}
+		}).start());
+	}
 }

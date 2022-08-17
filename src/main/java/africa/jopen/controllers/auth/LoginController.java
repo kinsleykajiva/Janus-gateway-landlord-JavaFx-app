@@ -13,8 +13,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -106,8 +107,7 @@ public class LoginController implements Initializable {
 				if (t.getSource().getValue() instanceof HashMap) {
 
 					HashMap<String, Boolean> result = (HashMap<String, Boolean>) t.getSource().getValue();
-					logError(result.get("janus_url") + " xxxxxxXXXXX");
-					logError(result.get("basic_auth") + " xxxxxYYYYYYYYYxXXXXX");
+
 
 					if (!result.get("janus_url")) {
 						saveLocalCache(CONFIG_KEY_DEFAULT, "janus_url", janus_url);
@@ -146,7 +146,7 @@ public class LoginController implements Initializable {
 	}
 
 	private static class FirstLineService extends Service<Map<String, Boolean>> {
-		private StringProperty url = new SimpleStringProperty();
+		private final StringProperty url = new SimpleStringProperty();
 
 		public final void setUrl (String value) {
 			url.set(value);

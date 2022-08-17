@@ -1,13 +1,11 @@
 package africa.jopen.controllers.settings;
 
-import africa.jopen.application.BaseApplication;
 import atlantafx.base.theme.Styles;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -18,12 +16,16 @@ import java.util.logging.Logger;
 import static javafx.scene.control.TabPane.TabClosingPolicy.UNAVAILABLE;
 
 public class SettingsController implements Initializable {
-	Logger logger = Logger.getLogger( SettingsController.class.getName() );
-	@FXML public BorderPane rootPane;
-	@FXML public TabPane tabPane;
-	@FXML public Tab tabRemoteWebApp,tabSystem;
-	private static final double TAB_MIN_HEIGHT = 60;
-	private SystemsTabContent systemsTabContent = new SystemsTabContent();
+	Logger logger = Logger.getLogger(SettingsController.class.getName());
+	@FXML
+	public BorderPane rootPane;
+	@FXML
+	public TabPane    tabPane;
+	@FXML
+	public Tab        tabRemoteWebApp, tabSystem;
+	private static final double            TAB_MIN_HEIGHT    = 60;
+	private final        SystemsTabContent systemsTabContent = new SystemsTabContent();
+
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
 
@@ -46,9 +48,9 @@ public class SettingsController implements Initializable {
 		tabSystem.setContent(systemsTabContent.content);
 
 	}
-	private TabPane tabPane() {
-		var tabs = new TabPane();
 
+	private TabPane tabPane () {
+		var tabs = new TabPane();
 
 
 		// NOTE: Individually disabled tab is still closeable even while it looks
@@ -61,13 +63,15 @@ public class SettingsController implements Initializable {
 
 		return tabs;
 	}
-	private Tab SystemTab() {
+
+	private Tab SystemTab () {
 		var tab = new Tab("System");
 
 		return tab;
 
 	}
-	private Tab WebAppTab() {
+
+	private Tab WebAppTab () {
 		var tab = new Tab("Remote Web App");
 
 		return tab;
