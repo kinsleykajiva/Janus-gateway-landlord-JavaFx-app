@@ -50,6 +50,7 @@ public class LoginController implements Initializable {
 	public void initialize (URL location, ResourceBundle resources) {
 		saveLocalCache(CONFIG_KEY_DEFAULT, "username", null);
 		saveLocalCache(CONFIG_KEY_DEFAULT, "password", null);
+		saveLocalCache(CONFIG_KEY_DEFAULT, "janus_url", null);
 
 		prgBar.setVisible(false);
 
@@ -97,8 +98,6 @@ public class LoginController implements Initializable {
 			service.setOnSucceeded(t -> {
 				prgBar.setVisible(false);
 
-				/*result.put("janus_url", resultestUrl == null);
-				result.put("basic_auth", resultAuth == null);*/
 				if (t.getSource().getValue() == null) {
 					Alerts.error("Server Address Response ", "Failed to test- " + janus_url + info);
 					return;
