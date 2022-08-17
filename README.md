@@ -1,7 +1,7 @@
 # Janus-Gateway Landlord JavaFX Client Application.
 
 
-[![Latest release](https://img.shields.io/badge/version-0.5-blue)](https://img.shields.io/badge/v0.1-tag-green)
+[![Latest release](https://img.shields.io/badge/version-0.7-blue)](https://img.shields.io/badge/v0.1-tag-green)
 
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)     
 
@@ -22,7 +22,7 @@ This application can run on all Desktop platforms including Windows, Linux,Mac .
 - [LandLord-Web-App](https://github.com/kinsleykajiva/Janus-gateway-landlord-Web-app ) can access APIs [pending] 
 - Access Config to Sever Dynamically [pending] 
 
-### Please note that this application is still in development mode,hence the code is still abit messy .
+### The Application is now stable and stable enough to be used. I have not made builds available as you will need to make your own build for your OS .
 
 # Configs:
 - Set Janus Server Address on JANUS_SERVER_BASE_URL.java ,obviously thats where the  [Janus-gateway-landlord-Web-app](https://github.com/kinsleykajiva/Janus-gateway-landlord-Web-app) is also hosted .
