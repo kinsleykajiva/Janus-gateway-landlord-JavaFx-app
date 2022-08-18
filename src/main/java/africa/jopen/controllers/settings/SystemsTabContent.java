@@ -30,11 +30,10 @@ import static africa.jopen.utils.XUtils.saveLocalCache;
 import static atlantafx.base.theme.Styles.*;
 
 public class SystemsTabContent {
-	private static final String ELEVATED_PREFIX = "elevated-";
 	Logger logger       = Logger.getLogger(SystemsTabContent.class.getName());
 	String jsonSettings = "";
 	public        VBox              content  = new VBox(10);
-	private final Map<String, Node> nodesMap = new HashMap<String, Node>();
+	private final Map<String, Node> nodesMap = new HashMap<>();
 
 	public SystemsTabContent () {
 		content.getChildren().add(rowPlayground());
@@ -143,8 +142,8 @@ public class SystemsTabContent {
 	}
 
 	private FlowPane rowSessionIntervalRow () {
-		var session_intervals = (getLocalCache(CONFIG_KEY_DEFAULT, "session_intervals"));
-		var spinnerSessionsIntaval      = new Spinner(10, 100, session_intervals == null ? 20 : Integer.parseInt(session_intervals));
+		var sessionIntervals = (getLocalCache(CONFIG_KEY_DEFAULT, "session_intervals"));
+		var spinnerSessionsIntaval      = new Spinner<Integer>(10, 100, sessionIntervals == null ? 20 : Integer.parseInt(sessionIntervals));
 		IntegerStringConverter.createFor(spinnerSessionsIntaval);
 		spinnerSessionsIntaval.setId("session_intervals");
 		spinnerSessionsIntaval.setPrefWidth(120);
@@ -152,10 +151,10 @@ public class SystemsTabContent {
 		var editableBlock = new UtilSampleBlock("Sessions Interval Seconds", spinnerSessionsIntaval);
 		nodesMap.put("session_intervals", spinnerSessionsIntaval);
 
-		var labelAppfolder = new Label("App Folder: " + XUtils.ROOT_FOLDER );
-		labelAppfolder.setId("folder");
-		var readonlyBlock = new UtilSampleBlock("", labelAppfolder);
-		nodesMap.put("folder", labelAppfolder);
+		var labelAppFolder = new Label("App Folder: " + XUtils.ROOT_FOLDER );
+		labelAppFolder.setId("folder");
+		var readonlyBlock = new UtilSampleBlock("", labelAppFolder);
+		nodesMap.put("folder", labelAppFolder);
 		var root = new FlowPane(20, 20);
 		root.getChildren().addAll(editableBlock.getRoot(), readonlyBlock.getRoot());
 

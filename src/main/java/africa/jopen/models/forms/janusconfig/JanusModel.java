@@ -92,7 +92,7 @@ public class JanusModel {
 						@Override
 						public void changed (ObservableValue options, Object oldValue, Object newValue) {
 							execute(() -> {
-								//logger.info(MessageFormat.format("{0} selected", newValue));
+
 								var sectionObject = obj.getJSONObject(sectionName);
 								sectionObject.getJSONObject(target).put(ConstantReference.JSON_LINE_VALUE, newValue + "");
 							});
@@ -115,13 +115,11 @@ public class JanusModel {
 
 				} else {
 					var id = sectionName + "@" + target;
-					ChangeListener<String> inputTextChangeListener = (observable, oldValue, newValue) -> {
-						execute(() -> {
-							//logger.info("textfield changed from " + oldValue + " to " + newValue);
-							var sectionObject = obj.getJSONObject(sectionName);
-							sectionObject.getJSONObject(target).put(ConstantReference.JSON_LINE_VALUE, newValue + "");
-						});
-					};
+					ChangeListener<String> inputTextChangeListener = (observable, oldValue, newValue) -> execute(() -> {
+
+						var sectionObject = obj.getJSONObject(sectionName);
+						sectionObject.getJSONObject(target).put(ConstantReference.JSON_LINE_VALUE, newValue + "");
+					});
 					var basicField = new TextField(lineValue);
 					basicField.textProperty().addListener(inputTextChangeListener);
 
@@ -139,15 +137,11 @@ public class JanusModel {
 					String line = lineValue.getString(i);
 					builder.append(line).append(",");
 				}
-				ChangeListener<String> inputTextChangeListener = (observable, oldValue, newValue) -> {
-					//logger.info("textfield changed from " + oldValue + " to " + newValue);
-					execute(() -> {
-						var sectionObject = obj.getJSONObject(sectionName);
-						//:ToDo may need more validation if the split s valid as much
-						sectionObject.getJSONObject(target).put(ConstantReference.JSON_LINE_VALUE, new JSONArray(newValue.split(",")));
-					});
-
-				};
+				ChangeListener<String> inputTextChangeListener = (observable, oldValue, newValue) -> execute(() -> {
+					var sectionObject = obj.getJSONObject(sectionName);
+					//:ToDo may need more validation if the split s valid as much
+					sectionObject.getJSONObject(target).put(ConstantReference.JSON_LINE_VALUE, new JSONArray(newValue.split(",")));
+				});
 				builder.deleteCharAt(builder.length() - 1);// remove the last comma
 				var leftText = new TextField(builder.toString());
 				leftText.textProperty().addListener(inputTextChangeListener);
@@ -160,13 +154,11 @@ public class JanusModel {
 				h.getChildren().add(basicBlock.getRoot());
 			}
 			var id = sectionName + "#" + target;
-			ChangeListener<Boolean> checkBoxListener = (ov, oldVal, newVal) -> {
-				execute(() -> {
-					//logger.info("changed: " + newVal + " from value" + oldVal);
-					var sectionObject = obj.getJSONObject(sectionName);
-					sectionObject.getJSONObject(target).put("commented", newVal);
-				});
-			};
+			ChangeListener<Boolean> checkBoxListener = (ov, oldVal, newVal) -> execute(() -> {
+
+				var sectionObject = obj.getJSONObject(sectionName);
+				sectionObject.getJSONObject(target).put("commented", newVal);
+			});
 			CheckBox basicCheck;
 			basicCheck = new CheckBox("Disable");
 			basicCheck.setMnemonicParsing(true);
@@ -206,7 +198,7 @@ public class JanusModel {
 		try {
 			executor.submit(runnable).get();
 		} catch (Exception e) {
-			logger.severe("Execute task failed " + e);
+			logger.severe(ConstantReference.EXECUTE_TASK_FAILED + e);
 		}
 	}
 
@@ -214,7 +206,7 @@ public class JanusModel {
 		try {
 			executor.submit(runnable);
 		} catch (Exception e) {
-			logger.severe("Execute task failed " + e);
+			logger.severe(ConstantReference.EXECUTE_TASK_FAILED + e);
 		}
 	}
 
@@ -222,7 +214,7 @@ public class JanusModel {
 		try {
 			return executor.submit(callable).get();
 		} catch (Exception e) {
-			logger.severe("Execute task failed " + e);
+			logger.severe(ConstantReference.EXECUTE_TASK_FAILED + e);
 		}
 
 		return null;

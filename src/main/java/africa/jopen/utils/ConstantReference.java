@@ -1,6 +1,13 @@
 package africa.jopen.utils;
 
 public class ConstantReference {
+	public static final String PROCESS_RESULT = " Process Result";
+	public static final String EXECUTE_TASK_FAILED = "Execute task failed ";
+	public static final String JANUS_CONFIG = "JanusConfig";
+	public static final String SETTINGS = "Settings";
+	public static final String SESSIONS = "Sessions";
+
+
 	private ConstantReference () {
 	}
 

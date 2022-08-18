@@ -3,6 +3,7 @@ package africa.jopen.controllers.apis;
 import africa.jopen.events.MessageEvent;
 import africa.jopen.janus.plugins.LandLordWebAppReq;
 import africa.jopen.models.forms.janusconfig.JanusModel;
+import africa.jopen.utils.ConstantReference;
 import africa.jopen.utils.ExampleNotification;
 import africa.jopen.utils.UtilSampleBlock;
 import io.github.palexdev.materialfx.notifications.base.INotification;
@@ -50,9 +51,9 @@ public class JanusAPIControllers implements Initializable {
 	String type   = "";
 	private String              urlDestinations = "";
 	private String              username        = "";
-	private Node                progressBar;
-	private Map<String, String> navigateUrlMap  = new HashMap<String, String>();
-	private Accordion form;
+	private       Node                progressBar;
+	private final Map<String, String> navigateUrlMap = new HashMap<>();
+	private       Accordion           form;
 	private Label      codeLabel;
 	private ScrollPane scrollContent;
 
@@ -188,7 +189,7 @@ public class JanusAPIControllers implements Initializable {
 			communicateWithServerTask.setOnFailed(eventw -> {
 				new animatefx.animation.BounceOut(progressBar).play();
 				Notifications.create()
-						.title(StringUtils.capitalize(this.type) + " Process Result")
+						.title(StringUtils.capitalize(this.type) + ConstantReference.PROCESS_RESULT)
 						.text("Failed to update,Please try again or check for server response")
 						.showError();
 
@@ -199,20 +200,20 @@ public class JanusAPIControllers implements Initializable {
 				var result = communicateWithServerTask.getValue();
 				if (result == null) {
 					Notifications.create()
-							.title(StringUtils.capitalize(this.type) + " Process Result")
+							.title(StringUtils.capitalize(this.type) + ConstantReference.PROCESS_RESULT)
 							.text("Failed to update,Please try again or check for server response")
 							.showError();
 				} else {
 					JSONObject resultObj = new JSONObject(result);
 					if (resultObj.getBoolean("success")) {
 						Notifications.create()
-								.title(StringUtils.capitalize(this.type) + " Process Result")
+								.title(StringUtils.capitalize(this.type) + ConstantReference.PROCESS_RESULT)
 								.text("Update Successfully")
 								.show();
 						fetchRemoteData();
 					} else {
 						Notifications.create()
-								.title(StringUtils.capitalize(this.type) + " Process Result")
+								.title(StringUtils.capitalize(this.type) + ConstantReference.PROCESS_RESULT)
 								.text("Failed to update ")
 								.showError();
 					}
@@ -278,7 +279,7 @@ public class JanusAPIControllers implements Initializable {
 		try {
 			executor.submit(runnable).get();
 		} catch (Exception e) {
-			logger.severe("Execute task failed " + e);
+			logger.severe(ConstantReference.EXECUTE_TASK_FAILED + e);
 		}
 	}
 
@@ -286,7 +287,7 @@ public class JanusAPIControllers implements Initializable {
 		try {
 			executor.submit(runnable);
 		} catch (Exception e) {
-			logger.severe("Execute task failed " + e);
+			logger.severe(ConstantReference.EXECUTE_TASK_FAILED + e);
 		}
 	}
 
@@ -294,7 +295,7 @@ public class JanusAPIControllers implements Initializable {
 		try {
 			executor.execute(runnable);
 		} catch (Exception e) {
-			logger.severe("Execute task failed " + e);
+			logger.severe(ConstantReference.EXECUTE_TASK_FAILED + e);
 		}
 	}
 
@@ -302,7 +303,7 @@ public class JanusAPIControllers implements Initializable {
 		try {
 			return executor.submit(callable).get();
 		} catch (Exception e) {
-			logger.severe("Execute task failed " + e);
+			logger.severe(ConstantReference.EXECUTE_TASK_FAILED + e);
 		}
 
 		return null;

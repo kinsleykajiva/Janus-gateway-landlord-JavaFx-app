@@ -27,10 +27,6 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 
-/**
- * @author Gleidson Neves da Silveira | gleidisonmt@gmail.com
- * Create on  30/01/2019
- */
 public class Alerts {
 	private static Scene scene;
 
@@ -38,6 +34,7 @@ public class Alerts {
 		Alerts.scene = scene;
 
 	}
+	private Alerts(){}
 
 	public static void warning (String title, String content) {
 
@@ -72,11 +69,6 @@ public class Alerts {
 
 
 
-   /* @SafeVarargs
-    public static void warning(String title, String content, EventHandler<MouseEvent>... confirm){
-        Dialog.createAlert(Dialog.Type.WARNING, title, content, confirm);
-    }*/
-
 	public static void error (String title, String content) {
 
 		var alert = new Alert(Alert.AlertType.ERROR);
@@ -103,10 +95,7 @@ public class Alerts {
 		alert.showAndWait();
 	}
 
-	//  @SafeVarargs
-    /*public static void info(String title, String content, EventHandler<MouseEvent>... confirm){
-        Dialog.createAlert(Dialog.Type.INFO, title, content, confirm);
-    }*/
+
 
 	public static void success (String title, String content) {
 		var alert = new Alert(Alert.AlertType.INFORMATION);
@@ -118,8 +107,5 @@ public class Alerts {
 		alert.showAndWait();
 	}
 
-   /* @SafeVarargs
-    public static void success(String title, String content, EventHandler<MouseEvent>... confirm){
-        Dialog.createAlert(Dialog.Type.SUCCESS, title, content, confirm);
-    }*/
+
 }

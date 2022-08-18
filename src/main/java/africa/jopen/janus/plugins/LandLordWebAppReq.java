@@ -18,6 +18,8 @@ public class LandLordWebAppReq {
 	static               Logger     logger = Logger.getLogger(LandLordWebAppReq.class.getName());
 	private static final HttpClient client = HttpClient.newBuilder().build();
 
+	private LandLordWebAppReq () {
+	}
 
 	public static String getRequest (String param) {
 
@@ -37,7 +39,8 @@ public class LandLordWebAppReq {
 			}
 			return response.body();
 		} catch (IOException | InterruptedException e) {
-			logger.severe("yyyy Error sending request: " + e.getMessage());
+			logger.severe(" Error sending request: " + e.getMessage());
+			Thread.currentThread().interrupt();
 		}
 		return null;
 	}
@@ -57,6 +60,7 @@ public class LandLordWebAppReq {
 			return response.body();
 		} catch (IOException | InterruptedException e) {
 			logger.severe("Error sending request: " + e.getMessage());
+			Thread.currentThread().interrupt();
 		}
 		return null;
 
@@ -88,6 +92,7 @@ public class LandLordWebAppReq {
 			logger.severe(e.getMessage());
 		} catch (InterruptedException e) {
 			logger.severe(e.getMessage());
+			Thread.currentThread().interrupt();
 		}
 		return null;
 	}

@@ -106,14 +106,11 @@ public class SessionsController implements Initializable {
 						} else {
 							existingHandles.add(LAST_HANDLESINFO_MAP.get(key).getHandle_id());
 						}
-
 					} catch (IOException e) {
 						e.printStackTrace();
 						logger.severe("|Exception " + e.getMessage());
 					}
-
 				}
-
 			});
 			var diff = findCollectionsDifference(existingSessionsSet, existingSessionsSetNew);
 			diff.forEach(d -> {
@@ -125,25 +122,22 @@ public class SessionsController implements Initializable {
 				}
 			});
 			diff = null;// give away for garbage collection
-			existingHandles.forEach(handles -> {
-				flowList.stream()
-						.filter(fl -> fl.getId().equals(handles + ""))
-						.forEach(flow -> {
-							flow.getChildren().clear();
-							var obj = LAST_HANDLESINFO_MAP.get(handles);
-							if (obj != null) {
-								try {
-									String jsonStr = Obj.writeValueAsString(obj);
-									logger.info("|Flow " + jsonStr + "");
-									JSONObject jsonObject = new JSONObject(jsonStr);
-									flow.getChildren().add(new TextFlow(new Text(jsonObject.toString(8))));
-								} catch (JsonProcessingException e) {
-									throw new RuntimeException(e);
-								}
+			existingHandles.forEach(handles -> flowList.stream()
+					.filter(fl -> fl.getId().equals(handles + ""))
+					.forEach(flow -> {
+						flow.getChildren().clear();
+						var obj = LAST_HANDLESINFO_MAP.get(handles);
+						if (obj != null) {
+							try {
+								String jsonStr = Obj.writeValueAsString(obj);
+								JSONObject jsonObject = new JSONObject(jsonStr);
+								flow.getChildren().add(new TextFlow(new Text(jsonObject.toString(8))));
+							} catch (JsonProcessingException e) {
+								throw new RuntimeException(e);
 							}
+						}
 
-						});
-			});
+					}));
 			existingSessionsSetNew.clear();
 			progressIndicator.setVisible(false);
 
@@ -160,7 +154,7 @@ public class SessionsController implements Initializable {
 		return result;
 	}
 
-	List<TextFlow> flowList = new ArrayList<TextFlow>();
+	List<TextFlow> flowList = new ArrayList<>();
 
 	@NotNull
 	private TitledPane getTitledPane (String title, String json, long sessionId) {

@@ -8,26 +8,35 @@ import io.github.palexdev.materialfx.controls.MFXNotificationCenter;
 import io.github.palexdev.materialfx.controls.cell.MFXNotificationCell;
 import io.github.palexdev.materialfx.notifications.MFXNotificationCenterSystem;
 import io.github.palexdev.materialfx.notifications.MFXNotificationSystem;
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.stage.DirectoryChooser;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -37,11 +46,15 @@ import static africa.jopen.utils.XUtils.*;
 
 
 public class BaseApplication extends Application {
-	private Logger logger = Logger.getLogger(BaseApplication.class.getName());
-	private float increment = 0;
-	private float progress  = 0;
+	private final Logger logger = Logger.getLogger(BaseApplication.class.getName());
 
 
+	private Pane        splashLayout;
+	private ProgressBar loadProgress;
+	private Label       progressText;
+
+	private static final int SPLASH_WIDTH  = 476;
+	private static final int SPLASH_HEIGHT = 394;
 
 	public static void main (String[] args) {
 		launch(args);
@@ -49,87 +62,131 @@ public class BaseApplication extends Application {
 
 	@Override
 	public void init () throws Exception {
-
 		logger.info("inti()");
 		super.init();
-		float total = 43; // the difference represents the views not loaded
-		increment = 100f / total;
 		EventBus.getDefault().register(this);
+
+		ImageView splash = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/wall.png"))));
+		loadProgress = new ProgressBar();
+		loadProgress.setPrefWidth(SPLASH_WIDTH - 20);
+		progressText = new Label(" . . .");
+		splashLayout = new VBox();
+		splashLayout.getChildren().addAll(splash, loadProgress, progressText);
+		splashLayout.setPadding(new Insets(20));
+		progressText.setAlignment(Pos.CENTER);
+		splashLayout.setStyle(
+				"-fx-padding: 5; " +
+				"-fx-background-color: white; " +
+				"-fx-border-width:5; " +
+				"-fx-border-color: " +
+				"linear-gradient(" +
+				"to bottom, " +
+				"#49a0ff, " +
+				"derive(#49a0ff, 50%)" +
+				");"
+		);
+		splashLayout.setEffect(new DropShadow());
 	}
 
 	// UI updates must run on MainThread
 	@Subscribe (sticky = true, threadMode = ThreadMode.MAIN)
 	public void onEvent (MessageEvent event) {
-		System.out.println("Received event: " + event.getEventType());
+
 	}
 
 	@Override
 	public void start (Stage stage) throws IOException {
+		final Task<ObservableList<String>> loadModulesTasks = new Task<>() {
+			@Override
+			protected ObservableList<String> call () throws InterruptedException {
+				ObservableList<String> loadedModules =FXCollections.observableArrayList();
+				ObservableList<String> availableModules = FXCollections.observableArrayList("Janus", "Http", "WebSocket", "Sessions", "Admin Session");
 
-		var admin_base_path = getLocalCache(CONFIG_KEY_DEFAULT, "admin_base_path");
-		if (admin_base_path == null || admin_base_path.isEmpty()) {
-			saveLocalCache(CONFIG_KEY_DEFAULT, "admin_base_path", "/admin");
-		}
-		loadConf();
+				updateMessage("Reading . . .");
 
-		var janus_url  = getLocalCache(CONFIG_KEY_DEFAULT, "janus_url");
-		var isLoggedIn = janus_url == null || janus_url.isEmpty();
-
-		Parent root  = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(XUtils.NAVIGATION.get(isLoggedIn ? "Login" : "Main"))));
-		Scene  scene = new Scene(root);
-		Alerts.initScene(scene);
-		stage.setTitle(SYSTEM_APP_TITLE);
-		stage.setScene(scene);
-		stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-192x192.png"))));
-		stage.show();
-
-		Platform.runLater(() -> {
-			MFXNotificationSystem.instance().initOwner(stage);
-			MFXNotificationCenterSystem.instance().initOwner(stage);
-
-			MFXNotificationCenter center = MFXNotificationCenterSystem.instance().getCenter();
-			center.setCellFactory(notification -> new MFXNotificationCell(center, notification) {
-				{
-					setPrefHeight(100);
+				var adminBasePath = getLocalCache(CONFIG_KEY_DEFAULT, "admin_base_path");
+				if (adminBasePath == null || adminBasePath.isEmpty()) {
+					saveLocalCache(CONFIG_KEY_DEFAULT, "admin_base_path", "/admin");
 				}
+				loadConf();
+
+				Thread.sleep(9400);
+				for (int i = 0; i < availableModules.size(); i++) {
+					Thread.sleep(3400);
+					updateProgress(i + 1, availableModules.size());
+					String nextModule = availableModules.get(i);
+					loadedModules.add(nextModule);
+					updateMessage("Loading  ... " + nextModule);
+				}
+				Thread.sleep(1400);
+				updateMessage("Done Loading.");
+
+				return loadedModules;
+			}
+		};
+		showSplash(stage, loadModulesTasks, this::showMainStage);
+		new Thread(loadModulesTasks).start();
+
+
+	}
+
+	private void showMainStage () {
+		try {
+
+			Stage stage = new Stage(StageStyle.DECORATED);
+			var janusUrl  = getLocalCache(CONFIG_KEY_DEFAULT, "janus_url");
+			var isLoggedIn = janusUrl == null || janusUrl.isEmpty();
+
+			Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(XUtils.NAVIGATION.get(isLoggedIn ? "Login" : "Main"))));
+
+			Scene scene = new Scene(root);
+			Alerts.initScene(scene);
+			stage.setTitle(SYSTEM_APP_TITLE);
+			stage.setScene(scene);
+			stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-192x192.png"))));
+			stage.show();
+			Platform.runLater(() -> {
+				MFXNotificationSystem.instance().initOwner(stage);
+				MFXNotificationCenterSystem.instance().initOwner(stage);
+				MFXNotificationCenter center = MFXNotificationCenterSystem.instance().getCenter();
+				center.setCellFactory(notification -> new MFXNotificationCell(center, notification) {
+					{
+						setPrefHeight(100);
+					}
+				});
 			});
-		});
+		} catch (IOException e) {
+			logger.severe(e.getMessage());
 
-
-	}
-	private final BooleanProperty minDecorationsProperty = new SimpleBooleanProperty(true);
-
-	private StageStyle getModality () {
-		return minDecorationsProperty.get() ? StageStyle.UTILITY : StageStyle.DECORATED;
+		}
 	}
 
-	private void confirmationDialogButton (Scene scene, Stage stage) {
-		var alert = new Alert(Alert.AlertType.CONFIRMATION);
-		alert.setTitle("Folder Location Access");
-		alert.setHeaderText("Please select the default folder selection for the App to use");
-		alert.setContentText(null);
-		ButtonType cancelBtn = new ButtonType("Ok,Proceed", ButtonBar.ButtonData.CANCEL_CLOSE);
-		alert.getButtonTypes().setAll(cancelBtn);
-		Button show = new Button("Select Folder");
-		show.setOnAction(e -> {
-			DirectoryChooser directoryChooser  = new DirectoryChooser();
-			File             selectedDirectory = directoryChooser.showDialog(stage);
-
-			if (selectedDirectory == null) {
-				//No Directory selected
-				alert.close();
-				confirmationDialogButton(scene, stage);
-			} else {
-				System.out.println(selectedDirectory.getAbsolutePath());
-				alert.close();
+	private void showSplash (final Stage initStage, Task<?> task, InitCompletionHandler initCompletionHandler) {
+		progressText.textProperty().bind(task.messageProperty());
+		loadProgress.progressProperty().bind(task.progressProperty());
+		task.stateProperty().addListener((observableValue, oldState, newState) -> {
+			if (newState == Worker.State.SUCCEEDED) {
+				loadProgress.progressProperty().unbind();
+				loadProgress.setProgress(1);
+				initStage.toFront();
+				FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), splashLayout);
+				fadeSplash.setFromValue(1.0);
+				fadeSplash.setToValue(0.0);
+				fadeSplash.setOnFinished(actionEvent -> initStage.hide());
+				fadeSplash.play();
+				initCompletionHandler.complete();
 			}
 		});
-		alert.setGraphic(show);
-		alert.initOwner(scene.getWindow());
-		alert.initStyle(getModality());
-		alert.showAndWait();
-	}
 
+		Scene             splashScene = new Scene(splashLayout, Color.TRANSPARENT);
+		final Rectangle2D bounds      = Screen.getPrimary().getBounds();
+		initStage.setScene(splashScene);
+		initStage.setX(bounds.getMinX() + bounds.getWidth() / 2 - SPLASH_WIDTH / 2);
+		initStage.setY(bounds.getMinY() + bounds.getHeight() / 2 - SPLASH_HEIGHT / 2);
+		initStage.initStyle(StageStyle.TRANSPARENT);
+		initStage.setAlwaysOnTop(true);
+		initStage.show();
+	}
 
 	@Override
 	public void stop () throws Exception {
@@ -137,10 +194,8 @@ public class BaseApplication extends Application {
 		EventBus.getDefault().unregister(this);
 	}
 
-
-	private synchronized void preloaderNotify () {
-		progress += increment;
-		// LauncherImpl.notifyPreloader(this, new Preloader.ProgressNotification(progress));
+	public interface InitCompletionHandler {
+		void complete ();
 	}
 
 
