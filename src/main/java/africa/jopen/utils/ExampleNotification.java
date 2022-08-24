@@ -84,24 +84,24 @@ public class ExampleNotification extends MFXSimpleNotification {
 		return headerText.get();
 	}
 
-	public StringProperty headerTextProperty () {
-		return headerText;
-	}
-
 	public void setHeaderText (String headerText) {
 		this.headerText.set(headerText);
+	}
+
+	public StringProperty headerTextProperty () {
+		return headerText;
 	}
 
 	public String getContentText () {
 		return contentText.get();
 	}
 
-	public StringProperty contentTextProperty () {
-		return contentText;
-	}
-
 	public void setContentText (String contentText) {
 		this.contentText.set(contentText);
+	}
+
+	public StringProperty contentTextProperty () {
+		return contentText;
 	}
 
 }

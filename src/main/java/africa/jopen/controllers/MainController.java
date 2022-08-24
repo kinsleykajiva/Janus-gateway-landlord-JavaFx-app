@@ -39,19 +39,13 @@ import static africa.jopen.utils.XUtils.*;
 public class MainController implements Initializable {
 
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
-	private       Stage           stage;
-	private       Logger          logger   = Logger.getLogger(MainController.class.getName());
-
-	public MainController () {
-		EventBus.getDefault().register(this);
-	}
-
-	public @FXML JFXButton btnSessions, btnJanusConf, btnJanusSip, btnSettings, btnHome, btnJanusHttp, btnJanusWebsockets, btnLogOut;
-	public @FXML VBox            mainNav;
-	public @FXML ScrollPane      body;
-	public @FXML Label           title;
-	private       List<JFXButton> vBoxes;
-	private final Runnable existingSessionsSet   = () -> {
+	public @FXML JFXButton btnSessions, btnJanusConf, btnJanusSip, btnSettings, btnHome, btnJanusHttp, btnJanusWebsockets, btnLogOut, btnJanusSampleEvents;
+	public @FXML  VBox            mainNav;
+	public @FXML  ScrollPane      body;
+	public @FXML  Label           title;
+	private       Stage    stage;
+	private final Logger   logger              = Logger.getLogger(MainController.class.getName());
+	private final Runnable existingSessionsSet = () -> {
 		saveLocalCache(CONFIG_KEY_DEFAULT, "username", null);
 		saveLocalCache(CONFIG_KEY_DEFAULT, "password", null);
 		saveLocalCache(CONFIG_KEY_DEFAULT, "janus_url", null);
@@ -68,13 +62,16 @@ public class MainController implements Initializable {
 		}
 
 	};
-	private final Runnable CancelSessionsAttempt = () -> {
+	private final Runnable        CancelSessionsAttempt = () -> {
 		saveLocalCache(CONFIG_KEY_DEFAULT, "username", null);
 		saveLocalCache(CONFIG_KEY_DEFAULT, "password", null);
 		logger.info("Cancelled Log out attempt");
 
 	};
-
+	private       List<JFXButton> vBoxes;
+	public MainController () {
+		EventBus.getDefault().register(this);
+	}
 
 	void setSelcted (JFXButton tagrget) {
 		vBoxes.forEach(vBox -> {
@@ -106,7 +103,7 @@ public class MainController implements Initializable {
 	public void initialize (URL location, ResourceBundle resources) {
 
 		loadConf();
-		vBoxes = List.of(btnSessions, btnHome, btnJanusConf, btnJanusSip, btnJanusHttp, btnJanusWebsockets, btnSettings);
+		vBoxes = List.of(btnSessions, btnHome, btnJanusConf, btnJanusSip, btnJanusHttp, btnJanusWebsockets, btnSettings, btnJanusSampleEvents);
 
 		onEvent(new MessageEvent(MessageEvent.MESSAGE_EVENT_UPDATE_CONFIGS));
 
@@ -118,9 +115,10 @@ public class MainController implements Initializable {
 		loader.addView(MFXLoaderBean.of("btnJanusSip", XUtils.loadURL(XUtils.NAVIGATION.get(ConstantReference.JANUS_CONFIG))).setControllerFactory(c -> new JanusAPIControllers("sip")).setDefaultRoot(false).get());
 		loader.addView(MFXLoaderBean.of("btnJanusHttp", XUtils.loadURL(XUtils.NAVIGATION.get(ConstantReference.JANUS_CONFIG))).setControllerFactory(c -> new JanusAPIControllers("http")).setDefaultRoot(false).get());
 		loader.addView(MFXLoaderBean.of("btnJanusWebsockets", XUtils.loadURL(XUtils.NAVIGATION.get(ConstantReference.JANUS_CONFIG))).setControllerFactory(c -> new JanusAPIControllers("websocket")).setDefaultRoot(false).get());
+		loader.addView(MFXLoaderBean.of("btnJanusSampleEvents", XUtils.loadURL(XUtils.NAVIGATION.get(ConstantReference.JANUS_CONFIG))).setControllerFactory(c -> new JanusAPIControllers("sampleeventshandler")).setDefaultRoot(false).get());
 
 
-		btnLogOut.setOnAction(action -> Alerts.confirmation("Logging out", "Are you sure you want to exit this session ?",existingSessionsSet, CancelSessionsAttempt));
+		btnLogOut.setOnAction(action -> Alerts.confirmation("Logging out", "Are you sure you want to exit this session ?", existingSessionsSet, CancelSessionsAttempt));
 
 		loader.setOnLoadedAction(beans -> beans.forEach(bean -> {
 			switch (bean.getViewName()) {
@@ -160,11 +158,21 @@ public class MainController implements Initializable {
 					setSelcted(btnJanusWebsockets);
 					title.setText("JanusConfig for janus.transport.websockets.jcfg");
 				});
+				case "btnJanusSampleEvents" -> btnJanusSampleEvents.setOnMouseClicked(event -> {
+					body.setContent(bean.getRoot());
+					setSelcted(btnJanusSampleEvents);
+					title.setText("JanusConfig for janus.eventhandler.sampleevh.jcfg.");
+				});
 
+				default -> throw new IllegalStateException("Unexpected value: " + bean.getViewName());
 			}
 		}));
+		XUtils.invoke(() -> {
+			loader.start();
 
-		loader.start();
+		});
+
+		//WebSockets webSockets = new WebSockets();
 
 	}
 }

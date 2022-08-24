@@ -36,19 +36,25 @@ import static africa.jopen.utils.XUtils.loadConf;
 public class SessionsController implements Initializable {
 
 	private final BooleanProperty animatedProperty = new SimpleBooleanProperty(true);
-	Logger logger = Logger.getLogger(SessionsController.class.getName());
-
 	private final Set<Long>                           existingSessionsSet    = new HashSet<>();
 	private final Set<Long>                           existingSessionsSetNew = new HashSet<>();
 	public @FXML  Accordion                           accordionSessions;
 	public @FXML  Label                               txtRefresh;
 	public @FXML  HBox                                hBxOptions;
 	public @FXML  org.controlsfx.control.ToggleSwitch autoRefreshSwitch;
-	private Timeline cycleChecker;
-	public @FXML ProgressIndicator progressIndicator;
+	public @FXML  ProgressIndicator                   progressIndicator;
+	Logger logger = Logger.getLogger(SessionsController.class.getName());
+	List<TextFlow> flowList = new ArrayList<>();
+	private       Timeline                            cycleChecker;
 
 	public SessionsController () {
 		EventBus.getDefault().register(this);
+	}
+
+	public static <T> Set<T> findCollectionsDifference (final Set<T> setOne, final Set<T> setTwo) {
+		Set<T> result = new HashSet<T>(setOne);
+		result.removeIf(setTwo::contains);
+		return result;
 	}
 
 	private void loadCycleChecker () {
@@ -59,6 +65,11 @@ public class SessionsController implements Initializable {
 
 	@Subscribe (sticky = true, threadMode = ThreadMode.MAIN)
 	public void onEvent (MessageEvent event) {
+		if (event.getEventType() == MessageEvent.MESSAGE_EVENT_JANUS_SIP_FEED_UPDATE) {
+			logger.info(event.getMessage());
+
+		}
+
 		if (event.getEventType() == MessageEvent.MESSAGE_EVENT_UPDATE_CONFIGS) {
 			loadConf();
 		}
@@ -84,8 +95,8 @@ public class SessionsController implements Initializable {
 				txtRefresh.setDisable(false);
 			}
 		});
-	}
 
+	}
 
 	synchronized void loadSessions () {
 		progressIndicator.setVisible(true);
@@ -129,7 +140,7 @@ public class SessionsController implements Initializable {
 						var obj = LAST_HANDLESINFO_MAP.get(handles);
 						if (obj != null) {
 							try {
-								String jsonStr = Obj.writeValueAsString(obj);
+								String     jsonStr    = Obj.writeValueAsString(obj);
 								JSONObject jsonObject = new JSONObject(jsonStr);
 								flow.getChildren().add(new TextFlow(new Text(jsonObject.toString(8))));
 							} catch (JsonProcessingException e) {
@@ -147,14 +158,6 @@ public class SessionsController implements Initializable {
 			return null;
 		});
 	}
-
-	public static <T> Set<T> findCollectionsDifference (final Set<T> setOne, final Set<T> setTwo) {
-		Set<T> result = new HashSet<T>(setOne);
-		result.removeIf(setTwo::contains);
-		return result;
-	}
-
-	List<TextFlow> flowList = new ArrayList<>();
 
 	@NotNull
 	private TitledPane getTitledPane (String title, String json, long sessionId) {

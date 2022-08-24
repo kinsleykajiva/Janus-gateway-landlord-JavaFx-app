@@ -17,8 +17,8 @@ import static africa.jopen.utils.XUtils.getLocalCache;
 
 public class SettingsReq {
 	private static final HttpClient client = HttpClient.newBuilder().build();
-	static               Logger     logger = Logger.getLogger(SettingsReq.class.getName());
 	private static final Random     rnd    = new Random();
+	static               Logger     logger = Logger.getLogger(SettingsReq.class.getName());
 
 	protected static String getRandomString () {
 		String        saltChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";

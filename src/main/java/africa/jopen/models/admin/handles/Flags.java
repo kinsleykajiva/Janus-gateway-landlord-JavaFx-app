@@ -4,6 +4,27 @@ package africa.jopen.models.admin.handles;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Flags {
+	boolean gotOffer;
+	boolean gotAnswer;
+	boolean negotiated;
+	boolean processingOffer;
+	boolean starting;
+	boolean iceRestart;
+	boolean ready;
+	boolean stopped;
+	boolean alert;
+	boolean trickle;
+	boolean allTrickles;
+	boolean resendTrickles;
+	boolean trickleSynced;
+	boolean dataChannels;
+	boolean hasAudio;
+	boolean hasVideo;
+	boolean newDatachanSdp;
+	boolean rfc4588Rtx;
+	boolean cleaning;
+	boolean e2ee;
+
 	@JsonProperty ("got-offer")
 	public boolean getGotOffer () {
 		return this.gotOffer;
@@ -12,8 +33,6 @@ public class Flags {
 	public void setGotOffer (boolean gotOffer) {
 		this.gotOffer = gotOffer;
 	}
-
-	boolean gotOffer;
 
 	@JsonProperty ("got-answer")
 	public boolean getGotAnswer () {
@@ -24,8 +43,6 @@ public class Flags {
 		this.gotAnswer = gotAnswer;
 	}
 
-	boolean gotAnswer;
-
 	@JsonProperty ("negotiated")
 	public boolean getNegotiated () {
 		return this.negotiated;
@@ -34,8 +51,6 @@ public class Flags {
 	public void setNegotiated (boolean negotiated) {
 		this.negotiated = negotiated;
 	}
-
-	boolean negotiated;
 
 	@JsonProperty ("processing-offer")
 	public boolean getProcessingOffer () {
@@ -46,8 +61,6 @@ public class Flags {
 		this.processingOffer = processingOffer;
 	}
 
-	boolean processingOffer;
-
 	@JsonProperty ("starting")
 	public boolean getStarting () {
 		return this.starting;
@@ -56,8 +69,6 @@ public class Flags {
 	public void setStarting (boolean starting) {
 		this.starting = starting;
 	}
-
-	boolean starting;
 
 	@JsonProperty ("ice-restart")
 	public boolean getIceRestart () {
@@ -68,8 +79,6 @@ public class Flags {
 		this.iceRestart = iceRestart;
 	}
 
-	boolean iceRestart;
-
 	@JsonProperty ("ready")
 	public boolean getReady () {
 		return this.ready;
@@ -78,8 +87,6 @@ public class Flags {
 	public void setReady (boolean ready) {
 		this.ready = ready;
 	}
-
-	boolean ready;
 
 	@JsonProperty ("stopped")
 	public boolean getStopped () {
@@ -90,8 +97,6 @@ public class Flags {
 		this.stopped = stopped;
 	}
 
-	boolean stopped;
-
 	@JsonProperty ("alert")
 	public boolean getAlert () {
 		return this.alert;
@@ -100,8 +105,6 @@ public class Flags {
 	public void setAlert (boolean alert) {
 		this.alert = alert;
 	}
-
-	boolean alert;
 
 	@JsonProperty ("trickle")
 	public boolean getTrickle () {
@@ -112,8 +115,6 @@ public class Flags {
 		this.trickle = trickle;
 	}
 
-	boolean trickle;
-
 	@JsonProperty ("all-trickles")
 	public boolean getAllTrickles () {
 		return this.allTrickles;
@@ -122,8 +123,6 @@ public class Flags {
 	public void setAllTrickles (boolean allTrickles) {
 		this.allTrickles = allTrickles;
 	}
-
-	boolean allTrickles;
 
 	@JsonProperty ("resend-trickles")
 	public boolean getResendTrickles () {
@@ -134,8 +133,6 @@ public class Flags {
 		this.resendTrickles = resendTrickles;
 	}
 
-	boolean resendTrickles;
-
 	@JsonProperty ("trickle-synced")
 	public boolean getTrickleSynced () {
 		return this.trickleSynced;
@@ -144,8 +141,6 @@ public class Flags {
 	public void setTrickleSynced (boolean trickleSynced) {
 		this.trickleSynced = trickleSynced;
 	}
-
-	boolean trickleSynced;
 
 	@JsonProperty ("data-channels")
 	public boolean getDataChannels () {
@@ -156,8 +151,6 @@ public class Flags {
 		this.dataChannels = dataChannels;
 	}
 
-	boolean dataChannels;
-
 	@JsonProperty ("has-audio")
 	public boolean getHasAudio () {
 		return this.hasAudio;
@@ -166,8 +159,6 @@ public class Flags {
 	public void setHasAudio (boolean hasAudio) {
 		this.hasAudio = hasAudio;
 	}
-
-	boolean hasAudio;
 
 	@JsonProperty ("has-video")
 	public boolean getHasVideo () {
@@ -178,8 +169,6 @@ public class Flags {
 		this.hasVideo = hasVideo;
 	}
 
-	boolean hasVideo;
-
 	@JsonProperty ("new-datachan-sdp")
 	public boolean getNewDatachanSdp () {
 		return this.newDatachanSdp;
@@ -188,8 +177,6 @@ public class Flags {
 	public void setNewDatachanSdp (boolean newDatachanSdp) {
 		this.newDatachanSdp = newDatachanSdp;
 	}
-
-	boolean newDatachanSdp;
 
 	@JsonProperty ("rfc4588-rtx")
 	public boolean getRfc4588Rtx () {
@@ -200,8 +187,6 @@ public class Flags {
 		this.rfc4588Rtx = rfc4588Rtx;
 	}
 
-	boolean rfc4588Rtx;
-
 	@JsonProperty ("cleaning")
 	public boolean getCleaning () {
 		return this.cleaning;
@@ -211,8 +196,6 @@ public class Flags {
 		this.cleaning = cleaning;
 	}
 
-	boolean cleaning;
-
 	@JsonProperty ("e2ee")
 	public boolean getE2ee () {
 		return this.e2ee;
@@ -221,7 +204,5 @@ public class Flags {
 	public void setE2ee (boolean e2ee) {
 		this.e2ee = e2ee;
 	}
-
-	boolean e2ee;
 }
 

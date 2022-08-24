@@ -18,9 +18,9 @@ import java.util.logging.Logger;
 
 public class HandleReq {
 
-	static               Logger                              logger               = Logger.getLogger(HandleReq.class.getName());
 	private static final List<BigInteger>                    lastSessionsList     = new ArrayList<>();
 	public static        HashMap<BigInteger, HandleInfoRoot> LAST_HANDLESINFO_MAP = new HashMap<>();
+	static               Logger                              logger               = Logger.getLogger(HandleReq.class.getName());
 
 	public static List<BigInteger> getSessions () {
 		//	logger.info("getSessions()");

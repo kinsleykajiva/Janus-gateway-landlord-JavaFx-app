@@ -4,9 +4,7 @@ import africa.jopen.events.MessageEvent;
 import africa.jopen.janus.plugins.LandLordWebAppReq;
 import africa.jopen.models.forms.janusconfig.JanusModel;
 import africa.jopen.utils.ConstantReference;
-import africa.jopen.utils.ExampleNotification;
 import africa.jopen.utils.UtilSampleBlock;
-import io.github.palexdev.materialfx.notifications.base.INotification;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -41,45 +39,35 @@ import static africa.jopen.utils.XUtils.getLocalCache;
 import static africa.jopen.utils.XUtils.loadConf;
 
 public class JanusAPIControllers implements Initializable {
-	private final ExecutorService executor = Executors.newSingleThreadExecutor();
-	Logger logger = Logger.getLogger(JanusAPIControllers.class.getName());
+	public static Map<String, Map<String, String>> CONFIG_MODULES_                = Map.ofEntries(
+			Map.entry("janus", Map.of("/api/access/janus/current-ssettings", "/api/access/janus/update")),
+			Map.entry("sip", Map.of("/api/access/sip/current-ssettings", "/api/access/sip/update")),
+			Map.entry("http", Map.of("/api/access/http/current-ssettings", "/api/access/http/update")),
+			Map.entry("websocket", Map.of("/api/access/websockets/current-ssettings", "/api/access/websockets/update")),
+			Map.entry("sampleeventshandler", Map.of("/api/janus/events/current-ssettings", "/api/janus/events/update"))
 
+
+	);
+	public static Map<String, String>              CONFIG_MODULES_CACHE_RESPONSES = new HashMap<>();
+	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 	@FXML
 	public  BorderPane root_pane;
-	private JanusModel model;
+	Logger logger = Logger.getLogger(JanusAPIControllers.class.getName());
 	String result = "";
 	String type   = "";
-	private String              urlDestinations = "";
-	private String              username        = "";
-	private       Node                progressBar;
-	private final Map<String, String> navigateUrlMap = new HashMap<>();
-	private       Accordion           form;
-	private Label      codeLabel;
-	private ScrollPane scrollContent;
+	private JanusModel model;
+	//private       String                           urlDestinations                = "";
+	private       String                           username                       = "";
+	private       Node                             progressBar;
+	//private final Map<String, String>              navigateUrlMap                 = new HashMap<>();
+	private       Accordion                        form;
+	private       Label                            codeLabel;
+	private       ScrollPane                       scrollContent;
 
 	public JanusAPIControllers (String type) {
 		EventBus.getDefault().register(this);
 		this.type = type;
 		username = getLocalCache(CONFIG_KEY_DEFAULT, "username");
-		if (!username.isEmpty()) {
-			if ("janus".equals(type)) {
-				navigateUrlMap.put(type, "/api/access/janus/current-ssettings");
-				urlDestinations = "/api/access/janus/update";
-
-			}
-			if ("sip".equals(type)) {
-				navigateUrlMap.put(type, "/api/access/sip/current-ssettings");
-				urlDestinations = "/api/access/sip/update";
-			}
-			if ("http".equals(type)) {
-				navigateUrlMap.put(type, "/api/access/http/current-ssettings");
-				urlDestinations = "/api/access/http/update";
-			}
-			if ("websocket".equals(type)) {
-				navigateUrlMap.put(type, "/api/access/websockets/current-ssettings");
-				urlDestinations = "/api/access/websockets/update";
-			}
-		}
 
 	}
 
@@ -109,8 +97,13 @@ public class JanusAPIControllers implements Initializable {
 			loadConf();
 		}
 
-	}
+		if (event.getEventType() == MessageEvent.MESSAGE_EVENT_REFRESH_CONFIGS) {
+			CONFIG_MODULES_CACHE_RESPONSES.put(type, null);
+			fetchRemoteData();
+		}
 
+
+	}
 
 
 	@Override
@@ -172,14 +165,13 @@ public class JanusAPIControllers implements Initializable {
 			isShowingForm[0] = !isShowingForm[0];
 		});
 		save.setOnAction(event -> {
-
+			CONFIG_MODULES_CACHE_RESPONSES.put(type, null);
 			new animatefx.animation.BounceIn(progressBar).play();
 			Task<String> communicateWithServerTask = new Task<>() {
 
 				@Override
 				protected String call () {
-
-					var result = LandLordWebAppReq.postRequest(urlDestinations, model.getCurrentObject());
+					var result = LandLordWebAppReq.postRequest((String) CONFIG_MODULES_.get(type).values().toArray()[0], model.getCurrentObject());
 					logger.info("Post request: " + result);
 					return result;
 				}
@@ -254,24 +246,31 @@ public class JanusAPIControllers implements Initializable {
 
 		fetchRemoteData();
 
+		/*model = new JanusModel(CONFIG_MODULES_CACHE_RESPONSES.get(type), executor);
+		form = model.getFormInstance();
+		Platform.runLater(() -> {
+			scrollContent.setContent(form);
+			codeLabel.setText(model.jcfg);
+		});*/
+
 	}
 
 	private void fetchRemoteData () {
 		new Thread(() -> {
-			result = getRequest(navigateUrlMap.get(type));
-			model = new JanusModel(result, executor);
+
+			if (CONFIG_MODULES_CACHE_RESPONSES.get(type) == null) {
+				var reqResult = getRequest((String) CONFIG_MODULES_.get(type).keySet().toArray()[0]);
+				CONFIG_MODULES_CACHE_RESPONSES.put(type, reqResult);
+			}
+
+
+			model = new JanusModel(CONFIG_MODULES_CACHE_RESPONSES.get(type), executor);
 			form = model.getFormInstance();
 			Platform.runLater(() -> {
 				scrollContent.setContent(form);
 				codeLabel.setText(model.jcfg);
 			});
 		}).start();
-	}
-
-	private INotification createNotification () {
-		ExampleNotification notification = new ExampleNotification();
-		notification.setContentText("RandomUtils.randFromArray(Model.randomText)");
-		return notification;
 	}
 
 

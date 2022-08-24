@@ -7,6 +7,11 @@ import java.util.ArrayList;
 
 
 public class ProtectedFolders {
+	boolean           required;
+	boolean           commented;
+	String            comment;
+	ArrayList<String> lineValue;
+
 	@JsonProperty ("required")
 	public boolean getRequired () {
 		return this.required;
@@ -15,8 +20,6 @@ public class ProtectedFolders {
 	public void setRequired (boolean required) {
 		this.required = required;
 	}
-
-	boolean required;
 
 	@JsonProperty ("commented")
 	public boolean getCommented () {
@@ -27,8 +30,6 @@ public class ProtectedFolders {
 		this.commented = commented;
 	}
 
-	boolean commented;
-
 	@JsonProperty ("comment")
 	public String getComment () {
 		return this.comment;
@@ -38,8 +39,6 @@ public class ProtectedFolders {
 		this.comment = comment;
 	}
 
-	String comment;
-
 	@JsonProperty ("lineValue")
 	public ArrayList<String> getLineValue () {
 		return this.lineValue;
@@ -48,6 +47,4 @@ public class ProtectedFolders {
 	public void setLineValue (ArrayList<String> lineValue) {
 		this.lineValue = lineValue;
 	}
-
-	ArrayList<String> lineValue;
 }

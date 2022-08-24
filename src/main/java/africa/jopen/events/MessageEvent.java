@@ -5,7 +5,9 @@ import javafx.event.Event;
 import javafx.event.EventType;
 
 public class MessageEvent extends Event {
-	public static final EventType<MessageEvent> MESSAGE_EVENT_UPDATE_CONFIGS = new EventType<>(Event.ANY, "MESSAGE_EVENT_UPDATE_CONFIGS");
+	public static final EventType<MessageEvent> MESSAGE_EVENT_UPDATE_CONFIGS        = new EventType<>(Event.ANY, "MESSAGE_EVENT_UPDATE_CONFIGS");
+	public static final EventType<MessageEvent> MESSAGE_EVENT_JANUS_SIP_FEED_UPDATE = new EventType<>(Event.ANY, "MESSAGE_EVENT_JANUS_SIP_FEED_UPDATE");
+	public static final EventType<MessageEvent> MESSAGE_EVENT_REFRESH_CONFIGS       = new EventType<>(Event.ANY, "MESSAGE_EVENT_REFRESH_CONFIGS");
 
 
 	String message = null;

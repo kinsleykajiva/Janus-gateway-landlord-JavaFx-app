@@ -29,6 +29,13 @@ module africa.jopen {
 	requires animated;
 	requires AnimateFX;
 	requires commons.exec;
+	requires org.slf4j;
+	requires okhttp3;
+	requires okio;
+
+
+	requires socket.io.client;
+	requires engine.io.client;
 
 
 	opens africa.jopen.application to javafx.fxml, javafx.graphics;
@@ -45,6 +52,7 @@ module africa.jopen {
 	exports africa.jopen.controllers.settings to javafx.fxml;
 	exports africa.jopen.controllers.auth to javafx.fxml;
 	exports africa.jopen.application to eventbus.java;
-	exports africa.jopen.controllers to  eventbus.java;
+	exports africa.jopen.controllers to eventbus.java;
 	exports africa.jopen.events;
+	exports africa.jopen.models;
 }

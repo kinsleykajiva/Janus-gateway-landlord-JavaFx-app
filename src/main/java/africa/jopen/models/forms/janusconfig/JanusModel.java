@@ -24,13 +24,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.logging.Logger;
 
 public class JanusModel {
-	private final ExecutorService executor;
-	Logger logger = Logger.getLogger(JanusModel.class.getName());
 	private static final int COMBO_BOX_WIDTH = 150;
 	private static final int H_GAP           = 20;
-
+	private final ExecutorService executor;
 	private final BooleanProperty animatedProperty = new SimpleBooleanProperty(true);
+	public  String     jcfg = "";
+	Logger logger = Logger.getLogger(JanusModel.class.getName());
 	private       String          jsonJanus        = "";
+	private JSONObject obj;
 
 	public JanusModel (String json, ExecutorService executor) {
 		jsonJanus = json;
@@ -41,19 +42,16 @@ public class JanusModel {
 		return createForm();
 	}
 
-	private JSONObject obj;
-	public  String     jcfg = "";
-
 	/**
 	 * Creates a new form instance with the required information.
 	 */
 	private Accordion createForm () {
 		final List<TitledPane> sectionsList = new ArrayList<>();
-		if(jsonJanus.isEmpty()) {
+		if (jsonJanus == null || jsonJanus.isEmpty()) {
 			return new Accordion();
 
 		}
-		JSONObject             data         = new JSONObject(jsonJanus);
+		JSONObject data = new JSONObject(jsonJanus);
 		obj = data.getJSONObject("data");
 		if (data.has("jcfg")) {
 			jcfg = data.getString("jcfg");

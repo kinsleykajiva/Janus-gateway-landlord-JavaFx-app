@@ -3,6 +3,11 @@ package africa.jopen.models.admin.handles;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Direction {
+	boolean audioSend;
+	boolean audioRecv;
+	boolean videoSend;
+	boolean videoRecv;
+
 	@JsonProperty ("audio-send")
 	public boolean getAudioSend () {
 		return this.audioSend;
@@ -11,8 +16,6 @@ public class Direction {
 	public void setAudioSend (boolean audioSend) {
 		this.audioSend = audioSend;
 	}
-
-	boolean audioSend;
 
 	@JsonProperty ("audio-recv")
 	public boolean getAudioRecv () {
@@ -23,8 +26,6 @@ public class Direction {
 		this.audioRecv = audioRecv;
 	}
 
-	boolean audioRecv;
-
 	@JsonProperty ("video-send")
 	public boolean getVideoSend () {
 		return this.videoSend;
@@ -34,8 +35,6 @@ public class Direction {
 		this.videoSend = videoSend;
 	}
 
-	boolean videoSend;
-
 	@JsonProperty ("video-recv")
 	public boolean getVideoRecv () {
 		return this.videoRecv;
@@ -44,6 +43,4 @@ public class Direction {
 	public void setVideoRecv (boolean videoRecv) {
 		this.videoRecv = videoRecv;
 	}
-
-	boolean videoRecv;
 }

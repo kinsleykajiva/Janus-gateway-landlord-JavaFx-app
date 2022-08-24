@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Loggers {
+	Disable disable;
+
 	@JsonProperty ("disable")
 	public Disable getDisable () {
 		return this.disable;
@@ -12,6 +14,4 @@ public class Loggers {
 	public void setDisable (Disable disable) {
 		this.disable = disable;
 	}
-
-	Disable disable;
 }

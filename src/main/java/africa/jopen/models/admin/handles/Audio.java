@@ -3,6 +3,17 @@ package africa.jopen.models.admin.handles;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Audio {
+	int base;
+	int rtt;
+	int lost;
+	int lostByRemote;
+	int jitterLocal;
+	int jitterRemote;
+	int inLinkQuality;
+	int inMediaLinkQuality;
+	int outLinkQuality;
+	int outMediaLinkQuality;
+
 	@JsonProperty ("base")
 	public int getBase () {
 		return this.base;
@@ -11,8 +22,6 @@ public class Audio {
 	public void setBase (int base) {
 		this.base = base;
 	}
-
-	int base;
 
 	@JsonProperty ("rtt")
 	public int getRtt () {
@@ -23,8 +32,6 @@ public class Audio {
 		this.rtt = rtt;
 	}
 
-	int rtt;
-
 	@JsonProperty ("lost")
 	public int getLost () {
 		return this.lost;
@@ -33,8 +40,6 @@ public class Audio {
 	public void setLost (int lost) {
 		this.lost = lost;
 	}
-
-	int lost;
 
 	@JsonProperty ("lost-by-remote")
 	public int getLostByRemote () {
@@ -45,8 +50,6 @@ public class Audio {
 		this.lostByRemote = lostByRemote;
 	}
 
-	int lostByRemote;
-
 	@JsonProperty ("jitter-local")
 	public int getJitterLocal () {
 		return this.jitterLocal;
@@ -55,8 +58,6 @@ public class Audio {
 	public void setJitterLocal (int jitterLocal) {
 		this.jitterLocal = jitterLocal;
 	}
-
-	int jitterLocal;
 
 	@JsonProperty ("jitter-remote")
 	public int getJitterRemote () {
@@ -67,8 +68,6 @@ public class Audio {
 		this.jitterRemote = jitterRemote;
 	}
 
-	int jitterRemote;
-
 	@JsonProperty ("in-link-quality")
 	public int getInLinkQuality () {
 		return this.inLinkQuality;
@@ -77,8 +76,6 @@ public class Audio {
 	public void setInLinkQuality (int inLinkQuality) {
 		this.inLinkQuality = inLinkQuality;
 	}
-
-	int inLinkQuality;
 
 	@JsonProperty ("in-media-link-quality")
 	public int getInMediaLinkQuality () {
@@ -89,8 +86,6 @@ public class Audio {
 		this.inMediaLinkQuality = inMediaLinkQuality;
 	}
 
-	int inMediaLinkQuality;
-
 	@JsonProperty ("out-link-quality")
 	public int getOutLinkQuality () {
 		return this.outLinkQuality;
@@ -100,8 +95,6 @@ public class Audio {
 		this.outLinkQuality = outLinkQuality;
 	}
 
-	int outLinkQuality;
-
 	@JsonProperty ("out-media-link-quality")
 	public int getOutMediaLinkQuality () {
 		return this.outMediaLinkQuality;
@@ -110,7 +103,5 @@ public class Audio {
 	public void setOutMediaLinkQuality (int outMediaLinkQuality) {
 		this.outMediaLinkQuality = outMediaLinkQuality;
 	}
-
-	int outMediaLinkQuality;
 }
 

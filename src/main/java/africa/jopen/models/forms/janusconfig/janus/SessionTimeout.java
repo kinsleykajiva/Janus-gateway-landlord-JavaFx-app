@@ -5,6 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class SessionTimeout {
+	boolean required;
+	boolean commented;
+	String  comment;
+	String  lineValue;
+
 	@JsonProperty ("required")
 	public boolean getRequired () {
 		return this.required;
@@ -13,8 +18,6 @@ public class SessionTimeout {
 	public void setRequired (boolean required) {
 		this.required = required;
 	}
-
-	boolean required;
 
 	@JsonProperty ("commented")
 	public boolean getCommented () {
@@ -25,8 +28,6 @@ public class SessionTimeout {
 		this.commented = commented;
 	}
 
-	boolean commented;
-
 	@JsonProperty ("comment")
 	public String getComment () {
 		return this.comment;
@@ -36,8 +37,6 @@ public class SessionTimeout {
 		this.comment = comment;
 	}
 
-	String comment;
-
 	@JsonProperty ("lineValue")
 	public String getLineValue () {
 		return this.lineValue;
@@ -46,6 +45,4 @@ public class SessionTimeout {
 	public void setLineValue (String lineValue) {
 		this.lineValue = lineValue;
 	}
-
-	String lineValue;
 }

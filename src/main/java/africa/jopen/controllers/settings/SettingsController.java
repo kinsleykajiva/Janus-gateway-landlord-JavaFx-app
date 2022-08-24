@@ -16,15 +16,15 @@ import java.util.logging.Logger;
 import static javafx.scene.control.TabPane.TabClosingPolicy.UNAVAILABLE;
 
 public class SettingsController implements Initializable {
-	Logger logger = Logger.getLogger(SettingsController.class.getName());
+	private static final double            TAB_MIN_HEIGHT    = 60;
+	private final        SystemsTabContent systemsTabContent = new SystemsTabContent();
 	@FXML
 	public BorderPane rootPane;
 	@FXML
 	public TabPane    tabPane;
 	@FXML
 	public Tab        tabRemoteWebApp, tabSystem;
-	private static final double            TAB_MIN_HEIGHT    = 60;
-	private final        SystemsTabContent systemsTabContent = new SystemsTabContent();
+	Logger logger = Logger.getLogger(SettingsController.class.getName());
 
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {

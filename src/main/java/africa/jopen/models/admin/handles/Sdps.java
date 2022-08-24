@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Sdps {
+	String profile;
+	String local;
+	String remote;
+
 	@JsonProperty ("profile")
 	public String getProfile () {
 		return this.profile;
@@ -12,8 +16,6 @@ public class Sdps {
 	public void setProfile (String profile) {
 		this.profile = profile;
 	}
-
-	String profile;
 
 	@JsonProperty ("local")
 	public String getLocal () {
@@ -24,8 +26,6 @@ public class Sdps {
 		this.local = local;
 	}
 
-	String local;
-
 	@JsonProperty ("remote")
 	public String getRemote () {
 		return this.remote;
@@ -34,7 +34,5 @@ public class Sdps {
 	public void setRemote (String remote) {
 		this.remote = remote;
 	}
-
-	String remote;
 }
 

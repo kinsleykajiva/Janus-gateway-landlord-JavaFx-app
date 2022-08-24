@@ -24,17 +24,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.StageStyle;
 
 import java.util.Optional;
-import java.util.concurrent.Callable;
-import java.util.function.Consumer;
 
 public class Alerts {
 	private static Scene scene;
+
+	private Alerts () {
+	}
 
 	public static void initScene (Scene scene) {
 		Alerts.scene = scene;
 
 	}
-	private Alerts(){}
 
 	public static void warning (String title, String content) {
 
@@ -68,7 +68,6 @@ public class Alerts {
 	}
 
 
-
 	public static void error (String title, String content) {
 
 		var alert = new Alert(Alert.AlertType.ERROR);
@@ -94,7 +93,6 @@ public class Alerts {
 		alert.initStyle(StageStyle.UNDECORATED);
 		alert.showAndWait();
 	}
-
 
 
 	public static void success (String title, String content) {

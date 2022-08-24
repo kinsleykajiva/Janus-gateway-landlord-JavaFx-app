@@ -4,6 +4,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class PluginSpecific {
+	String username;
+	String authuser;
+	String secret;
+	String display_name;
+	String user_agent;
+	String identity;
+	String registration_status;
+	String call_status;
+	String callee;
+	String srtpRequired;
+	String sdesLocalAudio;
+	String sdesLocalVideo;
+	String sdesRemoteAudio;
+	String sdesRemoteVideo;
+	int    establishing;
+	int    established;
+	int    hangingup;
+	int    destroyed;
+
 	@JsonProperty ("username")
 	public String getUsername () {
 		return this.username;
@@ -12,8 +31,6 @@ public class PluginSpecific {
 	public void setUsername (String username) {
 		this.username = username;
 	}
-
-	String username;
 
 	@JsonProperty ("authuser")
 	public String getAuthuser () {
@@ -24,8 +41,6 @@ public class PluginSpecific {
 		this.authuser = authuser;
 	}
 
-	String authuser;
-
 	@JsonProperty ("secret")
 	public String getSecret () {
 		return this.secret;
@@ -34,8 +49,6 @@ public class PluginSpecific {
 	public void setSecret (String secret) {
 		this.secret = secret;
 	}
-
-	String secret;
 
 	@JsonProperty ("display_name")
 	public String getDisplay_name () {
@@ -46,8 +59,6 @@ public class PluginSpecific {
 		this.display_name = display_name;
 	}
 
-	String display_name;
-
 	@JsonProperty ("user_agent")
 	public String getUser_agent () {
 		return this.user_agent;
@@ -56,8 +67,6 @@ public class PluginSpecific {
 	public void setUser_agent (String user_agent) {
 		this.user_agent = user_agent;
 	}
-
-	String user_agent;
 
 	@JsonProperty ("identity")
 	public String getIdentity () {
@@ -68,8 +77,6 @@ public class PluginSpecific {
 		this.identity = identity;
 	}
 
-	String identity;
-
 	@JsonProperty ("registration_status")
 	public String getRegistration_status () {
 		return this.registration_status;
@@ -78,8 +85,6 @@ public class PluginSpecific {
 	public void setRegistration_status (String registration_status) {
 		this.registration_status = registration_status;
 	}
-
-	String registration_status;
 
 	@JsonProperty ("call_status")
 	public String getCall_status () {
@@ -90,8 +95,6 @@ public class PluginSpecific {
 		this.call_status = call_status;
 	}
 
-	String call_status;
-
 	@JsonProperty ("callee")
 	public String getCallee () {
 		return this.callee;
@@ -100,8 +103,6 @@ public class PluginSpecific {
 	public void setCallee (String callee) {
 		this.callee = callee;
 	}
-
-	String callee;
 
 	@JsonProperty ("srtp-required")
 	public String getSrtpRequired () {
@@ -112,8 +113,6 @@ public class PluginSpecific {
 		this.srtpRequired = srtpRequired;
 	}
 
-	String srtpRequired;
-
 	@JsonProperty ("sdes-local-audio")
 	public String getSdesLocalAudio () {
 		return this.sdesLocalAudio;
@@ -122,8 +121,6 @@ public class PluginSpecific {
 	public void setSdesLocalAudio (String sdesLocalAudio) {
 		this.sdesLocalAudio = sdesLocalAudio;
 	}
-
-	String sdesLocalAudio;
 
 	@JsonProperty ("sdes-local-video")
 	public String getSdesLocalVideo () {
@@ -134,8 +131,6 @@ public class PluginSpecific {
 		this.sdesLocalVideo = sdesLocalVideo;
 	}
 
-	String sdesLocalVideo;
-
 	@JsonProperty ("sdes-remote-audio")
 	public String getSdesRemoteAudio () {
 		return this.sdesRemoteAudio;
@@ -144,8 +139,6 @@ public class PluginSpecific {
 	public void setSdesRemoteAudio (String sdesRemoteAudio) {
 		this.sdesRemoteAudio = sdesRemoteAudio;
 	}
-
-	String sdesRemoteAudio;
 
 	@JsonProperty ("sdes-remote-video")
 	public String getSdesRemoteVideo () {
@@ -156,8 +149,6 @@ public class PluginSpecific {
 		this.sdesRemoteVideo = sdesRemoteVideo;
 	}
 
-	String sdesRemoteVideo;
-
 	@JsonProperty ("establishing")
 	public int getEstablishing () {
 		return this.establishing;
@@ -166,8 +157,6 @@ public class PluginSpecific {
 	public void setEstablishing (int establishing) {
 		this.establishing = establishing;
 	}
-
-	int establishing;
 
 	@JsonProperty ("established")
 	public int getEstablished () {
@@ -178,8 +167,6 @@ public class PluginSpecific {
 		this.established = established;
 	}
 
-	int established;
-
 	@JsonProperty ("hangingup")
 	public int getHangingup () {
 		return this.hangingup;
@@ -189,8 +176,6 @@ public class PluginSpecific {
 		this.hangingup = hangingup;
 	}
 
-	int hangingup;
-
 	@JsonProperty ("destroyed")
 	public int getDestroyed () {
 		return this.destroyed;
@@ -199,6 +184,4 @@ public class PluginSpecific {
 	public void setDestroyed (int destroyed) {
 		this.destroyed = destroyed;
 	}
-
-	int destroyed;
 }

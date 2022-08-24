@@ -83,6 +83,14 @@ for more please review Gluon GraalVM version ,sources:
 ### Contributions are welcome , feel free to make a pull request.
 <hr>
 
+
+## Known Issues
+
+- Websockets are failing to work properly . The client fails to connect if the app remote app is built as an image .
+
+
+<hr>
+
 ## Credit to 
 
  [Will Iverson](https://github.com/wiverson)  for creating a good project framework for javaFX projects.  Open source - https://github.com/wiverson/maven-jpackage-template  . Please 

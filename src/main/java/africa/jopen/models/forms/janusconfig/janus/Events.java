@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Events {
+	Broadcast   broadcast;
+	Disable     disable;
+	StatsPeriod stats_period;
+
 	@JsonProperty ("broadcast")
 	public Broadcast getBroadcast () {
 		return this.broadcast;
@@ -13,8 +17,6 @@ public class Events {
 	public void setBroadcast (Broadcast broadcast) {
 		this.broadcast = broadcast;
 	}
-
-	Broadcast broadcast;
 
 	@JsonProperty ("disable")
 	public Disable getDisable () {
@@ -25,8 +27,6 @@ public class Events {
 		this.disable = disable;
 	}
 
-	Disable disable;
-
 	@JsonProperty ("stats_period")
 	public StatsPeriod getStats_period () {
 		return this.stats_period;
@@ -35,6 +35,4 @@ public class Events {
 	public void setStats_period (StatsPeriod stats_period) {
 		this.stats_period = stats_period;
 	}
-
-	StatsPeriod stats_period;
 }

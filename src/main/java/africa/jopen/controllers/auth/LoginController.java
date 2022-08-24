@@ -121,10 +121,10 @@ public class LoginController implements Initializable {
 							saveLocalCache(CONFIG_KEY_DEFAULT, "password", LANDLORDWEBAPP_SERVER_BASIC_AUTH_PASSWORD);
 						}
 
-						Stage  stage = (Stage) root.getScene().getWindow();
+						Stage stage = (Stage) root.getScene().getWindow();
 						try {
-							Parent	root1 = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(NAVIGATION.get("Main"))));
-							Scene scene = new Scene(root1);
+							Parent root1 = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(NAVIGATION.get("Main"))));
+							Scene  scene = new Scene(root1);
 							stage.setScene(scene);
 							stage.show();
 						} catch (IOException ex) {
@@ -145,12 +145,12 @@ public class LoginController implements Initializable {
 	private static class FirstLineService extends Service<Map<String, Boolean>> {
 		private final StringProperty url = new SimpleStringProperty();
 
-		public final void setUrl (String value) {
-			url.set(value);
-		}
-
 		public final String getUrl () {
 			return url.get();
+		}
+
+		public final void setUrl (String value) {
+			url.set(value);
 		}
 
 		public final StringProperty urlProperty () {
@@ -164,7 +164,7 @@ public class LoginController implements Initializable {
 				@Override
 				protected Map<String, Boolean> call () {
 					var resultestUrl = LandLordWebAppReq.getGenericRequest(getUrl());
-					var resultAuth = LandLordWebAppReq.getRequest("/api/home/whats-going-on");
+					var resultAuth   = LandLordWebAppReq.getRequest("/api/home/whats-going-on");
 
 					Map<String, Boolean> result = new HashMap<>();
 					result.put("janus_url", resultestUrl == null);

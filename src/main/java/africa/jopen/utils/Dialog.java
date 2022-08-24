@@ -41,14 +41,9 @@ import java.util.Arrays;
 @SuppressWarnings ("unchecked")
 class Dialog {
 
-	private static       Color     color;
 	private static final JFXDialog dialog = new JFXDialog();
-
 	private static final EventHandler<MouseEvent> close = event -> dialog.close();
-
-	public enum Type {INFO, WARNING, ERROR, SUCCESS}
-
-	public enum ButtonType {OK, CANCEL}
+	private static       Color     color;
 
 	static void createAlert (Type type, String title, String message) {
 		createLayout(createHeader(type), createContent(title, message), createActions(type, new EventHandler[]{
@@ -59,7 +54,6 @@ class Dialog {
 	static void createAlert (Type type, String title, String message, EventHandler<MouseEvent>... confirm) {
 		createLayout(createHeader(type), createContent(title, message), createActions(type, confirm));
 	}
-
 
 	private static void createLayout (VBox header, VBox content, HBox actions) {
 		StackPane root = new StackPane();
@@ -143,12 +137,12 @@ class Dialog {
 
 		ArrayList<EventHandler<MouseEvent>> list = new ArrayList<>(Arrays.asList(event));
 
-        //            case WARNING:
-        //                actions.getChildren().add(
-        //                            createButton(ButtonType.CANCEL, "Cancel", close));
-        //                break;
-        actions.getChildren().add(createButton(ButtonType.OK, "OK", list.get(0)));
-        return actions;
+		//            case WARNING:
+		//                actions.getChildren().add(
+		//                            createButton(ButtonType.CANCEL, "Cancel", close));
+		//                break;
+		actions.getChildren().add(createButton(ButtonType.OK, "OK", list.get(0)));
+		return actions;
 	}
 
 	private static Button createButton (ButtonType type, String text, EventHandler<MouseEvent> eventEventHandler) {
@@ -183,4 +177,8 @@ class Dialog {
 			}
 		}).start());
 	}
+
+	public enum Type {INFO, WARNING, ERROR, SUCCESS}
+
+	public enum ButtonType {OK, CANCEL}
 }

@@ -30,10 +30,10 @@ import static africa.jopen.utils.XUtils.saveLocalCache;
 import static atlantafx.base.theme.Styles.*;
 
 public class SystemsTabContent {
+	private final Map<String, Node> nodesMap = new HashMap<>();
+	public        VBox              content  = new VBox(10);
 	Logger logger       = Logger.getLogger(SystemsTabContent.class.getName());
 	String jsonSettings = "";
-	public        VBox              content  = new VBox(10);
-	private final Map<String, Node> nodesMap = new HashMap<>();
 
 	public SystemsTabContent () {
 		content.getChildren().add(rowPlayground());
@@ -142,8 +142,8 @@ public class SystemsTabContent {
 	}
 
 	private FlowPane rowSessionIntervalRow () {
-		var sessionIntervals = (getLocalCache(CONFIG_KEY_DEFAULT, "session_intervals"));
-		var spinnerSessionsIntaval      = new Spinner<Integer>(10, 100, sessionIntervals == null ? 20 : Integer.parseInt(sessionIntervals));
+		var sessionIntervals       = (getLocalCache(CONFIG_KEY_DEFAULT, "session_intervals"));
+		var spinnerSessionsIntaval = new Spinner<Integer>(10, 100, sessionIntervals == null ? 20 : Integer.parseInt(sessionIntervals));
 		IntegerStringConverter.createFor(spinnerSessionsIntaval);
 		spinnerSessionsIntaval.setId("session_intervals");
 		spinnerSessionsIntaval.setPrefWidth(120);
@@ -151,7 +151,7 @@ public class SystemsTabContent {
 		var editableBlock = new UtilSampleBlock("Sessions Interval Seconds", spinnerSessionsIntaval);
 		nodesMap.put("session_intervals", spinnerSessionsIntaval);
 
-		var labelAppFolder = new Label("App Folder: " + XUtils.ROOT_FOLDER );
+		var labelAppFolder = new Label("App Folder: " + XUtils.ROOT_FOLDER);
 		labelAppFolder.setId("folder");
 		var readonlyBlock = new UtilSampleBlock("", labelAppFolder);
 		nodesMap.put("folder", labelAppFolder);
@@ -182,8 +182,8 @@ public class SystemsTabContent {
 		var readonlyBlock = new UtilSampleBlock("Admin Rest API admin_secret  (Remember this is the same as whats found under the   janus config)", txtFieldAdminSecrete);
 		nodesMap.put("admin_secret", txtFieldAdminSecrete);
 
-		var http_admin_port = (getLocalCache(CONFIG_KEY_DEFAULT, "http_admin_port"));
-		var spinnerAdminPort    = new Spinner(1000, 9090, http_admin_port == null ? 7088 : Integer.parseInt(http_admin_port));
+		var http_admin_port  = (getLocalCache(CONFIG_KEY_DEFAULT, "http_admin_port"));
+		var spinnerAdminPort = new Spinner(1000, 9090, http_admin_port == null ? 7088 : Integer.parseInt(http_admin_port));
 		IntegerStringConverter.createFor(spinnerAdminPort);
 		spinnerAdminPort.setId("http_admin_port");
 		spinnerAdminPort.setPrefWidth(120);

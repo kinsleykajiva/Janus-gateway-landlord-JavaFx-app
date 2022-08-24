@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Transports {
+	Disable disable;
+
 	@JsonProperty ("disable")
 	public Disable getDisable () {
 		return this.disable;
@@ -13,6 +15,4 @@ public class Transports {
 	public void setDisable (Disable disable) {
 		this.disable = disable;
 	}
-
-	Disable disable;
 }

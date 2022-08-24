@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 import static africa.jopen.utils.ConstantReference.LANDLORDWEBAPP_SERVER_URL;
 
 public class LandLordWebAppReq {
-	static               Logger     logger = Logger.getLogger(LandLordWebAppReq.class.getName());
 	private static final HttpClient client = HttpClient.newBuilder().build();
+	static               Logger     logger = Logger.getLogger(LandLordWebAppReq.class.getName());
 
 	private LandLordWebAppReq () {
 	}
@@ -30,7 +30,7 @@ public class LandLordWebAppReq {
 				.header("Authorization", basicAuth(
 						ConstantReference.LANDLORDWEBAPP_SERVER_BASIC_AUTH_USERNAME,
 						ConstantReference.LANDLORDWEBAPP_SERVER_BASIC_AUTH_PASSWORD
-						))
+				))
 				.build();
 		try {
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

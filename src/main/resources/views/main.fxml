@@ -29,7 +29,7 @@
                                 <children>
                            <JFXButton fx:id="btnHome" prefHeight="32.0" prefWidth="145.0" text="DashBoard" textFill="WHITE">
                               <graphic>
-                                 <ImageView fitHeight="32.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <ImageView fitHeight="26.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                        <Image url="@../images/dashboard.png" />
                                     </image>
@@ -38,7 +38,7 @@
                            </JFXButton>
                            <JFXButton fx:id="btnSessions" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="144.0" text="Sessions" textFill="WHITE">
                               <graphic>
-                                 <ImageView fitHeight="32.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <ImageView fitHeight="26.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                        <Image url="@../images/sessions.png" />
                                     </image>
@@ -47,7 +47,7 @@
                            </JFXButton>
                            <JFXButton fx:id="btnJanusConf" layoutX="10.0" layoutY="118.0" prefHeight="32.0" prefWidth="142.0" text="Config-janus" textFill="WHITE">
                               <graphic>
-                                 <ImageView fitHeight="32.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <ImageView fitHeight="26.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                        <Image url="@../images/config.png" />
                                     </image>
@@ -56,7 +56,7 @@
                            </JFXButton>
                            <JFXButton fx:id="btnJanusSip" layoutX="10.0" layoutY="172.0" prefHeight="32.0" prefWidth="142.0" text="Config-Sip" textFill="WHITE">
                               <graphic>
-                                 <ImageView fitHeight="32.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <ImageView fitHeight="26.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                        <Image url="@../images/voip.png" />
                                     </image>
@@ -65,7 +65,7 @@
                            </JFXButton>
                            <JFXButton fx:id="btnJanusHttp" layoutX="10.0" layoutY="226.0" prefHeight="32.0" prefWidth="142.0" text="Config-Http" textFill="WHITE">
                               <graphic>
-                                 <ImageView fitHeight="32.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <ImageView fitHeight="26.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                        <Image url="@../images/http.png" />
                                     </image>
@@ -74,7 +74,16 @@
                            </JFXButton>
                            <JFXButton fx:id="btnJanusWebsockets" layoutX="10.0" layoutY="280.0" prefHeight="32.0" prefWidth="142.0" text="Config-WS" textFill="WHITE">
                               <graphic>
-                                 <ImageView fitHeight="32.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <ImageView fitHeight="26.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/world-wide-web.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                           <JFXButton fx:id="btnJanusSampleEvents" layoutX="10.0" layoutY="290.0" prefHeight="32.0" prefWidth="142.0" text="Con-Events" textFill="WHITE">
+                              <graphic>
+                                 <ImageView fitHeight="26.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                        <Image url="@../images/world-wide-web.png" />
                                     </image>
@@ -216,7 +225,7 @@
                                                  <DropShadow color="#00000026" />
                                              </effect>
                                          </ImageView>
-                                     <JFXButton fx:id="btnLogOut" prefHeight="32.0" prefWidth="87.0" style="-fx-text-fill: -text-color;" text="Log-Out" >
+                                     <JFXButton fx:id="btnLogOut" prefHeight="32.0" prefWidth="87.0" style="-fx-text-fill: -text-color;" text="Log-Out">
 
                                      </JFXButton>
                                  </children>

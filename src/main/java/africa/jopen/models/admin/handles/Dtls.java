@@ -4,6 +4,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Dtls {
+	String  fingerprint;
+	String  remoteFingerprint;
+	String  remoteFingerprintHash;
+	String  dtlsRole;
+	String  dtlsState;
+	int     retransmissions;
+	boolean valid;
+	String  srtpProfile;
+	boolean ready;
+	boolean sctpAssociation;
+
 	@JsonProperty ("fingerprint")
 	public String getFingerprint () {
 		return this.fingerprint;
@@ -12,8 +23,6 @@ public class Dtls {
 	public void setFingerprint (String fingerprint) {
 		this.fingerprint = fingerprint;
 	}
-
-	String fingerprint;
 
 	@JsonProperty ("remote-fingerprint")
 	public String getRemoteFingerprint () {
@@ -24,8 +33,6 @@ public class Dtls {
 		this.remoteFingerprint = remoteFingerprint;
 	}
 
-	String remoteFingerprint;
-
 	@JsonProperty ("remote-fingerprint-hash")
 	public String getRemoteFingerprintHash () {
 		return this.remoteFingerprintHash;
@@ -34,8 +41,6 @@ public class Dtls {
 	public void setRemoteFingerprintHash (String remoteFingerprintHash) {
 		this.remoteFingerprintHash = remoteFingerprintHash;
 	}
-
-	String remoteFingerprintHash;
 
 	@JsonProperty ("dtls-role")
 	public String getDtlsRole () {
@@ -46,8 +51,6 @@ public class Dtls {
 		this.dtlsRole = dtlsRole;
 	}
 
-	String dtlsRole;
-
 	@JsonProperty ("dtls-state")
 	public String getDtlsState () {
 		return this.dtlsState;
@@ -56,8 +59,6 @@ public class Dtls {
 	public void setDtlsState (String dtlsState) {
 		this.dtlsState = dtlsState;
 	}
-
-	String dtlsState;
 
 	@JsonProperty ("retransmissions")
 	public int getRetransmissions () {
@@ -68,8 +69,6 @@ public class Dtls {
 		this.retransmissions = retransmissions;
 	}
 
-	int retransmissions;
-
 	@JsonProperty ("valid")
 	public boolean getValid () {
 		return this.valid;
@@ -78,8 +77,6 @@ public class Dtls {
 	public void setValid (boolean valid) {
 		this.valid = valid;
 	}
-
-	boolean valid;
 
 	@JsonProperty ("srtp-profile")
 	public String getSrtpProfile () {
@@ -90,8 +87,6 @@ public class Dtls {
 		this.srtpProfile = srtpProfile;
 	}
 
-	String srtpProfile;
-
 	@JsonProperty ("ready")
 	public boolean getReady () {
 		return this.ready;
@@ -101,8 +96,6 @@ public class Dtls {
 		this.ready = ready;
 	}
 
-	boolean ready;
-
 	@JsonProperty ("sctp-association")
 	public boolean getSctpAssociation () {
 		return this.sctpAssociation;
@@ -111,6 +104,4 @@ public class Dtls {
 	public void setSctpAssociation (boolean sctpAssociation) {
 		this.sctpAssociation = sctpAssociation;
 	}
-
-	boolean sctpAssociation;
 }

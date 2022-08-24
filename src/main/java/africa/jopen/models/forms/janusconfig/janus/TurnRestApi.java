@@ -7,6 +7,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties (ignoreUnknown = true)
 public class TurnRestApi {
+	boolean required;
+	boolean commented;
+	String  comment;
+	String  lineValue;
+
 	@JsonProperty ("required")
 	public boolean getRequired () {
 		return this.required;
@@ -15,8 +20,6 @@ public class TurnRestApi {
 	public void setRequired (boolean required) {
 		this.required = required;
 	}
-
-	boolean required;
 
 	@JsonProperty ("commented")
 	public boolean getCommented () {
@@ -27,8 +30,6 @@ public class TurnRestApi {
 		this.commented = commented;
 	}
 
-	boolean commented;
-
 	@JsonProperty ("comment")
 	public String getComment () {
 		return this.comment;
@@ -38,8 +39,6 @@ public class TurnRestApi {
 		this.comment = comment;
 	}
 
-	String comment;
-
 	@JsonProperty ("lineValue")
 	public String getLineValue () {
 		return this.lineValue;
@@ -48,6 +47,4 @@ public class TurnRestApi {
 	public void setLineValue (String lineValue) {
 		this.lineValue = lineValue;
 	}
-
-	String lineValue;
 }

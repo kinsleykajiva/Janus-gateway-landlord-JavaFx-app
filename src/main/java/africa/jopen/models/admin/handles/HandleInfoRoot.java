@@ -7,6 +7,24 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class HandleInfoRoot {
+	long              session_id;
+	long              session_last_activity;
+	int               session_timeout;
+	String            session_transport;
+	BigInteger        handle_id;
+	boolean           loopRunning;
+	long              created;
+	long              current_time;
+	String            plugin;
+	PluginSpecific    plugin_specific;
+	Flags             flags;
+	long              agentCreated;
+	String            iceMode;
+	String            iceRole;
+	Sdps              sdps;
+	int               queuedPackets;
+	ArrayList<Stream> streams;
+
 	@JsonProperty ("session_id")
 	public long getSession_id () {
 		return this.session_id;
@@ -15,8 +33,6 @@ public class HandleInfoRoot {
 	public void setSession_id (long session_id) {
 		this.session_id = session_id;
 	}
-
-	long session_id;
 
 	@JsonProperty ("session_last_activity")
 	public long getSession_last_activity () {
@@ -27,8 +43,6 @@ public class HandleInfoRoot {
 		this.session_last_activity = session_last_activity;
 	}
 
-	long session_last_activity;
-
 	@JsonProperty ("session_timeout")
 	public int getSession_timeout () {
 		return this.session_timeout;
@@ -37,8 +51,6 @@ public class HandleInfoRoot {
 	public void setSession_timeout (int session_timeout) {
 		this.session_timeout = session_timeout;
 	}
-
-	int session_timeout;
 
 	@JsonProperty ("session_transport")
 	public String getSession_transport () {
@@ -49,8 +61,6 @@ public class HandleInfoRoot {
 		this.session_transport = session_transport;
 	}
 
-	String session_transport;
-
 	@JsonProperty ("handle_id")
 	public BigInteger getHandle_id () {
 		return this.handle_id;
@@ -59,8 +69,6 @@ public class HandleInfoRoot {
 	public void setHandle_id (BigInteger handle_id) {
 		this.handle_id = handle_id;
 	}
-
-	BigInteger handle_id;
 
 	@JsonProperty ("loop-running")
 	public boolean getLoopRunning () {
@@ -71,8 +79,6 @@ public class HandleInfoRoot {
 		this.loopRunning = loopRunning;
 	}
 
-	boolean loopRunning;
-
 	@JsonProperty ("created")
 	public long getCreated () {
 		return this.created;
@@ -81,8 +87,6 @@ public class HandleInfoRoot {
 	public void setCreated (long created) {
 		this.created = created;
 	}
-
-	long created;
 
 	@JsonProperty ("current_time")
 	public long getCurrent_time () {
@@ -93,8 +97,6 @@ public class HandleInfoRoot {
 		this.current_time = current_time;
 	}
 
-	long current_time;
-
 	@JsonProperty ("plugin")
 	public String getPlugin () {
 		return this.plugin;
@@ -103,8 +105,6 @@ public class HandleInfoRoot {
 	public void setPlugin (String plugin) {
 		this.plugin = plugin;
 	}
-
-	String plugin;
 
 	@JsonProperty ("plugin_specific")
 	public PluginSpecific getPlugin_specific () {
@@ -115,8 +115,6 @@ public class HandleInfoRoot {
 		this.plugin_specific = plugin_specific;
 	}
 
-	PluginSpecific plugin_specific;
-
 	@JsonProperty ("flags")
 	public Flags getFlags () {
 		return this.flags;
@@ -125,8 +123,6 @@ public class HandleInfoRoot {
 	public void setFlags (Flags flags) {
 		this.flags = flags;
 	}
-
-	Flags flags;
 
 	@JsonProperty ("agent-created")
 	public long getAgentCreated () {
@@ -137,8 +133,6 @@ public class HandleInfoRoot {
 		this.agentCreated = agentCreated;
 	}
 
-	long agentCreated;
-
 	@JsonProperty ("ice-mode")
 	public String getIceMode () {
 		return this.iceMode;
@@ -147,8 +141,6 @@ public class HandleInfoRoot {
 	public void setIceMode (String iceMode) {
 		this.iceMode = iceMode;
 	}
-
-	String iceMode;
 
 	@JsonProperty ("ice-role")
 	public String getIceRole () {
@@ -159,8 +151,6 @@ public class HandleInfoRoot {
 		this.iceRole = iceRole;
 	}
 
-	String iceRole;
-
 	@JsonProperty ("sdps")
 	public Sdps getSdps () {
 		return this.sdps;
@@ -169,8 +159,6 @@ public class HandleInfoRoot {
 	public void setSdps (Sdps sdps) {
 		this.sdps = sdps;
 	}
-
-	Sdps sdps;
 
 	@JsonProperty ("queued-packets")
 	public int getQueuedPackets () {
@@ -181,8 +169,6 @@ public class HandleInfoRoot {
 		this.queuedPackets = queuedPackets;
 	}
 
-	int queuedPackets;
-
 	@JsonProperty ("streams")
 	public ArrayList<Stream> getStreams () {
 		return this.streams;
@@ -191,6 +177,4 @@ public class HandleInfoRoot {
 	public void setStreams (ArrayList<Stream> streams) {
 		this.streams = streams;
 	}
-
-	ArrayList<Stream> streams;
 }

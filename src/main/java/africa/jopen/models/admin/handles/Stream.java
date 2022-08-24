@@ -5,6 +5,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 
 public class Stream {
+	int                  id;
+	int                  ready;
+	Ssrc                 ssrc;
+	Direction            direction;
+	Extensions           extensions;
+	Bwe                  bwe;
+	int                  nackQueueMs;
+	RtcpStats            rtcp_stats;
+	ArrayList<Component> components;
+
 	@JsonProperty ("id")
 	public int getId () {
 		return this.id;
@@ -13,8 +23,6 @@ public class Stream {
 	public void setId (int id) {
 		this.id = id;
 	}
-
-	int id;
 
 	@JsonProperty ("ready")
 	public int getReady () {
@@ -25,8 +33,6 @@ public class Stream {
 		this.ready = ready;
 	}
 
-	int ready;
-
 	@JsonProperty ("ssrc")
 	public Ssrc getSsrc () {
 		return this.ssrc;
@@ -35,8 +41,6 @@ public class Stream {
 	public void setSsrc (Ssrc ssrc) {
 		this.ssrc = ssrc;
 	}
-
-	Ssrc ssrc;
 
 	@JsonProperty ("direction")
 	public Direction getDirection () {
@@ -47,8 +51,6 @@ public class Stream {
 		this.direction = direction;
 	}
 
-	Direction direction;
-
 	@JsonProperty ("extensions")
 	public Extensions getExtensions () {
 		return this.extensions;
@@ -57,8 +59,6 @@ public class Stream {
 	public void setExtensions (Extensions extensions) {
 		this.extensions = extensions;
 	}
-
-	Extensions extensions;
 
 	@JsonProperty ("bwe")
 	public Bwe getBwe () {
@@ -69,8 +69,6 @@ public class Stream {
 		this.bwe = bwe;
 	}
 
-	Bwe bwe;
-
 	@JsonProperty ("nack-queue-ms")
 	public int getNackQueueMs () {
 		return this.nackQueueMs;
@@ -79,8 +77,6 @@ public class Stream {
 	public void setNackQueueMs (int nackQueueMs) {
 		this.nackQueueMs = nackQueueMs;
 	}
-
-	int nackQueueMs;
 
 	@JsonProperty ("rtcp_stats")
 	public RtcpStats getRtcp_stats () {
@@ -91,8 +87,6 @@ public class Stream {
 		this.rtcp_stats = rtcp_stats;
 	}
 
-	RtcpStats rtcp_stats;
-
 	@JsonProperty ("components")
 	public ArrayList<Component> getComponents () {
 		return this.components;
@@ -101,8 +95,6 @@ public class Stream {
 	public void setComponents (ArrayList<Component> components) {
 		this.components = components;
 	}
-
-	ArrayList<Component> components;
 }
 
 
