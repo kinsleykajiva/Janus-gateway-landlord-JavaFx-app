@@ -231,7 +231,7 @@ public class BaseApplication extends Application {
 					Thread.sleep(3400 / getRandomNumber(2, 8));
 					String nextModule = availableModules.get(i);
 					loadedModules.add(nextModule);
-					if(isNotLoggedIn) {
+					if(!isNotLoggedIn) {
 						var reqResult = getRequest((String) CONFIG_MODULES_.get(nextModule).keySet().toArray()[0]);
 						CONFIG_MODULES_CACHE_RESPONSES.put(nextModule, reqResult);
 					}
