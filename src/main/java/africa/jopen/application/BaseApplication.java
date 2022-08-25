@@ -199,8 +199,8 @@ public class BaseApplication extends Application {
 			@Override
 			protected ObservableList<String> call () throws InterruptedException {
 				loadConf();
-				boolean isLoggedIn = isNotLoggedIn();
-				if (!isLoggedIn) {
+				boolean isNotLoggedIn = isNotLoggedIn();
+				if (!isNotLoggedIn) {
 					logger.info(ConstantReference.JANUS_SERVER__HTTP_URL.concat("/janus/info"));
 
 					var response = LandLordWebAppReq.getGenericRequest(ConstantReference.JANUS_SERVER__HTTP_URL.concat("/janus/info"));
@@ -231,9 +231,10 @@ public class BaseApplication extends Application {
 					Thread.sleep(3400 / getRandomNumber(2, 8));
 					String nextModule = availableModules.get(i);
 					loadedModules.add(nextModule);
-
-					var reqResult = getRequest((String) CONFIG_MODULES_.get(nextModule).keySet().toArray()[0]);
-					CONFIG_MODULES_CACHE_RESPONSES.put(nextModule, reqResult);
+					if(isNotLoggedIn) {
+						var reqResult = getRequest((String) CONFIG_MODULES_.get(nextModule).keySet().toArray()[0]);
+						CONFIG_MODULES_CACHE_RESPONSES.put(nextModule, reqResult);
+					}
 
 					updateProgress(i + 1, availableModules.size());
 
