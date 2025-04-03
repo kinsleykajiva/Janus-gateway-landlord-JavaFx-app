@@ -1,0 +1,168 @@
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+plugins {
+    id 'java'
+    id 'idea'
+    id 'application'
+    id 'org.javamodularity.moduleplugin' version '1.8.12'
+
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id 'org.beryx.jlink' version '3.1.1'
+}
+
+group 'africa.jopen'
+version '2.0.0'
+
+
+
+
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.10.2'
+}
+
+sourceCompatibility = '23'
+targetCompatibility = '23'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+application {
+    mainModule = 'landlord.app'
+    mainClass = 'africa.jopen.landlord.app.MainApplication'
+}
+
+javafx {
+    version = '23.0.1'
+    modules = ['javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.media']
+}
+
+dependencies {
+    implementation('org.controlsfx:controlsfx:11.2.1')
+    implementation('org.kordamp.ikonli:ikonli-javafx:12.3.1')
+    implementation 'io.github.mkpaz:atlantafx-base:2.0.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
+    implementation 'com.dustinredmond.fxtrayicon:FXTrayIcon:3.2.0'
+    implementation 'org.jetbrains:annotations:23.0.0'
+    implementation 'io.github.palexdev:materialfx:11.17.0'
+    implementation 'org.greenrobot:eventbus-java:3.3.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.2'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.2'
+    implementation 'com.jfoenix:jfoenix:9.0.10'
+    implementation 'de.jensd:fontawesomefx:8.9'
+    implementation 'org.jasypt:jasypt:1.9.3'
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    implementation 'org.xerial:sqlite-jdbc:3.41.2.2'
+    implementation 'org.java-websocket:Java-WebSocket:1.6.0'
+
+}
+
+test {
+    useJUnitPlatform()
+}
+def currentOS = DefaultNativePlatform.currentOperatingSystem
+jlink {
+    imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
+    options = ['--strip-debug', '--compress', 'zip-9', '--no-header-files', '--no-man-pages']
+    forceMerge('jackson')
+    launcher {
+        name = 'landlord.app'
+    }
+    if (currentOS.isWindows()) {
+        jpackage {
+            installerType = 'msi'
+            icon = "${project.rootDir}/.msi/Janus-Landlord.ico"
+            installerOptions = [
+                    '--win-menu',
+                    '--win-menu-group', 'Janus-Landlord',
+                    '--win-shortcut-prompt',
+                    '--win-upgrade-uuid', '876c5464-9a66-4913-89a4-c63a4b8b4bb9',
+                    '--win-help-url', '',
+                    '--win-dir-chooser',
+                    '--copyright', 'Copyright (c) 2025 Janus-Landlord',
+                    '--description', 'Janus-Landlord is a free and open-source JavaFX application that can play relaxing music in the background',
+                    '--vendor', 'Janus-Landlord',
+                    '--license-file', 'LICENSE',
+                    '--app-version', "${project.version.toString()}",
+                    '--about-url', ''
+            ]
+        }
+    } else if (currentOS.isLinux()) {
+        jpackage {
+            installerType = 'rpm'
+            icon = "${project.rootDir}/src/main/resources/images/Janus-Landlord.png"
+            installerOptions = [
+                    '--linux-shortcut',
+                    '--linux-package-name', 'Janus-Landlord-Janus-Landlord',
+                    '--linux-rpm-license-type', 'GPLv3',
+                    '--copyright', 'Copyright (c) 2025 Janus-Landlord',
+                    '--description', 'Janus-Landlord is a free and open-source JavaFX application that can play relaxing music in the background',
+                    '--vendor', 'Janus-Landlord',
+                    '--license-file', 'LICENSE',
+                    '--app-version', "${project.version.toString()}",
+                    '--about-url', ''
+            ]
+        }
+    }else if (currentOS.isMacOsX()) {
+        jpackage {
+            installerType = 'dmg'
+            icon = "${project.rootDir}/src/main/resources/images/Janus-Landlord.png"
+            installerOptions = [
+                    '--mac-package-name', 'Janus-Landlord',
+                    '--mac-package-identifier', 'com.Janus-Landlord.Janus-Landlord',
+                    '--mac-app-category', 'public.app-category.music',
+                    '--copyright', 'Copyright (c) 2025 Janus-Landlord',
+                    '--description', 'Janus-Landlord is a free and open-source JavaFX application that can play relaxing music in the background',
+                    '--vendor', 'Janus-Landlord',
+                    '--license-file', 'LICENSE',
+                    '--app-version', "${project.version.toString()}",
+                    '--about-url', ''
+            ]
+        }
+    }
+}
+tasks.register('AppImage') {
+    dependsOn jpackageImage
+    doLast {
+        copy {
+            from '.AppImage/.AppDir'
+            into layout.buildDirectory.dir("AppImage/Janus-Landlord.AppDir")
+        }
+        copy {
+            from layout.buildDirectory.dir("jpackage/Janus-Landlord/")
+            into layout.buildDirectory.dir("AppImage/Janus-Landlord.AppDir/usr/")
+        }
+        copy {
+            from '.AppImage/.AppDir/Janus-Landlord.png'
+            into layout.buildDirectory.dir("AppImage/Janus-Landlord.AppDir/usr/lib")
+        }
+        exec {
+            commandLine 'sh', "${project.rootDir}/.AppImage/createAppImage.sh", "${project.version.toString()}"
+        }
+        delete layout.buildDirectory.dir("AppImage/Janus-Landlord.AppDir")
+    }
+}
+
+configure(AppImage) {
+    group = 'build'
+    description = 'Create an AppImage after creating the image of the application'
+}
+
+def homeConfig = System.properties['user.home'] + '/.config/com.Janus-Landlord.Janus-Landlord'
+clean.doFirst {
+    delete 'default.properties'
+    delete 'license.pdf'
+    delete 'help.pdf'
+    delete 'logs'
+    delete '.com.Janus-Landlord.Janus-Landlord'
+    delete "$homeConfig"
+}
+
+jlinkZip {
+    group = 'distribution'
+}
