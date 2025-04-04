@@ -1,9 +1,7 @@
 package africa.jopen.landlord.network;
 
-import africa.jopen.landlord.configs.ConfigKeys;
 import africa.jopen.landlord.configs.ConstantReference;
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 import org.slf4j.Logger;
@@ -12,14 +10,13 @@ import org.slf4j.LoggerFactory;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
-import java.util.Map;
 
 import static africa.jopen.landlord.utils.XUtils.convertHttpToWebSocket;
 
-public class JanusAdminClient extends WebSocketClient {
-    private static final Logger logger = LoggerFactory.getLogger(JanusAdminClient.class);
+public class JanusAdminClientWebSocket extends WebSocketClient {
+    private static final Logger logger = LoggerFactory.getLogger(JanusAdminClientWebSocket.class);
 
-    public JanusAdminClient() throws URISyntaxException {
+    public JanusAdminClientWebSocket() throws URISyntaxException {
 
         super(
                 new URI(convertHttpToWebSocket(ConstantReference.JANUS_SERVER_URL)),
