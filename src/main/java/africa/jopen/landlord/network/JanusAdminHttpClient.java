@@ -73,12 +73,10 @@ public class JanusAdminHttpClient {
                 .build();
     }
 
+
+
     // Example method for a specific Janus Admin API call (e.g., add a session)
-    public String addSession(String sessionData) throws IOException, InterruptedException {
-        String payload = String.format("{\"janus\": \"add_session\", \"admin_secret\": \"%s\", \"data\": %s}",
-                adminSecret, sessionData);
-        return sendPostRequest("admin", payload);
-    }
+
 
     // Example async method for a specific Janus Admin API call
     public CompletableFuture<String> addSessionAsync(String sessionData) {
