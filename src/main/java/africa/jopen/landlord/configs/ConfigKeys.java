@@ -22,7 +22,7 @@ import static africa.jopen.landlord.configs.ConstantReference.*;
 public class ConfigKeys {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigKeys.class);
     static final String JANUS_URL = "janus_url";
-    static final String HTTP_ADMIN_PORT = "http_admin_port";
+    static final String HTTP_ADMIN_PORT = "janus_http_admin_port";
     static final String LANDLORD_WEB_APP_PORT = "landlord_web_app_port";
     static final String SESSION_INTERVALS = "session_intervals";
     static final String USERNAME = "username";
@@ -36,8 +36,8 @@ public class ConfigKeys {
 
     static {
         Map<String, String> defaults = new HashMap<>();
-        defaults.put(JANUS_URL, "");
-        defaults.put(HTTP_ADMIN_PORT, "7088");
+        defaults.put(JANUS_URL, "http://102.37.58.226");
+        defaults.put(HTTP_ADMIN_PORT, "7188");
         defaults.put(LANDLORD_WEB_APP_PORT, "2087");
         defaults.put(SESSION_INTERVALS, "20");
         defaults.put(USERNAME, "");

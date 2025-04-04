@@ -5,6 +5,8 @@ import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.DecimalFormatSymbols;
 import java.util.Collections;
@@ -124,7 +126,55 @@ public class XUtils {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Converts HTTP/HTTPS URLs to their WebSocket (WS/WSS) equivalents.
+     * Handles various edge cases including query parameters, fragments, and port numbers.
+     *
+     * @param httpUrl The HTTP or HTTPS URL to convert
+     * @return The equivalent WebSocket URL (WS or WSS)
+     * @throws IllegalArgumentException if the URL is not HTTP or HTTPS
+     * @throws URISyntaxException if the input URL is malformed
+     */
+    public static String convertHttpToWebSocket(String httpUrl) throws URISyntaxException {
+        // Validate input is not null
+        if (httpUrl == null || httpUrl.trim().isEmpty()) {
+            throw new IllegalArgumentException("URL cannot be null or empty");
+        }
 
+        // Parse the URI
+        URI uri = new URI(httpUrl);
+        String scheme = uri.getScheme();
+
+        // Ensure it's an HTTP or HTTPS URL
+        if (scheme == null) {
+            throw new IllegalArgumentException("URL must have a scheme (http or https)");
+        }
+
+        String wsScheme;
+        switch (scheme.toLowerCase()) {
+            case "http":
+                wsScheme = "ws";
+                break;
+            case "https":
+                wsScheme = "wss";
+                break;
+            default:
+                throw new IllegalArgumentException("URL must use HTTP or HTTPS scheme");
+        }
+
+        // Build the new URI with the WebSocket scheme
+        URI wsUri = new URI(
+                wsScheme,
+                uri.getUserInfo(),
+                uri.getHost(),
+                uri.getPort(),
+                uri.getPath(),
+                uri.getQuery(),
+                uri.getFragment()
+        );
+
+        return wsUri.toString();
+    }
 
 
 

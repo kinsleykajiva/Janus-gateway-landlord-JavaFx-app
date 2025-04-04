@@ -1,5 +1,7 @@
 package africa.jopen.landlord.app;
 
+import africa.jopen.landlord.configs.ConstantReference;
+import africa.jopen.landlord.network.JanusAdminClient;
 import africa.jopen.landlord.utils.MessageEvent;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +12,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static africa.jopen.landlord.configs.CacheUtil.isNotLoggedIn;
 import static africa.jopen.landlord.configs.CacheUtil.loadConf;
@@ -35,10 +39,20 @@ public class MainApplication extends Application {
         boolean isNotLoggedIn = isNotLoggedIn();
         System.out.println("Is not logged in: " + isNotLoggedIn);
 
+        JanusAdminClient client = null;
+
+        try {
+            client = new JanusAdminClient();
+            client.connect();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent (MessageEvent event) {
