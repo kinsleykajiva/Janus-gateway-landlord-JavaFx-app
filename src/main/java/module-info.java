@@ -8,6 +8,8 @@ module africa.jopen.landlord {
     requires eventbus.java;
     requires org.java_websocket;
     requires java.net.http;
+    requires com.fasterxml.jackson.annotation;
+    requires jakarta.annotation;
 
     opens africa.jopen.landlord.app to javafx.fxml;
     exports africa.jopen.landlord.app;
